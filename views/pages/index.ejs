@@ -1,0 +1,585 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/homepage.css">
+  
+`) -%>
+
+<body class="bg-white text-gray-800 dark:bg-slate-900 dark:text-slate-100">
+   
+
+    <!-- Hero Section with Video Background -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="margin-top: 0;">
+        <!-- Video Background with Multiple Sources -->
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://videos.pexels.com/video-files/3045163/3045163-uhd_2560_1440_25fps.mp4" type="video/mp4">
+            <source src="https://videos.pexels.com/video-files/18064/18064-hd_1920_1080_30fps.mp4" type="video/mp4">
+        </video>
+        <!-- Fallback Image for Video Failure -->
+        <img src="https://images.unsplash.com/photo-1524522252454-d5441bcab4d0?w=1920&h=1080&fit=crop" alt="India Travel" class="hero-video" style="display: none;" id="heroFallback">
+        <div class="hero-overlay-modern"></div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-10 container mx-auto px-4 py-32 text-center text-white">
+            <h1 class="text-6xl md:text-8xl font-heading font-bold mb-6 fade-in" data-aos="fade-up">
+                Discover India.<br>
+                <span class="gradient-text" style="-webkit-text-fill-color: white;">One Journey at a Time.</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-12 text-gray-200 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Premium Travel Experiences • Spiritual Journeys • Adventure Escapes • Royal Heritage
+            </p>
+            
+            <!-- Smart Search Bar -->
+            <div class="max-w-4xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="400">
+                <div class="search-modern">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 p-2">
+                        <div class="relative">
+                            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="Destination" class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-calendar absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="month" placeholder="Month" class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-rupee-sign absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <select class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Budget</option>
+                                <option>₹10,000 - ₹50,000</option>
+                                <option>₹50,000 - ₹1,00,000</option>
+                                <option>₹1,00,000+</option>
+                            </select>
+                        </div>
+                        <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all ripple">
+                            <i class="fas fa-search mr-2"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="600">
+                <a href="contact/index.html" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all ripple inline-block">
+                    Plan Your Trip
+                </a>
+                <a href="tours/index.html" class="glass text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-purple-600 transition-all inline-block">
+                    Explore Packages
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+            <i class="fas fa-chevron-down text-white text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- Popular Destinations Section -->
+    <section class="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-slate-900 dark:to-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+                    Most <span class="gradient-text">Popular Tours</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Discover India's most iconic destinations with our curated travel experiences
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
+                <a href="golden-triangle-tour-of-india/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/03/Golden-Triangle-Tour.webp?resize=500%2C700&ssl=1" alt="Golden Triangle Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <div class="flex items-center flex-wrap gap-2 mb-2">
+                            <span class="tag-pill">Best Seller</span>
+                            <span class="tag-pill">Best for Couples</span>
+                            <div class="flex text-yellow-400 ml-auto">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition">Golden Triangle</h3>
+                        <p class="text-white/90 text-sm mb-2">Delhi • Agra • Jaipur</p>
+                        <p class="text-white/80 text-xs opacity-0 group-hover:opacity-100 transition-opacity">Experience India's iconic heritage route</p>
+                    </div>
+                </a>
+                
+                <a href="ladakh-tour-package/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/03/Ladakh-Tour-India-Tour-India-Travel.webp?resize=500%2C700&ssl=1" alt="Ladakh Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <div class="flex items-center flex-wrap gap-2 mb-2">
+                            <span class="tag-pill">Adventure</span>
+                            <span class="tag-pill">Monsoon Special</span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition">Ladakh</h3>
+                        <p class="text-white/90 text-sm mb-2">Mountain Paradise</p>
+                        <p class="text-white/80 text-xs opacity-0 group-hover:opacity-100 transition-opacity">High-altitude adventures await</p>
+                    </div>
+                </a>
+                
+                <a href="kerala-tour-package/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/03/Kerala-Tour-India-Tour-India-Travel.webp?resize=500%2C700&ssl=1" alt="Kerala Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <div class="flex items-center flex-wrap gap-2 mb-2">
+                            <span class="tag-pill">Backwaters</span>
+                            <span class="tag-pill">Budget Friendly</span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition">Kerala</h3>
+                        <p class="text-white/90 text-sm mb-2">God's Own Country</p>
+                        <p class="text-white/80 text-xs opacity-0 group-hover:opacity-100 transition-opacity">Serene backwaters and lush greenery</p>
+                    </div>
+                </a>
+                
+                <a href="rajasthan-tour-package/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/03/Rajasthan-Tour-India-Tour-and-India-Travel.webp?resize=500%2C700&ssl=1" alt="Rajasthan Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <span class="tag-pill mb-2 w-fit">Royal</span>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">Rajasthan</h3>
+                        <p class="text-white/90 text-sm">Land of Kings</p>
+                    </div>
+                </a>
+                
+                <a href="complete-india-tour/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="500">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/03/Complete-India-Tour.webp?resize=500%2C700&ssl=1" alt="Complete India Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <span class="tag-pill mb-2 w-fit">Complete</span>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">Complete India</h3>
+                        <p class="text-white/90 text-sm">Grand Tour</p>
+                    </div>
+                </a>
+                
+                <a href="karnataka-tour-package/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="600">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/03/Karnataka-Tour-India-Tour-India-Travel.webp?resize=500%2C700&ssl=1" alt="Karnataka Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <span class="tag-pill mb-2 w-fit">Heritage</span>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">Karnataka</h3>
+                        <p class="text-white/90 text-sm">Temples & Nature</p>
+                    </div>
+                </a>
+                
+                <a href="meghalaya-tour-itinerary/index.html" class="destination-card group" data-aos="fade-up" data-aos-delay="700">
+                    <img src="https://i0.wp.com/indiatravel.com/wp-content/uploads/2025/07/Meghalaya-Tour-packages-India-travel.webp?resize=500%2C700&ssl=1" alt="Meghalaya Tour" class="w-full h-96 object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <span class="tag-pill mb-2 w-fit">Nature</span>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-2">Meghalaya</h3>
+                        <p class="text-white/90 text-sm">Abode of Clouds</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiences Section -->
+    <section class="py-20 bg-white dark:bg-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+                    Discover <span class="gradient-text">Experiences</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Choose your perfect Indian adventure
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="experience-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-5xl mb-4">🛕</div>
+                    <h3 class="font-heading text-2xl font-bold mb-3">Spiritual India</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Discover ancient temples, sacred rivers, and spiritual retreats that connect you with India's divine heritage.</p>
+                    <a href="pilgrimage-places-in-india/index.html" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="experience-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-5xl mb-4">🏔️</div>
+                    <h3 class="font-heading text-2xl font-bold mb-3">Adventure India</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">From trekking in the Himalayas to water sports in Goa, experience India's thrilling adventure side.</p>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="experience-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-5xl mb-4">🏖️</div>
+                    <h3 class="font-heading text-2xl font-bold mb-3">Beach Escapes</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Relax on pristine beaches, enjoy water activities, and experience coastal India's laid-back charm.</p>
+                    <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="experience-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-5xl mb-4">👑</div>
+                    <h3 class="font-heading text-2xl font-bold mb-3">Royal Heritage</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Walk through palaces, forts, and royal cities that tell stories of India's regal past.</p>
+                    <a href="luxury-trains/index.html" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive India Map Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+                    Explore <span class="gradient-text">India</span> by Region
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Click on any region to discover destinations and packages
+                </p>
+            </div>
+            
+            <div class="india-map-container" data-aos="fade-up">
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-2xl">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:scale-105 transition-all" data-region="north">
+                            North India
+                        </button>
+                        <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold hover:scale-105 transition-all" data-region="south">
+                            South India
+                        </button>
+                                                <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold hover:scale-105 transition-all" data-region="east">
+                            East India
+                        </button>
+                        <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold hover:scale-105 transition-all" data-region="west">
+                            West India
+                        </button>
+                    </div>
+
+                    <div class="text-center text-gray-600 dark:text-gray-300">
+                        <p class="text-lg">
+                            Interactive map feature coming next phase 🚀  
+                            For now, explore regions using the buttons above.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog / Guide Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+                    Travel <span class="gradient-text">Guides</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Expert tips, itineraries, and insights for your perfect Indian adventure
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <article class="blog-card-modern" data-aos="fade-up" data-aos-delay="100">
+                    <div class="overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&h=500&fit=crop" alt="Best Places to Visit in India" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="tag-pill">Destinations</span>
+                            <span class="reading-time">
+                                <i class="fas fa-clock"></i> 5 min read
+                            </span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-3 text-gray-800 dark:text-white">
+                            Best Places to Visit in India in October
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Discover the perfect destinations for October travel, from cool mountain retreats to vibrant festivals.
+                        </p>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline inline-flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </article>
+                
+                <article class="blog-card-modern" data-aos="fade-up" data-aos-delay="200">
+                    <div class="overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?w=800&h=500&fit=crop" alt="Solo Travel Guide" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="tag-pill">Travel Tips</span>
+                            <span class="reading-time">
+                                <i class="fas fa-clock"></i> 7 min read
+                            </span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-3 text-gray-800 dark:text-white">
+                            Solo Travel Guide for India
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Everything you need to know for a safe, memorable solo journey through incredible India.
+                        </p>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline inline-flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </article>
+                
+                <article class="blog-card-modern" data-aos="fade-up" data-aos-delay="300">
+                    <div class="overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=500&fit=crop" alt="Indian Cuisine" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="tag-pill">Food & Culture</span>
+                            <span class="reading-time">
+                                <i class="fas fa-clock"></i> 6 min read
+                            </span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-3 text-gray-800 dark:text-white">
+                            Must-Try Indian Dishes on Your Journey
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            A culinary adventure through India's diverse regional cuisines and street food delights.
+                        </p>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline inline-flex items-center">
+                            Read More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="text-center mt-12" data-aos="fade-up">
+                <a href="blogs/index.html" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl hover:scale-105 transition-all">
+                    View All Blogs <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Trip Planner Section -->
+    <section class="py-20 bg-white dark:bg-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="ai-planner-card max-w-4xl mx-auto" data-aos="fade-up">
+                <div class="relative z-10">
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="text-6xl mb-4">🤖</div>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-heading font-bold text-center mb-4">
+                        AI Trip <span class="gradient-text">Planner</span>
+                    </h2>
+                    <p class="text-xl text-center text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                        Let our AI create a personalized itinerary based on your preferences, budget, and travel style.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="text-center p-4 glass rounded-xl">
+                            <i class="fas fa-calendar-alt text-3xl text-blue-500 mb-3"></i>
+                            <h4 class="font-semibold mb-2">Choose Dates</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Select your travel period</p>
+                        </div>
+                        <div class="text-center p-4 glass rounded-xl">
+                            <i class="fas fa-heart text-3xl text-pink-500 mb-3"></i>
+                            <h4 class="font-semibold mb-2">Set Preferences</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Tell us what you love</p>
+                        </div>
+                        <div class="text-center p-4 glass rounded-xl">
+                            <i class="fas fa-magic text-3xl text-purple-500 mb-3"></i>
+                            <h4 class="font-semibold mb-2">Get Itinerary</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">AI creates your plan</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="contact/index.html" class="inline-flex items-center px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all ripple">
+                            <i class="fas fa-robot mr-2"></i> Plan My Trip with AI
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-slate-900 dark:to-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+                    Traveler <span class="gradient-text">Stories</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    What our travelers say about IndiaTravel
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="James" class="testimonial-photo mr-4">
+                        <div>
+                            <h4 class="font-semibold text-lg">James Anderson</h4>
+                            <div class="flex items-center mt-1">
+                                <span class="country-flag">🇬🇧</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">United Kingdom</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="star-rating mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 italic">"IndiaTravel planned our Golden Triangle trip perfectly. Smooth, luxurious and unforgettable. The attention to detail was exceptional!"</p>
+                </div>
+
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <img src="https://i.pravatar.cc/150?img=47" alt="Maria" class="testimonial-photo mr-4">
+                        <div>
+                            <h4 class="font-semibold text-lg">Maria Garcia</h4>
+                            <div class="flex items-center mt-1">
+                                <span class="country-flag">🇪🇸</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Spain</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="star-rating mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 italic">"Spiritual tour of Varanasi and Rishikesh changed my life. Highly professional team that understood exactly what I was looking for."</p>
+                </div>
+
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="Daniel" class="testimonial-photo mr-4">
+                        <div>
+                            <h4 class="font-semibold text-lg">Daniel Chen</h4>
+                            <div class="flex items-center mt-1">
+                                <span class="country-flag">🇺🇸</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">United States</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="star-rating mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 italic">"Kerala backwaters experience was luxury at its best. 10/10 service, beautiful accommodations, and memories that will last forever."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Scripts -->
+    <script>
+        AOS.init({ once: true, duration: 900 });
+
+        // Video fallback handler
+        const heroVideo = document.querySelector('.hero-video:not(#heroFallback)');
+        const heroFallback = document.getElementById('heroFallback');
+        
+        if (heroVideo && heroFallback) {
+            heroVideo.addEventListener('error', function() {
+                heroFallback.style.display = 'block';
+            });
+            
+            // Also check if video can load within 3 seconds
+            setTimeout(() => {
+                if (heroVideo.readyState < 2) {
+                    heroFallback.style.display = 'block';
+                }
+            }, 3000);
+        }
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            document.getElementById('scrollProgress').style.width =
+                (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100 + '%';
+        });
+
+        document.getElementById('mobileMenuBtn').onclick = () =>
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Update icons
+            const icons = document.querySelectorAll('#themeIcon, #themeIconMobile');
+            icons.forEach(icon => {
+                icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            });
+        }
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.querySelectorAll('#themeIcon, #themeIconMobile').forEach(icon => {
+                icon.className = 'fas fa-sun';
+            });
+        }
+        
+        document.getElementById('themeToggle').onclick = toggleTheme;
+        document.getElementById('themeToggleMobile').onclick = toggleTheme;
+        
+        // Region button functionality
+        document.querySelectorAll('.region-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const region = this.dataset.region;
+                alert(`Exploring ${region.charAt(0).toUpperCase() + region.slice(1)} India destinations...`);
+            });
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Lazy loading images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.classList.add('loaded');
+                            observer.unobserve(img);
+                        }
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+        
+        // Add loading animation to images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+        });
+    </script>
+
+</body>
+</html>

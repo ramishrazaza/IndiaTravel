@@ -1,0 +1,373 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/destination.css">
+`) -%>
+
+<!-- 🔹 1. HERO SECTION -->
+<section id="hero" class="hero-section">
+        <!-- Hero Image -->
+        <img src="<%= destination.heroImage %>" alt="<%= destination.name %>" class="hero-image">
+        <div class="hero-overlay"></div>
+        
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <h1 class="hero-title fade-in">
+                <%= destination.name %>
+            </h1>
+            <p class="hero-tagline fade-in" data-aos="fade-up" data-aos-delay="200">
+                <%= destination.tagline %>
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="final-cta-buttons" data-aos="fade-up" data-aos-delay="400">
+                <a href="#packages" class="cta-btn-primary ripple">
+                    View Packages
+                </a>
+                <a href="#contact" class="glass text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-purple-600 transition-all inline-block">
+                    Plan Custom Trip
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down text-white text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- 🔹 2. QUICK FACTS BAR -->
+    <section id="quick-facts" class="quick-facts-section">
+        <div class="container mx-auto px-4">
+            <div class="quick-facts-container card-modern">
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">📍</div>
+                    <h4 class="quick-fact-label">Region</h4>
+                    <p class="quick-fact-value"><%= destination.region %></p>
+                </div>
+                
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">🗓️</div>
+                    <h4 class="quick-fact-label">Best Time</h4>
+                    <p class="quick-fact-value"><%= destination.bestTime %></p>
+                </div>
+                
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">⏳</div>
+                    <h4 class="quick-fact-label">Duration</h4>
+                    <p class="quick-fact-value"><%= destination.duration %></p>
+                </div>
+                
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">💰</div>
+                    <h4 class="quick-fact-label">Budget</h4>
+                    <p class="quick-fact-value"><%= destination.budget %></p>
+                </div>
+                
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">🌡️</div>
+                    <h4 class="quick-fact-label">Climate</h4>
+                    <p class="quick-fact-value"><%= destination.climate %></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 3. ABOUT THE DESTINATION -->
+    <section id="about" class="about-section">
+        <div class="container mx-auto px-4">
+            <div class="about-container">
+                <div class="about-image" data-aos="fade-right">
+                    <img src="<%= destination.aboutImage %>" alt="About <%= destination.name %>">
+                </div>
+                
+                <div class="about-content" data-aos="fade-left">
+                    <h2 class="about-title">
+                        About <span class="gradient-text"><%= destination.name %></span>
+                    </h2>
+                    <div class="about-text">
+                        <%- destination.aboutContent %>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <a href="#packages" class="cta-btn-primary">
+                            Explore More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 4. TOP PLACES TO VISIT -->
+    <section id="places" class="places-section">
+        <div class="container mx-auto px-4">
+            <div class="places-header" data-aos="fade-up">
+                <h2 class="places-title">
+                    Top Places to <span class="gradient-text">Visit</span>
+                </h2>
+                <p class="places-subtitle">
+                    Must-visit attractions and landmarks in <%= destination.name %>
+                </p>
+            </div>
+            
+            <div class="places-grid">
+                <% destination.places.forEach((place, index) => { %>
+                    <a href="#" class="place-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                        <img src="<%= place.image %>" alt="<%= place.name %>" class="place-card-image">
+                        <div class="place-card-overlay"></div>
+                        <div class="place-card-content">
+                            <h3 class="place-card-title"><%= place.name %></h3>
+                            <p class="place-card-type"><%= place.type %></p>
+                            <p class="place-card-description"><%= place.description %></p>
+                        </div>
+                    </a>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 5. EXPERIENCES IN THIS DESTINATION -->
+    <section id="experiences" class="experiences-section">
+        <div class="container mx-auto px-4">
+            <div class="experiences-header" data-aos="fade-up">
+                <h2 class="experiences-title">
+                    Unique <span class="gradient-text">Experiences</span>
+                </h2>
+                <p class="experiences-subtitle">
+                    What you can do and experience in <%= destination.name %>
+                </p>
+            </div>
+            
+            <div class="experiences-grid">
+                <% destination.experiences.forEach((exp, index) => { %>
+                    <div class="experience-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                        <div class="experience-emoji"><%= exp.emoji %></div>
+                        <h3 class="experience-title"><%= exp.title %></h3>
+                        <p class="experience-description"><%= exp.description %></p>
+                        <a href="#" class="experience-link">
+                            Learn More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 6. BEST TIME TO VISIT -->
+    <section id="seasons" class="best-time-section">
+        <div class="container mx-auto px-4">
+            <div class="seasons-header" data-aos="fade-up">
+                <h2 class="seasons-title">
+                    Best Time to <span class="gradient-text">Visit</span>
+                </h2>
+                <p class="seasons-subtitle">
+                    Plan your trip at the perfect time of the year
+                </p>
+            </div>
+            
+            <div class="seasons-grid">
+                <div class="season-card best-season" data-aos="fade-up">
+                    <div class="season-icon">✅</div>
+                    <h3 class="season-name">Best Season</h3>
+                    <p class="season-months"><%= destination.bestSeason.months %></p>
+                    <p class="season-description"><%= destination.bestSeason.description %></p>
+                </div>
+                
+                <div class="season-card moderate-season" data-aos="fade-up" data-aos-delay="100">
+                    <div class="season-icon">⚠️</div>
+                    <h3 class="season-name">Moderate</h3>
+                    <p class="season-months"><%= destination.moderateSeason.months %></p>
+                    <p class="season-description"><%= destination.moderateSeason.description %></p>
+                </div>
+                
+                <div class="season-card challenging-season" data-aos="fade-up" data-aos-delay="200">
+                    <div class="season-icon">🌧️</div>
+                    <h3 class="season-name">Challenging</h3>
+                    <p class="season-months"><%= destination.challenging.months %></p>
+                    <p class="season-description"><%= destination.challenging.description %></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 7. POPULAR TOUR PACKAGES -->
+    <section id="packages" class="py-20 bg-white dark:bg-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+                    Popular <span class="gradient-text">Tour Packages</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Curated packages to experience the best of <%= destination.name %>
+                </p>
+            </div>
+            
+            <div class="packages-grid">
+                <% destination.packages.forEach((pkg, index) => { %>
+                    <div class="package-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                        <div class="package-image-container">
+                            <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="package-image">
+                            <div class="absolute top-4 right-4">
+                                <span class="tag-pill"><%= pkg.tag %></span>
+                            </div>
+                        </div>
+                        
+                        <div class="package-body">
+                            <h3 class="package-title"><%= pkg.name %></h3>
+                            <p class="package-description"><%= pkg.description %></p>
+                            
+                            <div class="package-details">
+                                <div class="package-detail">
+                                    <span class="detail-label">Duration:</span>
+                                    <span class="detail-value"><i class="fas fa-calendar mr-2"></i><%= pkg.duration %></span>
+                                </div>
+                                <div class="package-detail">
+                                    <span class="detail-label">Price:</span>
+                                    <span class="package-price"><%= pkg.price %></span>
+                                </div>
+                                <div class="package-detail">
+                                    <span class="detail-label">Rating:</span>
+                                    <span class="star-rating">
+                                        <% for(let i = 0; i < pkg.rating; i++) { %>
+                                            <i class="fas fa-star text-sm"></i>
+                                        <% } %>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <a href="#contact" class="package-btn">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 8. WHY BOOK WITH US -->
+    <section id="why-book" class="why-book-section">
+        <div class="container mx-auto px-4">
+            <div class="why-book-header" data-aos="fade-up">
+                <h2 class="why-book-title">
+                    Why Book <span class="gradient-text">With Us</span>
+                </h2>
+                <p class="why-book-subtitle">
+                    Experience travel with India's most trusted tour operator
+                </p>
+            </div>
+            
+            <div class="trust-grid">
+                <div class="trust-card" data-aos="fade-up">
+                    <div class="trust-icon">🏆</div>
+                    <h3 class="trust-title">10+ Years Experience</h3>
+                    <p class="trust-description">Trusted by thousands of travelers worldwide</p>
+                </div>
+                
+                <div class="trust-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="trust-icon">🎯</div>
+                    <h3 class="trust-title">Custom Itineraries</h3>
+                    <p class="trust-description">Personalized trips tailored to your preferences</p>
+                </div>
+                
+                <div class="trust-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="trust-icon">👨‍💼</div>
+                    <h3 class="trust-title">Local Experts</h3>
+                    <p class="trust-description">Expert guides with deep local knowledge</p>
+                </div>
+                
+                <div class="trust-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="trust-icon">📱</div>
+                    <h3 class="trust-title">24/7 Support</h3>
+                    <p class="trust-description">Always available when you need us</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 9. TESTIMONIALS -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container mx-auto px-4">
+            <div class="testimonials-header" data-aos="fade-up">
+                <h2 class="testimonials-title">
+                    Traveler <span class="gradient-text">Stories</span>
+                </h2>
+                <p class="testimonials-subtitle">
+                    What travelers say about their <%= destination.name %> experience
+                </p>
+            </div>
+
+            <div class="testimonials-grid">
+                <% destination.testimonials.forEach((testimonial, index) => { %>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                        <div class="testimonial-header">
+                            <img src="<%= testimonial.image %>" alt="<%= testimonial.name %>" class="testimonial-photo">
+                            <div class="testimonial-info">
+                                <h4 class="testimonial-name"><%= testimonial.name %></h4>
+                                <div class="testimonial-country">
+                                    <span class="country-flag"><%= testimonial.flag %></span>
+                                    <span><%= testimonial.country %></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <% for(let i = 0; i < testimonial.rating; i++) { %>
+                                <i class="fas fa-star"></i>
+                            <% } %>
+                        </div>
+                        <p class="testimonial-text">"<%= testimonial.text %>"</p>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 10. FAQ SECTION -->
+    <section id="faq" class="faq-section">
+        <div class="container mx-auto px-4">
+            <div class="faq-header" data-aos="fade-up">
+                <h2 class="faq-title">
+                    Frequently Asked <span class="gradient-text">Questions</span>
+                </h2>
+                <p class="faq-subtitle">
+                    Everything you need to know about <%= destination.name %>
+                </p>
+            </div>
+            
+            <div class="faq-container" data-aos="fade-up">
+                <% destination.faqs.forEach((faq) => { %>
+                    <div class="faq-item">
+                        <details class="faq-details">
+                            <summary class="faq-summary"><i class="fas fa-question-circle mr-3"></i><%= faq.question %></summary>
+                            <div class="faq-answer"><%= faq.answer %></div>
+                        </details>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔹 11. FINAL CTA -->
+    <section id="cta" class="final-cta-section">
+        <div class="container mx-auto px-4">
+            <div class="final-cta-content" data-aos="fade-up">
+                <h2 class="final-cta-title">
+                    Ready to Explore<br><span class="gradient-text"><%= destination.name %>?</span>
+                </h2>
+                <p class="final-cta-subtitle">
+                    Start planning your perfect trip today. Our travel experts are here to help create your dream vacation.
+                </p>
+                
+                <div class="final-cta-buttons">
+                    <a href="/" class="cta-btn-primary">
+                        <i class="fas fa-calendar mr-2"></i> Plan My Trip
+                    </a>
+                    <a href="https://wa.me/919876543210?text=Hi,%20I%20want%20to%20plan%20a%20trip%20to%20<%= destination.name %>" target="_blank" class="cta-btn-whatsapp">
+                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    

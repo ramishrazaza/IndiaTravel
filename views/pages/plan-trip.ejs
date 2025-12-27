@@ -1,0 +1,616 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/experiences.css">
+`) -%>
+
+<!-- 🔹 HERO SECTION -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="margin-top: 0;">
+    <!-- Background Image with Modern Overlay -->
+    <img src="https://images.unsplash.com/photo-1488571621542-d77dd99d56cf?w=1920&h=1080&fit=crop" alt="Plan Your Trip" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/75 via-blue-900/60 to-purple-900/75"></div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 container mx-auto px-4 py-32 text-center text-white">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-6 fade-in" data-aos="fade-up">
+            Plan Your Perfect<br>
+            <span class="gradient-text" style="background: linear-gradient(135deg, #06b6d4, #0ea5e9, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">India Trip</span>
+        </h1>
+        <p class="text-lg md:text-xl lg:text-2xl mb-12 text-gray-200 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Custom itineraries • Local experts • Best prices • 24/7 support
+        </p>
+        
+        <!-- CTA Button -->
+        <div data-aos="fade-up" data-aos-delay="400">
+            <a href="#planner" class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all inline-block">
+                Start Planning Now <i class="fas fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+        <i class="fas fa-chevron-down text-white text-2xl"></i>
+    </div>
+</section>
+
+<!-- 🔹 MULTI-STEP FORM SECTION -->
+<section id="planner" class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-900 dark:to-slate-800">
+    <div class="container mx-auto px-4 max-w-3xl">
+        <!-- Section Title -->
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4 text-gray-800 dark:text-white">
+                Customize Your Journey
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">Just answer a few questions and we'll create your perfect itinerary</p>
+        </div>
+
+        <!-- Stepper UI -->
+        <div class="mb-12">
+            <div class="flex justify-between mb-8" data-aos="fade-up" data-aos-delay="100">
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <div class="flex-1 flex items-center">
+                        <div class="step-circle <%= i === 1 ? 'active' : '' %>" data-step="<%= i %>">
+                            <span><%= i %></span>
+                        </div>
+                        <% if (i < 5) { %>
+                            <div class="step-line <%= i === 1 ? 'active' : '' %>"></div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 text-center mb-12">
+                <div class="flex-1">Destination</div>
+                <div class="flex-1">Preferences</div>
+                <div class="flex-1">Interests</div>
+                <div class="flex-1">Details</div>
+                <div class="flex-1">Review</div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <form id="tripForm" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12">
+            
+            <!-- STEP 1: Destination & Dates -->
+            <div class="form-step active" data-step="1">
+                <h3 class="text-2xl font-heading font-bold mb-8 text-gray-800 dark:text-white">Where do you want to go?</h3>
+                
+                <div class="space-y-6">
+                    <!-- Destination -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-2"></i>Destination
+                        </label>
+                        <select id="destination" name="destination" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                            <option value="">Select a destination</option>
+                            <% destinations.forEach(dest => { %>
+                                <option value="<%= dest %>"><%= dest %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <!-- Travel Dates -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-calendar text-blue-600 mr-2"></i>From
+                            </label>
+                            <input type="date" id="startDate" name="startDate" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-calendar text-blue-600 mr-2"></i>To
+                            </label>
+                            <input type="date" id="endDate" name="endDate" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                        </div>
+                    </div>
+
+                    <!-- Number of Travelers -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-people-group text-blue-600 mr-2"></i>Number of Travelers
+                        </label>
+                        <select id="travelers" name="travelers" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                            <option value="1">1 Person</option>
+                            <option value="2" selected>2 People</option>
+                            <option value="3">3 People</option>
+                            <option value="4">4 People</option>
+                            <option value="5">5 People</option>
+                            <option value="6">6+ People</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: Budget & Style -->
+            <div class="form-step hidden" data-step="2">
+                <h3 class="text-2xl font-heading font-bold mb-8 text-gray-800 dark:text-white">What's your budget & travel style?</h3>
+                
+                <!-- Budget Slider -->
+                <div class="mb-10">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                        <i class="fas fa-rupee-sign text-blue-600 mr-2"></i>Budget Range
+                    </label>
+                    <div class="bg-gray-100 dark:bg-slate-700 p-6 rounded-lg">
+                        <input type="range" id="budget" name="budget" min="10000" max="500000" step="10000" value="100000" class="w-full">
+                        <div class="text-center mt-4">
+                            <p class="text-2xl font-bold text-blue-600">₹<span id="budgetValue">100000</span> per person</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">For <span id="travelerCount">2</span> people: ₹<span id="totalBudget">200000</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Travel Style -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                        <i class="fas fa-compass text-blue-600 mr-2"></i>Travel Style (select multiple)
+                    </label>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <% travelStyles.forEach(style => { %>
+                            <label class="flex items-center p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-600 transition-colors">
+                                <input type="checkbox" name="travelStyle" value="<%= style.label %>" class="w-5 h-5 text-blue-600 rounded">
+                                <i class="fas <%= style.icon %> text-blue-600 ml-3 text-lg"></i>
+                                <span class="ml-3 font-medium text-gray-700 dark:text-gray-300"><%= style.label %></span>
+                            </label>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Preferences -->
+            <div class="form-step hidden" data-step="3">
+                <h3 class="text-2xl font-heading font-bold mb-8 text-gray-800 dark:text-white">Your Preferences</h3>
+                
+                <div class="space-y-8">
+                    <!-- Accommodation -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                            <i class="fas fa-bed text-blue-600 mr-2"></i>Accommodation Type
+                        </label>
+                        <div class="grid md:grid-cols-3 gap-3">
+                            <% accommodationTypes.forEach(type => { %>
+                                <label class="flex items-center p-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-600 transition-colors">
+                                    <input type="radio" name="accommodation" value="<%= type %>" class="w-4 h-4 text-blue-600">
+                                    <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300"><%= type %></span>
+                                </label>
+                            <% }); %>
+                        </div>
+                    </div>
+
+                    <!-- Transport -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                            <i class="fas fa-car text-blue-600 mr-2"></i>Transport Preference
+                        </label>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <% transportModes.forEach(mode => { %>
+                                <label class="flex items-center p-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-600 transition-colors">
+                                    <input type="radio" name="transport" value="<%= mode %>" class="w-4 h-4 text-blue-600">
+                                    <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300"><%= mode %></span>
+                                </label>
+                            <% }); %>
+                        </div>
+                    </div>
+
+                    <!-- Interests -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                            <i class="fas fa-star text-blue-600 mr-2"></i>Interests (select multiple)
+                        </label>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <% interests.forEach(interest => { %>
+                                <label class="flex items-center p-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-600 transition-colors">
+                                    <input type="checkbox" name="interests" value="<%= interest %>" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300"><%= interest %></span>
+                                </label>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: Personal Details -->
+            <div class="form-step hidden" data-step="4">
+                <h3 class="text-2xl font-heading font-bold mb-8 text-gray-800 dark:text-white">Tell us about yourself</h3>
+                
+                <div class="space-y-6">
+                    <!-- Full Name -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-user text-blue-600 mr-2"></i>Full Name
+                        </label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-envelope text-blue-600 mr-2"></i>Email
+                        </label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-phone text-blue-600 mr-2"></i>Phone (WhatsApp preferred)
+                        </label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none" required>
+                    </div>
+
+                    <!-- Special Requests -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-comment text-blue-600 mr-2"></i>Special Requests (Optional)
+                        </label>
+                        <textarea id="message" name="message" placeholder="Any special requests or preferences..." rows="4" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 5: Review & Submit -->
+            <div class="form-step hidden" data-step="5">
+                <h3 class="text-2xl font-heading font-bold mb-8 text-gray-800 dark:text-white">Review Your Plan</h3>
+                
+                <div id="reviewSummary" class="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-700 dark:to-slate-600 p-8 rounded-xl mb-8 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border-l-4 border-blue-600 pl-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Destination & Duration</p>
+                            <p class="text-lg font-bold text-gray-800 dark:text-white" id="reviewDest">-</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1" id="reviewDates">-</p>
+                        </div>
+                        <div class="border-l-4 border-cyan-600 pl-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Budget</p>
+                            <p class="text-lg font-bold text-gray-800 dark:text-white" id="reviewBudget">-</p>
+                        </div>
+                        <div class="border-l-4 border-purple-600 pl-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Travel Styles</p>
+                            <p class="text-sm font-semibold text-gray-800 dark:text-white" id="reviewStyles">-</p>
+                        </div>
+                        <div class="border-l-4 border-pink-600 pl-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Travelers</p>
+                            <p class="text-lg font-bold text-gray-800 dark:text-white" id="reviewTravelers">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Buttons -->
+                <div class="grid md:grid-cols-2 gap-4 mb-8">
+                    <button type="button" class="edit-step-btn px-4 py-2 bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded-lg font-semibold hover:bg-blue-200 transition-colors" data-step="1">
+                        <i class="fas fa-edit mr-2"></i>Edit Destination
+                    </button>
+                    <button type="button" class="edit-step-btn px-4 py-2 bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded-lg font-semibold hover:bg-blue-200 transition-colors" data-step="2">
+                        <i class="fas fa-edit mr-2"></i>Edit Preferences
+                    </button>
+                </div>
+
+                <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-8">
+                    By submitting, you agree to our terms and will receive a personalized itinerary within 24 hours
+                </p>
+            </div>
+
+            <!-- Form Navigation Buttons -->
+            <div class="flex justify-between gap-4 mt-10">
+                <button type="button" id="prevBtn" class="px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors hidden">
+                    <i class="fas fa-arrow-left mr-2"></i>Previous
+                </button>
+                <button type="button" id="nextBtn" class="ml-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button type="submit" id="submitBtn" class="ml-auto px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 hidden">
+                    <i class="fas fa-check mr-2"></i>Submit Request
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- 🔹 WHY BOOK WITH US SECTION -->
+<section class="py-20 bg-white dark:bg-slate-800">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4 text-gray-800 dark:text-white">
+                Why Book With Us?
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">Experience travel like never before</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl">
+                    <i class="fas fa-map"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Custom Itineraries</h3>
+                <p class="text-gray-600 dark:text-gray-400">Personalized travel plans crafted by our expert team just for you</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl">
+                    <i class="fas fa-people-group"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Local Experts</h3>
+                <p class="text-gray-600 dark:text-gray-400">Guided by locals who know India better than anyone else</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">24/7 Support</h3>
+                <p class="text-gray-600 dark:text-gray-400">Round-the-clock assistance whenever you need us, anywhere you are</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="400">
+                <div class="w-16 h-16 bg-gradient-to-r from-orange-600 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Best Price Guarantee</h3>
+                <p class="text-gray-600 dark:text-gray-400">Get the best value for your money with our competitive pricing</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 SOCIAL PROOF SECTION -->
+<section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-900 dark:to-slate-800">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4 text-gray-800 dark:text-white">
+                Trusted by 5,000+ Travelers
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">See what our happy customers say</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <% testimonials.forEach((testimonial, idx) => { %>
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow p-6" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
+                    <!-- Stars -->
+                    <div class="flex gap-1 mb-4">
+                        <% for (let i = 0; i < testimonial.rating; i++) { %>
+                            <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        <% } %>
+                    </div>
+
+                    <!-- Testimonial Text -->
+                    <p class="text-gray-700 dark:text-gray-300 mb-6 line-clamp-3">"<%= testimonial.text %>"</p>
+
+                    <!-- Author -->
+                    <div class="flex items-center gap-4">
+                        <img src="<%= testimonial.image %>" alt="<%= testimonial.name %>" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-white"><%= testimonial.name %></p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><%= testimonial.destination %></p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 FINAL CTA SECTION -->
+<section class="py-20 bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6" data-aos="fade-up">
+            Still Confused?
+        </h2>
+        <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Talk to our travel experts and get personalized recommendations
+        </p>
+        <a href="https://wa.me/919876543210?text=Hi,%20I%20want%20to%20plan%20my%20India%20trip!" target="_blank" class="inline-block bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all">
+            <i class="fab fa-whatsapp mr-2"></i>Chat on WhatsApp
+        </a>
+    </div>
+</section>
+
+<% block('scripts') %>
+<script>
+    const form = document.getElementById('tripForm');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    let currentStep = 1;
+
+    const budgetInput = document.getElementById('budget');
+    const budgetValue = document.getElementById('budgetValue');
+    const totalBudget = document.getElementById('totalBudget');
+    const travelersSelect = document.getElementById('travelers');
+
+    // Format currency
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-IN').format(value);
+    }
+
+    // Update budget display
+    budgetInput.addEventListener('input', () => {
+        budgetValue.textContent = formatCurrency(budgetInput.value);
+        const total = budgetInput.value * travelersSelect.value;
+        totalBudget.textContent = formatCurrency(total);
+    });
+
+    travelersSelect.addEventListener('change', () => {
+        document.getElementById('travelerCount').textContent = travelersSelect.value;
+        const total = budgetInput.value * travelersSelect.value;
+        totalBudget.textContent = formatCurrency(total);
+    });
+
+    // Trigger initial budget calculation
+    budgetInput.dispatchEvent(new Event('input'));
+
+    // Step navigation
+    function showStep(step) {
+        document.querySelectorAll('.form-step').forEach(el => el.classList.add('hidden'));
+        document.querySelector(`.form-step[data-step="${step}"]`).classList.remove('hidden');
+
+        // Update stepper
+        document.querySelectorAll('.step-circle').forEach((el, idx) => {
+            el.classList.toggle('active', idx + 1 <= step);
+        });
+        document.querySelectorAll('.step-line').forEach((el, idx) => {
+            el.classList.toggle('active', idx + 1 < step);
+        });
+
+        // Update buttons
+        prevBtn.classList.toggle('hidden', step === 1);
+        nextBtn.classList.toggle('hidden', step === 5);
+        submitBtn.classList.toggle('hidden', step !== 5);
+
+        // Update review if on step 5
+        if (step === 5) {
+            updateReview();
+        }
+    }
+
+    function updateReview() {
+        const dest = document.getElementById('destination').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const travelers = document.getElementById('travelers').value;
+        const budget = document.getElementById('budget').value;
+        const styles = Array.from(document.querySelectorAll('input[name="travelStyle"]:checked')).map(el => el.value).join(', ') || 'Not selected';
+
+        document.getElementById('reviewDest').textContent = dest || '-';
+        document.getElementById('reviewDates').textContent = startDate && endDate ? `${startDate} to ${endDate}` : '-';
+        document.getElementById('reviewBudget').textContent = `₹${formatCurrency(budget)} per person`;
+        document.getElementById('reviewTravelers').textContent = `${travelers} ${travelers == 1 ? 'person' : 'people'}`;
+        document.getElementById('reviewStyles').textContent = styles;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+            currentStep++;
+            showStep(currentStep);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentStep--;
+        showStep(currentStep);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Edit step buttons
+    document.querySelectorAll('.edit-step-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            currentStep = parseInt(e.target.closest('button').dataset.step);
+            showStep(currentStep);
+            window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
+        });
+    });
+
+    function validateStep(step) {
+        const inputs = document.querySelectorAll(`.form-step[data-step="${step}"] input[required], .form-step[data-step="${step}"] select[required], .form-step[data-step="${step}"] textarea[required]`);
+        for (let input of inputs) {
+            if (!input.value) {
+                alert(`Please fill in all required fields`);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            destination: document.getElementById('destination').value,
+            startDate: document.getElementById('startDate').value,
+            endDate: document.getElementById('endDate').value,
+            travelers: document.getElementById('travelers').value,
+            budget: document.getElementById('budget').value,
+            travelStyle: Array.from(document.querySelectorAll('input[name="travelStyle"]:checked')).map(el => el.value),
+            accommodation: document.querySelector('input[name="accommodation"]:checked')?.value,
+            transport: document.querySelector('input[name="transport"]:checked')?.value,
+            interests: Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(el => el.value),
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            message: document.getElementById('message').value
+        };
+
+        console.log('Form Data:', formData);
+        alert('Thank you! We will contact you within 24 hours with your personalized itinerary.');
+        form.reset();
+        currentStep = 1;
+        showStep(1);
+    });
+
+    // Initialize
+    showStep(1);
+
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    }
+</script>
+
+<style>
+    .step-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        color: #6b7280;
+        border: 3px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .dark .step-circle {
+        background: #475569;
+        color: #cbd5e1;
+        border-color: #475569;
+    }
+
+    .step-circle.active {
+        background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+        color: white;
+        border-color: #0284c7;
+    }
+
+    .step-line {
+        flex: 1;
+        height: 3px;
+        background: #e5e7eb;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+    }
+
+    .dark .step-line {
+        background: #475569;
+    }
+
+    .step-line.active {
+        background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+    }
+
+    .form-step {
+        animation: fadeIn 0.5s ease;
+    }
+
+    .form-step.hidden {
+        display: none;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+

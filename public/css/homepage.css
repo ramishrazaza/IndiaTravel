@@ -1,0 +1,228 @@
+/* ==================== HERO VIDEO BACKGROUND ==================== */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero-overlay-modern {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* ==================== VIDEO FALLBACK ==================== */
+.hero-video {
+    object-fit: cover;
+}
+
+/* Show fallback image if video fails */
+video::-moz-media-controls-overlay-play-button {
+    display: none;
+}
+
+/* Graceful fallback styling */
+#heroFallback {
+    display: none !important;
+}
+
+/* If video doesn't load, show the fallback */
+video:not([src]):not([poster]) {
+    background: url('https://images.unsplash.com/photo-1524522252454-d5441bcab4d0?w=1920&h=1080&fit=crop') center/cover no-repeat;
+}
+
+/* ==================== SEARCH BAR MODERN ==================== */
+.search-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.dark .search-modern {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+.search-modern input,
+.search-modern select {
+    background: transparent;
+    border: 0;
+    color: #1f2937;
+}
+
+.dark .search-modern input,
+.dark .search-modern select {
+    color: white;
+}
+
+.search-modern input::placeholder {
+    color: #9ca3af;
+}
+
+.dark .search-modern input::placeholder {
+    color: #d1d5db;
+}
+
+/* ==================== INDIA MAP CONTAINER ==================== */
+.india-map-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.state-hover {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.state-hover:hover {
+    fill: #f59e0b !important;
+    transform: scale(1.05);
+}
+
+/* ==================== BLOG CARDS ==================== */
+.blog-card {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-2rem);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.blog-card-modern {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dark .blog-card-modern {
+    background: #1e293b;
+}
+
+.blog-card-modern:hover {
+    transform: translateY(-2rem);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.blog-card-modern img {
+    transition: transform 0.5s ease;
+}
+
+.blog-card-modern:hover img {
+    transform: scale(1.1);
+}
+
+/* ==================== READING TIME BADGE ==================== */
+.reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    color: #667eea;
+}
+
+.dark .reading-time {
+    background: rgba(102, 126, 234, 0.2);
+    color: #818cf8;
+}
+
+/* ==================== AI PLANNER CARD ==================== */
+.ai-planner-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-planner-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* ==================== NEWSLETTER INPUT ==================== */
+.newsletter-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.newsletter-input:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ==================== TESTIMONIAL SLIDER ==================== */
+.testimonial-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-slide {
+    min-width: 100%;
+    transition: transform 0.5s ease;
+}
+
+/* ==================== REGION BUTTONS ==================== */
+.region-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.region-btn:hover {
+    transform: scale(1.05);
+}
+
+.region-btn:active {
+    transform: scale(0.98);
+}

@@ -1,0 +1,200 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/experiences.css">
+`) -%>
+
+<!-- 🔹 HERO SECTION -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="margin-top: 0;">
+    <!-- Background Image with Modern Overlay -->
+    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&h=1080&fit=crop" alt="Travel Blog" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-purple-900/60 to-blue-900/70"></div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 container mx-auto px-4 py-32 text-center text-white">
+        <div class="mb-6" data-aos="fade-up">
+            <span class="inline-block text-yellow-400 text-lg font-semibold px-6 py-2 rounded-full bg-white bg-opacity-10 backdrop-blur-md border border-yellow-400 border-opacity-30">Travel Blog & Guides</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-6 fade-in" data-aos="fade-up" data-aos-delay="100">
+            Stories from the<br>
+            <span class="gradient-text" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Road</span>
+        </h1>
+        <p class="text-lg md:text-xl lg:text-2xl mb-12 text-gray-200 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Expert insights, traveler tales, and insider tips to help you plan your perfect Indian adventure
+        </p>
+        
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="300">
+            <a href="#blogs" class="bg-gradient-to-r from-cyan-400 to-teal-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all ripple inline-block">
+                Read Stories
+            </a>
+            <a href="/" class="bg-white bg-opacity-20 backdrop-blur-md text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-slate-900 transition-all inline-block">
+                Back to Home
+            </a>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+        <i class="fas fa-chevron-down text-white text-2xl"></i>
+    </div>
+</section>
+
+<!-- 🔹 SEARCH & FILTER SECTION -->
+<section class="py-12 bg-white dark:bg-slate-800 sticky top-20 z-30 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Search -->
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Search blogs..." class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                <i class="fas fa-search absolute right-4 top-4 text-gray-400"></i>
+            </div>
+            
+            <!-- Category Filter -->
+            <div>
+                <select id="categoryFilter" class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                    <option value="">All Categories</option>
+                    <option value="Travel Guide">Travel Guide</option>
+                    <option value="Itinerary">Itinerary</option>
+                    <option value="Budget Travel">Budget Travel</option>
+                    <option value="Spiritual">Spiritual</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Food & Culture">Food & Culture</option>
+                    <option value="Photography">Photography</option>
+                    <option value="Luxury Travel">Luxury Travel</option>
+                    <option value="Wellness">Wellness</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 BLOGS GRID -->
+<section id="blogs" class="py-20 bg-gray-50 dark:bg-slate-900">
+    <div class="container mx-auto px-4">
+        <div id="blogsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <% blogs.forEach((blog, idx) => { %>
+                <a href="/blogs/<%= blog.id %>" class="group blog-card relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 bg-white dark:bg-slate-800 flex flex-col" data-aos="fade-up" data-aos-delay="<%= idx * 80 %>" data-category="<%= blog.category %>">
+                    <!-- Image Container with Overlay -->
+                    <div class="relative h-64 overflow-hidden bg-gradient-to-br from-cyan-400 to-blue-400">
+                        <img src="<%= blog.image %>" alt="<%= blog.title %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                        
+                        <!-- Top Badges -->
+                        <div class="absolute top-4 left-4 right-4 flex justify-between items-start gap-2 z-10">
+                            <span class="bg-gradient-to-r from-cyan-600 to-teal-600 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                <%= blog.category %>
+                            </span>
+                            <div class="flex items-center gap-1 bg-amber-400 text-black px-3 py-1.5 rounded-full shadow-lg font-bold text-xs">
+                                <i class="fas fa-clock"></i>
+                                <span><%= blog.readTime %></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Section -->
+                    <div class="p-5 flex flex-col flex-grow">
+                        <!-- Title -->
+                        <h3 class="text-lg font-heading font-bold text-gray-800 dark:text-white mb-3 line-clamp-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                            <%= blog.title %>
+                        </h3>
+                        
+                        <!-- Excerpt -->
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+                            <%= blog.excerpt %>
+                        </p>
+                        
+                        <!-- Author & Date -->
+                        <div class="grid grid-cols-2 gap-2 mb-5 pb-5 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs">
+                                <i class="fas fa-user text-blue-600 w-4 flex-shrink-0"></i>
+                                <span class="font-medium line-clamp-1"><%= blog.author %></span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs">
+                                <i class="fas fa-calendar text-red-600 w-4 flex-shrink-0"></i>
+                                <span class="font-medium line-clamp-1"><%= blog.date %></span>
+                            </div>
+                        </div>
+                        
+                        <!-- CTA -->
+                        <div class="flex items-center justify-between mt-auto group/cta">
+                            <span class="text-cyan-600 dark:text-cyan-400 font-semibold text-sm">Read More</span>
+                            <i class="fas fa-arrow-right text-cyan-600 dark:text-cyan-400 group-hover/cta:translate-x-2 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+        
+        <!-- No Results -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <i class="fas fa-search text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+            <p class="text-2xl text-gray-600 dark:text-gray-400">No blogs match your search</p>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 SUBSCRIBE SECTION -->
+<section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Subscribe to Our Blog</h2>
+        <p class="text-xl text-gray-100 mb-10 max-w-2xl mx-auto">Get the latest travel guides, tips, and stories delivered to your inbox</p>
+        
+        <div class="max-w-md mx-auto">
+            <form class="flex gap-3">
+                <input type="email" placeholder="Enter your email" class="flex-grow px-6 py-4 rounded-full focus:outline-none dark:bg-slate-800 dark:text-white" required>
+                <button type="submit" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-full font-bold hover:shadow-lg transition-all">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<% block('scripts') %>
+<script>
+    // Filter & Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const blogsContainer = document.getElementById('blogsContainer');
+    const noResults = document.getElementById('noResults');
+    const cards = blogsContainer.querySelectorAll('[data-category]');
+
+    function filterBlogs() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        
+        let visibleCount = 0;
+        
+        cards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const category = card.dataset.category;
+            
+            const matchesSearch = title.includes(searchTerm);
+            const matchesCategory = !selectedCategory || category === selectedCategory;
+            
+            if (matchesSearch && matchesCategory) {
+                card.style.display = '';
+                card.classList.add('aos-init', 'aos-animate');
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        noResults.classList.toggle('hidden', visibleCount > 0);
+    }
+
+    searchInput.addEventListener('input', filterBlogs);
+    categoryFilter.addEventListener('change', filterBlogs);
+
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    }
+</script>

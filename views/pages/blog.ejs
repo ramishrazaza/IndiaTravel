@@ -1,0 +1,240 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/experiences.css">
+`) -%>
+
+<!-- 🔹 HERO SECTION -->
+<section id="hero" class="hero-section relative">
+    <img src="<%= blog.image %>" alt="<%= blog.title %>" class="hero-image">
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content px-4 md:px-6 max-w-5xl mx-auto">
+        <div class="inline-block bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full mb-6 font-bold">
+            <%= blog.category %>
+        </div>
+        
+        <h1 class="hero-title fade-in text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-white mb-6 drop-shadow-lg">
+            <%= blog.title %>
+        </h1>
+        
+        <!-- Blog Metadata -->
+        <div class="flex flex-col sm:flex-row gap-6 text-gray-200 mb-8" data-aos="fade-up" data-aos-delay="200">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 flex items-center justify-center">
+                    <i class="fas fa-user text-white"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-white"><%= blog.author %></div>
+                    <div class="text-sm text-gray-300"><%= blog.date %></div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <i class="fas fa-clock text-yellow-400"></i>
+                <span><%= blog.readTime %> read</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-down text-white text-2xl"></i>
+    </div>
+</section>
+
+<!-- 🔹 ARTICLE CONTENT -->
+<section class="py-16 bg-white dark:bg-slate-800">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Article Body -->
+        <div id="articleContent" class="prose dark:prose-invert max-w-none mb-12">
+            <%- blog.content %>
+        </div>
+
+        <!-- Tags -->
+        <% if (blog.tags && blog.tags.length > 0) { %>
+            <div class="mb-12 pb-12 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Tags</h3>
+                <div class="flex flex-wrap gap-3">
+                    <% blog.tags.forEach(tag => { %>
+                        <span class="bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-full text-sm font-semibold hover:bg-purple-100 dark:hover:bg-purple-600 transition-colors cursor-pointer">
+                            #<%= tag %>
+                        </span>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Share Section -->
+        <div class="mb-12 pb-12 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Share This Article</h3>
+            <div class="flex flex-wrap gap-4">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= `https://example.com/blogs/${blog.id}` %>" target="_blank" class="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fab fa-facebook"></i>
+                    <span>Facebook</span>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=<%= `https://example.com/blogs/${blog.id}` %>&text=<%= blog.title %>" target="_blank" class="flex items-center gap-2 bg-blue-400 text-white px-6 py-3 rounded-lg hover:bg-blue-500 transition-colors">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= `https://example.com/blogs/${blog.id}` %>" target="_blank" class="flex items-center gap-2 bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition-colors">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <button onclick="navigator.clipboard.writeText('<%= `https://example.com/blogs/${blog.id}` %>'); alert('Link copied!')" class="flex items-center gap-2 bg-gray-600 dark:bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
+                    <i class="fas fa-link"></i>
+                    <span>Copy Link</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Author Bio -->
+        <div class="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl mb-16">
+            <div class="flex gap-6 items-start">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-user text-white text-4xl"></i>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-gray-800 dark:text-white mb-2"><%= blog.author %></h4>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        Passionate travel writer and photographer exploring India's hidden gems. With over 5 years of experience, <%= blog.author %> brings authentic stories and practical insights from every corner of India.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2">
+                            <i class="fab fa-twitter"></i> Follow
+                        </a>
+                        <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2">
+                            <i class="fab fa-linkedin"></i> Connect
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 RELATED BLOGS SECTION -->
+<% if (relatedBlogs && relatedBlogs.length > 0) { %>
+    <section class="py-20 bg-gray-50 dark:bg-slate-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-heading font-bold text-gray-800 dark:text-white mb-12 text-center">
+                Related Articles
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <% relatedBlogs.forEach((relatedBlog, idx) => { %>
+                    <a href="/blogs/<%= relatedBlog.id %>" class="group blog-card-small overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white dark:bg-slate-800 flex flex-col" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
+                        <!-- Image -->
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="<%= relatedBlog.image %>" alt="<%= relatedBlog.title %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-5 flex flex-col flex-grow">
+                            <span class="inline-block text-purple-600 dark:text-purple-400 text-xs font-bold mb-2">
+                                <%= relatedBlog.category %>
+                            </span>
+                            
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-3 line-clamp-2 group-hover:text-purple-600 transition-colors">
+                                <%= relatedBlog.title %>
+                            </h3>
+                            
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow line-clamp-2">
+                                <%= relatedBlog.excerpt %>
+                            </p>
+                            
+                            <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                <span><%= relatedBlog.readTime %></span>
+                                <i class="fas fa-arrow-right text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                    </a>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+<% } %>
+
+<!-- 🔹 CTA SECTION -->
+<section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Ready for Your Next Adventure?</h2>
+        <p class="text-xl text-gray-100 mb-10 max-w-2xl mx-auto">Discover amazing travel experiences and packages in India</p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="/packages" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all">
+                Explore Packages
+            </a>
+            <a href="/experiences" class="border-2 border-white text-white px-8 sm:px-12 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all">
+                View Experiences
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 CUSTOM STYLES FOR ARTICLE CONTENT -->
+<style>
+    #articleContent {
+        color: #333;
+    }
+    
+    .dark #articleContent {
+        color: #e5e7eb;
+    }
+    
+    #articleContent p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        text-align: justify;
+    }
+    
+    #articleContent h3 {
+        font-size: 1.75rem;
+        font-weight: bold;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #4f46e5;
+    }
+    
+    .dark #articleContent h3 {
+        color: #818cf8;
+    }
+    
+    #articleContent ul,
+    #articleContent ol {
+        margin: 1.5rem 0 1.5rem 2rem;
+        line-height: 1.8;
+    }
+    
+    #articleContent li {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    #articleContent a {
+        color: #4f46e5;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+    
+    .dark #articleContent a {
+        color: #818cf8;
+    }
+    
+    #articleContent a:hover {
+        text-decoration: none;
+    }
+</style>
+
+<% block('scripts') %>
+<script>
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    }
+</script>

@@ -1,0 +1,395 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/experiences.css">
+`) -%>
+
+<!-- 🔹 HERO SECTION (URGENCY + CONFIDENCE) -->
+<section class="relative overflow-hidden bg-white dark:bg-slate-900" style="margin-top: 0;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full filter blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600 rounded-full filter blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-4 py-16 md:py-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <!-- Left Side: Heading & CTAs -->
+            <div data-aos="fade-right">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 dark:text-white mb-6">
+                    Book Your Trip<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">Now</span>
+                </h1>
+                
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-8">
+                    Limited availability • Best prices • Expert planning
+                </p>
+
+                <!-- Trust Indicators -->
+                <div class="grid grid-cols-3 gap-4 md:gap-6 mb-10 bg-blue-50 dark:bg-slate-800 p-4 md:p-6 rounded-xl">
+                    <div class="text-center">
+                        <div class="text-2xl md:text-3xl font-bold text-blue-600 mb-1 md:mb-2">4.8</div>
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Google Rating</p>
+                        <div class="flex justify-center gap-1 mt-2">
+                            <% for (let i = 0; i < 5; i++) { %>
+                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="text-center border-l border-r border-gray-300 dark:border-gray-600">
+                        <div class="text-2xl md:text-3xl font-bold text-blue-600 mb-1 md:mb-2">5,000+</div>
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Happy Travelers</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl md:text-3xl font-bold text-blue-600 mb-1 md:mb-2">10+</div>
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Years Experience</p>
+                    </div>
+                </div>
+
+                <!-- Primary CTA -->
+                <a href="#quick-form" class="inline-block bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all">
+                    <i class="fas fa-phone mr-2"></i>Book Now – Get Callback
+                </a>
+            </div>
+
+            <!-- Right Side: Hero Image -->
+            <div data-aos="fade-left" class="hidden md:block">
+                <img src="https://images.unsplash.com/photo-1552520554-5fefe8c9ef14?w=600&h=500&fit=crop" alt="Book Your Trip" class="rounded-2xl shadow-2xl w-full h-auto">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 QUICK BOOK FORM (SHORT & POWERFUL) -->
+<section id="quick-form" class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
+    <div class="container mx-auto px-4 max-w-2xl">
+        <!-- Section Header -->
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white mb-3">
+                Just 6 Quick Questions
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">No payment required • Free expert consultation</p>
+        </div>
+
+        <!-- Quick Form -->
+        <form id="quickBookForm" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-10">
+            <div class="space-y-6">
+                <!-- Destination -->
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fas fa-map-marker-alt text-blue-600 mr-2"></i>Where do you want to go?
+                    </label>
+                    <select id="bookDestination" name="destination" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none text-base" required>
+                        <option value="">Select destination</option>
+                        <% destinations.forEach(dest => { %>
+                            <option value="<%= dest %>"><%= dest %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!-- Travel Month -->
+                <div data-aos="fade-up" data-aos-delay="150">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fas fa-calendar text-blue-600 mr-2"></i>When do you want to travel?
+                    </label>
+                    <select id="bookMonth" name="month" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none text-base" required>
+                        <option value="">Select month</option>
+                        <% months.forEach(month => { %>
+                            <option value="<%= month %>"><%= month %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!-- Travelers -->
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fas fa-people-group text-blue-600 mr-2"></i>How many travelers?
+                    </label>
+                    <select id="bookTravelers" name="travelers" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none text-base" required>
+                        <option value="1">1 Person</option>
+                        <option value="2" selected>2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4">4 People</option>
+                        <option value="5">5 People</option>
+                        <option value="6">6+ People</option>
+                    </select>
+                </div>
+
+                <!-- Budget -->
+                <div data-aos="fade-up" data-aos-delay="250">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fas fa-rupee-sign text-blue-600 mr-2"></i>Budget range (per person)?
+                    </label>
+                    <select id="bookBudget" name="budget" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none text-base" required>
+                        <option value="">Select budget</option>
+                        <% budgetRanges.forEach(range => { %>
+                            <option value="<%= range %>"><%= range %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t-2 border-gray-200 dark:border-gray-700 pt-6">
+                    <p class="text-center text-sm text-gray-600 dark:text-gray-400 mb-6">Enter your contact details</p>
+                </div>
+
+                <!-- Name -->
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fas fa-user text-blue-600 mr-2"></i>Your Name
+                    </label>
+                    <input type="text" id="bookName" name="name" placeholder="John Doe" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none text-base" required>
+                </div>
+
+                <!-- Phone -->
+                <div data-aos="fade-up" data-aos-delay="350">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fab fa-whatsapp text-green-600 mr-2"></i>Phone (WhatsApp preferred)
+                    </label>
+                    <input type="tel" id="bookPhone" name="phone" placeholder="+91 98765 43210" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-blue-600 focus:outline-none text-base" required>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-shadow flex items-center justify-center gap-2" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-check"></i>Book Now
+                </button>
+
+                <!-- Micro-copy -->
+                <p class="text-center text-sm text-gray-600 dark:text-gray-400">
+                    ✓ No payment required • ✓ Free expert consultation • ✓ Instant confirmation
+                </p>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- 🔹 WHAT HAPPENS NEXT (REDUCE ANXIETY) -->
+<section class="py-20 bg-white dark:bg-slate-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white mb-3">
+                What Happens Next?
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">Simple, transparent process</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 md:gap-2 max-w-6xl mx-auto justify-between items-center md:items-start">
+            <!-- Step 1 -->
+            <div class="text-center flex-shrink-0 w-full md:w-1/4" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-slate-700 dark:to-slate-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-3xl md:text-4xl text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Request Received</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Instant confirmation email sent</p>
+                <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 font-semibold">Instantly</p>
+            </div>
+
+            <!-- Arrow 1 -->
+            <div class="hidden md:flex items-center justify-center flex-shrink-0">
+                <div class="text-lg text-gray-400 dark:text-gray-600"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="text-center flex-shrink-0 w-full md:w-1/4" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-slate-700 dark:to-slate-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-3xl md:text-4xl text-green-600 dark:text-green-400">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Expert Calls</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Personalized consultation</p>
+                <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 font-semibold">Within 24 hours</p>
+            </div>
+
+            <!-- Arrow 2 -->
+            <div class="hidden md:flex items-center justify-center flex-shrink-0">
+                <div class="text-lg text-gray-400 dark:text-gray-600"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="text-center flex-shrink-0 w-full md:w-1/4" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-slate-700 dark:to-slate-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-3xl md:text-4xl text-purple-600 dark:text-purple-400">
+                    <i class="fas fa-map"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Custom Itinerary</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Detailed travel plan sent</p>
+                <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 font-semibold">Within 48 hours</p>
+            </div>
+
+            <!-- Arrow 3 -->
+            <div class="hidden md:flex items-center justify-center flex-shrink-0">
+                <div class="text-lg text-gray-400 dark:text-gray-600"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="text-center flex-shrink-0 w-full md:w-1/4" data-aos="fade-up" data-aos-delay="400">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-slate-700 dark:to-slate-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-3xl md:text-4xl text-orange-600 dark:text-orange-400">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Confirm & Travel</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">Book and enjoy your trip</p>
+                <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 font-semibold">Your timeline</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 POPULAR PACKAGES (SOCIAL PROOF) -->
+<section class="py-20 bg-gray-50 dark:bg-slate-800">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white mb-3">
+                Popular Packages
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">Handpicked trips for wanderlust souls</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <% popularPackages.forEach((pkg, idx) => { %>
+                <div class="bg-white dark:bg-slate-700 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 overflow-hidden" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
+                    <!-- Image -->
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-40"></div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2"><%= pkg.name %></h3>
+                        
+                        <!-- Duration & Price -->
+                        <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-600">
+                            <span class="text-sm text-gray-600 dark:text-gray-400"><i class="fas fa-calendar mr-1"></i><%= pkg.duration %></span>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-600 dark:text-gray-400">Starting from</p>
+                                <p class="text-lg font-bold text-blue-600"><%= pkg.price %></p>
+                            </div>
+                        </div>
+
+                        <!-- Highlights -->
+                        <div class="space-y-2 mb-6">
+                            <% pkg.highlights.forEach(highlight => { %>
+                                <p class="text-sm text-gray-600 dark:text-gray-400"><i class="fas fa-check text-green-600 mr-2"></i><%= highlight %></p>
+                            <% }); %>
+                        </div>
+
+                        <!-- CTA -->
+                        <button type="button" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all select-pkg-btn" data-package="<%= pkg.name %>">
+                            Select This <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 WHY BOOK NOW? (URGENCY) -->
+<section class="py-20 bg-white dark:bg-slate-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white mb-3">
+                Why Book Now?
+            </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <!-- Reason 1 -->
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-800 dark:to-slate-700 p-8 rounded-xl text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-4xl text-blue-600 mb-4"><i class="fas fa-tag"></i></div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Best Price Guarantee</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">We match any price in the market</p>
+            </div>
+
+            <!-- Reason 2 -->
+            <div class="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-800 dark:to-slate-700 p-8 rounded-xl text-center" data-aos="fade-up" data-aos-delay="150">
+                <div class="text-4xl text-orange-600 mb-4"><i class="fas fa-hourglass-end"></i></div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Limited Seasonal Slots</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Peak season fills up fast</p>
+            </div>
+
+            <!-- Reason 3 -->
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-700 p-8 rounded-xl text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-4xl text-purple-600 mb-4"><i class="fas fa-user-tie"></i></div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Dedicated Travel Expert</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Your personal travel concierge</p>
+            </div>
+
+            <!-- Reason 4 -->
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-slate-800 dark:to-slate-700 p-8 rounded-xl text-center" data-aos="fade-up" data-aos-delay="250">
+                <div class="text-4xl text-green-600 mb-4"><i class="fab fa-whatsapp"></i></div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">WhatsApp Support</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Direct access anytime, anywhere</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 FINAL CTA (HIGH CONVERSION) -->
+<section class="py-20 bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-700 dark:to-cyan-700">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6" data-aos="fade-up">
+            Ready to Book Your Dream Trip?
+        </h2>
+        <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Chat with our travel experts on WhatsApp and book instantly
+        </p>
+        <a href="https://wa.me/919876543210?text=Hi,%20I%20want%20to%20book%20a%20trip%20to%20India!" target="_blank" class="inline-block bg-white text-blue-600 px-12 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all">
+            <i class="fab fa-whatsapp mr-2"></i>Chat & Book on WhatsApp
+        </a>
+    </div>
+</section>
+
+
+<% block('scripts') %>
+<script>
+    const quickForm = document.getElementById('quickBookForm');
+    const selectPkgBtns = document.querySelectorAll('.select-pkg-btn');
+
+    // Pre-fill form if package is selected
+    selectPkgBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const packageName = btn.dataset.package;
+            // Scroll to form
+            document.getElementById('quick-form').scrollIntoView({ behavior: 'smooth' });
+            // Could pre-fill destination based on package if needed
+        });
+    });
+
+    // Form submission
+    quickForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            destination: document.getElementById('bookDestination').value,
+            month: document.getElementById('bookMonth').value,
+            travelers: document.getElementById('bookTravelers').value,
+            budget: document.getElementById('bookBudget').value,
+            name: document.getElementById('bookName').value,
+            phone: document.getElementById('bookPhone').value,
+            intent: 'book-now',
+            priority: 'high',
+            createdAt: new Date().toISOString()
+        };
+
+        console.log('Book Now Form Data:', formData);
+        alert('🎉 Thank you for booking!\n\nWe will call you within 24 hours with exclusive offers and custom itineraries.\n\nWhatsApp: ' + formData.phone);
+        
+        // Reset form
+        quickForm.reset();
+    });
+
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    }
+</script>
+
+<style>
+    .cta-btn-primary {
+        @apply bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all inline-block;
+    }
+</style>
+

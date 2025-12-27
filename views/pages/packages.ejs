@@ -1,0 +1,267 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/experiences.css">
+`) -%>
+
+<!-- 🔹 HERO SECTION -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="margin-top: 0;">
+    <!-- Background Image with Modern Overlay -->
+    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&h=1080&fit=crop" alt="Travel Packages" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-purple-900/70 via-blue-900/60 to-slate-900/70"></div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 container mx-auto px-4 py-32 text-center text-white">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-6 fade-in" data-aos="fade-up">
+            Curated Travel<br>
+            <span class="gradient-text" style="background: linear-gradient(135deg, #fbbf24, #f97316, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Packages for You</span>
+        </h1>
+        <p class="text-lg md:text-xl lg:text-2xl mb-12 text-gray-200 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            From weekend escapes to month-long journeys across India's most captivating destinations
+        </p>
+        
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
+            <a href="#packages" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all ripple inline-block">
+                Browse Packages
+            </a>
+            <a href="/" class="bg-white bg-opacity-20 backdrop-blur-md text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-purple-600 transition-all inline-block">
+                Back to Home
+            </a>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+        <i class="fas fa-chevron-down text-white text-2xl"></i>
+    </div>
+</section>
+
+<!-- 🔹 SEARCH & FILTER SECTION -->
+<section class="py-12 bg-white dark:bg-slate-800 sticky top-20 z-30 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Search -->
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Search packages..." class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                <i class="fas fa-search absolute right-4 top-4 text-gray-400"></i>
+            </div>
+            
+            <!-- Category Filter -->
+            <div>
+                <select id="categoryFilter" class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                    <option value="">All Categories</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Nature">Nature</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Leisure">Leisure</option>
+                    <option value="Spiritual">Spiritual</option>
+                    <option value="Wellness">Wellness</option>
+                    <option value="Luxury">Luxury</option>
+                </select>
+            </div>
+            
+            <!-- Duration Filter -->
+            <div>
+                <select id="durationFilter" class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                    <option value="">All Durations</option>
+                    <option value="3">3 Days</option>
+                    <option value="4">4 Days</option>
+                    <option value="5">5 Days</option>
+                    <option value="6">6 Days</option>
+                    <option value="7">7 Days</option>
+                    <option value="8">8+ Days</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 PACKAGES GRID -->
+<section id="packages" class="py-20 bg-gray-50 dark:bg-slate-900">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">
+                Our <span class="gradient-text">Travel Packages</span>
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">Choose from our collection of expertly designed packages</p>
+        </div>
+        
+        <div id="packagesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <% packages.forEach((pkg, idx) => { %>
+                <a href="/packages/<%= pkg.id %>" class="group package-card relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 bg-white dark:bg-slate-800 h-full flex flex-col" data-aos="fade-up" data-aos-delay="<%= idx * 80 %>" data-category="<%= pkg.category %>" data-duration="<%= parseInt(pkg.duration) %>">
+                    <!-- Image Container with Overlay -->
+                    <div class="relative h-64 overflow-hidden bg-gradient-to-br from-purple-400 to-blue-400">
+                        <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                        
+                        <!-- Top Badges -->
+                        <div class="absolute top-4 left-4 right-4 flex justify-between items-start gap-2 z-10">
+                            <span class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                <%= pkg.category %>
+                            </span>
+                            <div class="flex items-center gap-1 bg-yellow-400 text-black px-3 py-1.5 rounded-full shadow-lg">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="font-bold text-sm"><%= pkg.rating %></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Section -->
+                    <div class="p-5 flex flex-col flex-grow">
+                        <!-- Title -->
+                        <h3 class="text-lg font-heading font-bold text-gray-800 dark:text-white mb-2 line-clamp-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                            <%= pkg.name %>
+                        </h3>
+                        
+                        <!-- Tagline -->
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
+                            <%= pkg.tagline %>
+                        </p>
+                        
+                        <!-- Info Grid -->
+                        <div class="grid grid-cols-2 gap-2 mb-5 pb-5 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs">
+                                <i class="fas fa-calendar-days text-blue-600 w-4 flex-shrink-0"></i>
+                                <span class="font-medium"><%= pkg.duration %></span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs">
+                                <i class="fas fa-map-pin text-red-600 w-4 flex-shrink-0"></i>
+                                <span class="font-medium line-clamp-1"><%= pkg.destination %></span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs">
+                                <i class="fas fa-people-group text-green-600 w-4 flex-shrink-0"></i>
+                                <span class="font-medium"><%= pkg.groupSize %></span>
+                            </div>
+                            <div class="flex items-center gap-2 text-yellow-600 dark:text-yellow-400 text-xs">
+                                <i class="fas fa-star text-yellow-500 w-4 flex-shrink-0"></i>
+                                <span class="font-bold"><%= pkg.reviews %> reviews</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Price & CTA -->
+                        <div class="flex items-center justify-between mt-auto gap-4">
+                            <div>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">From</p>
+                                <p class="text-xl font-heading font-bold text-purple-600 dark:text-purple-400">
+                                    <% const priceStart = pkg.price.split(' - ')[0]; %>
+                                    <%= priceStart %>
+                                </p>
+                            </div>
+                            <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-lg font-bold text-sm group-hover:shadow-xl transition-all whitespace-nowrap">
+                                View <i class="fas fa-arrow-right ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+        
+        <!-- No Results -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <i class="fas fa-search text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+            <p class="text-2xl text-gray-600 dark:text-gray-400">No packages match your filters</p>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 WHY CHOOSE US -->
+<section class="py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">
+                Why Choose <span class="gradient-text">Our Packages?</span>
+            </h2>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:shadow-lg transition-shadow" data-aos="fade-up">
+                <i class="fas fa-check-circle text-5xl text-blue-600 dark:text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Curated Experiences</h3>
+                <p class="text-gray-700 dark:text-gray-300">Handpicked destinations and activities</p>
+            </div>
+            
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-shield-alt text-5xl text-green-600 dark:text-green-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">100% Safe & Secure</h3>
+                <p class="text-gray-700 dark:text-gray-300">Travel insurance & safety guaranteed</p>
+            </div>
+            
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-users-cog text-5xl text-purple-600 dark:text-purple-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Expert Guides</h3>
+                <p class="text-gray-700 dark:text-gray-300">Experienced local guides included</p>
+            </div>
+            
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-wallet text-5xl text-orange-600 dark:text-orange-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Best Value</h3>
+                <p class="text-gray-700 dark:text-gray-300">Competitive prices with no hidden fees</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 CTA SECTION -->
+<section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Ready to Explore India?</h2>
+        <p class="text-xl text-gray-100 mb-8 max-w-2xl mx-auto">Choose a package and let us plan your perfect Indian adventure</p>
+        <a href="#packages" class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-12 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+            <i class="fas fa-arrow-right mr-2"></i> Browse All Packages
+        </a>
+    </div>
+</section>
+
+<% block('scripts') %>
+<script>
+    // Filter & Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const durationFilter = document.getElementById('durationFilter');
+    const packagesContainer = document.getElementById('packagesContainer');
+    const noResults = document.getElementById('noResults');
+    const cards = packagesContainer.querySelectorAll('[data-category]');
+
+    function filterPackages() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        const selectedDuration = durationFilter.value;
+        
+        let visibleCount = 0;
+        
+        cards.forEach(card => {
+            const name = card.textContent.toLowerCase();
+            const category = card.dataset.category;
+            const duration = card.dataset.duration;
+            
+            const matchesSearch = name.includes(searchTerm);
+            const matchesCategory = !selectedCategory || category === selectedCategory;
+            const matchesDuration = !selectedDuration || duration === selectedDuration;
+            
+            if (matchesSearch && matchesCategory && matchesDuration) {
+                card.style.display = '';
+                card.classList.add('aos-init', 'aos-animate');
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        noResults.classList.toggle('hidden', visibleCount > 0);
+    }
+
+    searchInput.addEventListener('input', filterPackages);
+    categoryFilter.addEventListener('change', filterPackages);
+    durationFilter.addEventListener('change', filterPackages);
+
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    }
+</script>
