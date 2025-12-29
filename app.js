@@ -4,10 +4,14 @@ const ejs = require("ejs");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const rootRoutes = require("./routes/root");
-
+const connectDB = require("./config/db");
+require("dotenv").config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// Connect to MongoDB
+connectDB();
 
 // Configure ejs-mate as the view engine
 app.engine("ejs", ejsMate);
