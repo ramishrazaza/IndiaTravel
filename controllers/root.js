@@ -1,8 +1,78 @@
-module.exports.renderHomePage = (req, res) => {
-    res.render('pages/index');
+const Destination = require('../models/Destination');
+const Experience = require('../models/Experience');
+const Blog = require('../models/Blog');
+const Testimonial = require('../models/Testimonial');
+const Package = require('../models/Package');
+
+// ==================== HOMEPAGE ====================
+module.exports.renderHomePage = async (req, res) => {
+    try {
+        const destinations = await Destination.find().limit(7);
+        const experiences = await Experience.find({ featured: true }).limit(4);
+        const blogs = await Blog.find({ featured: true }).limit(3);
+        const testimonials = await Testimonial.find({ featured: true }).limit(4);
+        const packages = await Package.find({ featured: true }).limit(2);
+        
+        res.render('pages/index', {
+            destinations,
+            experiences,
+            blogs,
+            testimonials,
+            packages
+        });
+    } catch (error) {
+        console.error('Error rendering homepage:', error);
+        res.status(500).render('error', { message: 'Failed to load homepage' });
+    }
 }
 
-module.exports.renderDestinationPage = (req, res) => {
+// ==================== DESTINATIONS ====================
+module.exports.renderDestinationPage = async (req, res) => {
+    try {
+        const destination = await Destination.findOne({ name: 'Rajasthan' }) || 
+                           await Destination.findOne().sort({ rating: -1 });
+        
+        if (!destination) {
+            return res.status(404).render('error', { message: 'Destination not found' });
+        }
+        
+        res.render('pages/destination', { destination });
+    } catch (error) {
+        console.error('Error rendering destination page:', error);
+        res.status(500).render('error', { message: 'Failed to load destination' });
+    }
+};
+
+module.exports.renderDestinationsPage = async (req, res) => {
+    try {
+        const { region, sort } = req.query;
+        let query = {};
+        
+        if (region && region !== 'all') {
+            query.region = region;
+        }
+        
+        let destinations = await Destination.find(query);
+        
+        if (sort === 'rating') {
+            destinations.sort((a, b) => b.rating - a.rating);
+        } else if (sort === 'name') {
+            destinations.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        
+        res.render('pages/destinations', { 
+            destinations,
+            selectedRegion: region || 'all'
+        });
+    } catch (error) {
+        console.error('Error rendering destinations page:', error);
+        res.status(500).render('error', { message: 'Failed to load destinations' });
+    }
+};
+
+// ==================== STATIC DATA ====================
+// Legacy destination page - keeping for compatibility
+module.exports.renderDestinationPageLegacy = (req, res) => {
     const destination = {
         name: "Rajasthan",
         tagline: "Land of Palaces, Forts & Royal Heritage",
@@ -296,176 +366,469 @@ module.exports.renderDestinationsPage = (req, res) => {
         }
     ];
     
-    res.render('pages/destinations', { destinations: destinations });
-}
+};
 
-module.exports.renderExperiencesPage = (req, res) => {
-    const experiences = [
-        {
-            id: 1,
-            name: "Desert Safari Adventure",
-            category: "Adventure",
-            tagline: "Camel riding under the stars",
-            image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&h=600&fit=crop",
-            description: "Experience the thrill of camel safaris through the golden deserts of Rajasthan and Jaisalmer with traditional Bedouin hospitality.",
-            duration: "2-3 Days",
-            difficulty: "Easy",
-            groupSize: "2-10 people",
-            price: "₹15,000 - ₹25,000",
-            highlights: ["Camel Safari", "Desert Camp", "Folk Dance", "Traditional Dinner"],
-            location: "Jaisalmer, Rajasthan",
-            rating: 4.9,
-            reviews: 328
-        },
-        {
-            id: 2,
-            name: "Spiritual Yoga Retreat",
-            category: "Wellness",
-            tagline: "Find your inner peace",
-            image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=600&fit=crop",
-            description: "Join a transformative yoga and meditation retreat in the spiritual heartland of India with expert instructors.",
-            duration: "7 Days",
-            difficulty: "Easy",
-            groupSize: "1-20 people",
-            price: "₹25,000 - ₹40,000",
-            highlights: ["Yoga Classes", "Meditation", "Ayurveda Treatment", "Vegetarian Meals"],
-            location: "Rishikesh, Uttarakhand",
-            rating: 4.8,
-            reviews: 256
-        },
-        {
-            id: 3,
-            name: "Backwater Houseboat Experience",
-            category: "Leisure",
-            tagline: "Cruise through Kerala's waters",
-            image: "https://images.unsplash.com/photo-1551525881-721f1908688c?w=800&h=600&fit=crop",
-            description: "Relax on traditional houseboats while cruising through the serene backwaters of Kerala with authentic Kerala cuisine.",
-            duration: "2 Days",
-            difficulty: "Easy",
-            groupSize: "2-4 people",
-            price: "₹12,000 - ₹20,000",
-            highlights: ["Houseboat Cruise", "Local Cuisine", "Village Tour", "Sunset Viewing"],
-            location: "Alappuzha, Kerala",
-            rating: 4.7,
-            reviews: 412
-        },
-        {
-            id: 4,
-            name: "Mountain Trekking Challenge",
-            category: "Adventure",
-            tagline: "Conquer the Himalayas",
-            image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
-            description: "Challenging multi-day trek through the majestic Himalayas with experienced guides and accommodation in mountain camps.",
-            duration: "5-7 Days",
-            difficulty: "Hard",
-            groupSize: "4-12 people",
-            price: "₹35,000 - ₹50,000",
-            highlights: ["High Altitude Trekking", "Mountain Views", "Local Interaction", "Camping"],
-            location: "Manali, Himachal Pradesh",
-            rating: 4.9,
-            reviews: 189
-        },
-        {
-            id: 5,
-            name: "Wildlife Safari Expedition",
-            category: "Nature",
-            tagline: "Meet India's wild side",
-            image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&h=600&fit=crop",
-            description: "Witness tigers, leopards, and exotic wildlife in their natural habitat with expert naturalist guides.",
-            duration: "3-4 Days",
-            difficulty: "Moderate",
-            groupSize: "2-8 people",
-            price: "₹18,000 - ₹28,000",
-            highlights: ["Tiger Spotting", "Game Drive", "Nature Photography", "Jungle Lodge"],
-            location: "Ranthambore, Rajasthan",
-            rating: 4.8,
-            reviews: 203
-        },
-        {
-            id: 6,
-            name: "Cooking Class & Culinary Tour",
-            category: "Culture",
-            tagline: "Master Indian cuisine",
-            image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
-            description: "Learn to cook authentic Indian dishes from local chefs in traditional kitchens with market visits included.",
-            duration: "2-3 Days",
-            difficulty: "Easy",
-            groupSize: "2-6 people",
-            price: "₹10,000 - ₹18,000",
-            highlights: ["Market Visit", "Cooking Classes", "Restaurant Tour", "Recipe Cards"],
-            location: "Delhi, India",
-            rating: 4.7,
-            reviews: 334
-        },
-        {
-            id: 7,
-            name: "Palace Heritage Tour",
-            category: "Culture",
-            tagline: "Step into royal history",
-            image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&h=600&fit=crop",
-            description: "Explore magnificent palaces, forts, and architectural marvels with expert historians and guides.",
-            duration: "4 Days",
-            difficulty: "Easy",
-            groupSize: "2-15 people",
-            price: "₹16,000 - ₹26,000",
-            highlights: ["Palace Tours", "Historical Insights", "Photography Spots", "Local Guide"],
-            location: "Udaipur, Rajasthan",
-            rating: 4.8,
-            reviews: 278
-        },
-        {
-            id: 8,
-            name: "Adventure Water Sports",
-            category: "Adventure",
-            tagline: "Splash into action",
-            image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&h=600&fit=crop",
-            description: "Experience thrilling water sports including kayaking, rafting, and parasailing in scenic locations.",
-            duration: "2 Days",
-            difficulty: "Moderate",
-            groupSize: "2-20 people",
-            price: "₹8,000 - ₹15,000",
-            highlights: ["Kayaking", "Rafting", "Parasailing", "Water Sports Training"],
-            location: "Goa, India",
-            rating: 4.6,
-            reviews: 156
-        },
-        {
-            id: 9,
-            name: "Photography Tour",
-            category: "Art & Culture",
-            tagline: "Capture India's beauty",
-            image: "https://images.unsplash.com/photo-1606986628025-35d57e735ae0?w=800&h=600&fit=crop",
-            description: "Professional photography tour with composition tips and guidance to capture stunning Indian landscapes and culture.",
-            duration: "5 Days",
-            difficulty: "Moderate",
-            groupSize: "2-10 people",
-            price: "₹22,000 - ₹35,000",
-            highlights: ["Expert Guidance", "Golden Hour Shoots", "Editing Workshop", "Portfolio Building"],
-            location: "Varanasi, Uttar Pradesh",
-            rating: 4.9,
-            reviews: 142
-        },
-        {
-            id: 10,
-            name: "Festival & Fair Experience",
-            category: "Culture",
-            tagline: "Celebrate with locals",
-            image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop",
-            description: "Participate in vibrant Indian festivals and fairs with local families, experiencing authentic traditions and celebrations.",
-            duration: "3 Days",
-            difficulty: "Easy",
-            groupSize: "1-10 people",
-            price: "₹12,000 - ₹22,000",
-            highlights: ["Festival Participation", "Local Families", "Traditional Food", "Cultural Performance"],
-            location: "Various Locations",
-            rating: 4.8,
-            reviews: 267
+// ==================== EXPERIENCES ====================
+module.exports.renderExperiencesPage = async (req, res) => {
+    try {
+        const { category, sort } = req.query;
+        let query = {};
+        
+        if (category && category !== 'all') {
+            query.category = category;
         }
-    ];
-    
-    res.render('pages/experiences', { experiences: experiences });
-}
+        
+        let experiences = await Experience.find(query);
+        
+        if (sort === 'price-low') {
+            experiences.sort((a, b) => a.price - b.price);
+        } else if (sort === 'price-high') {
+            experiences.sort((a, b) => b.price - a.price);
+        } else if (sort === 'rating') {
+            experiences.sort((a, b) => b.rating - a.rating);
+        }
+        
+        res.render('pages/experiences', { 
+            experiences,
+            selectedCategory: category || 'all'
+        });
+    } catch (error) {
+        console.error('Error rendering experiences page:', error);
+        res.status(500).render('error', { message: 'Failed to load experiences' });
+    }
+};
 
+module.exports.renderExperienceDetailPage = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const experience = await Experience.findById(id);
+        
+        if (!experience) {
+            return res.status(404).render('error', { message: 'Experience not found' });
+        }
+        
+        const relatedExperiences = await Experience.find({
+            category: experience.category,
+            _id: { $ne: id }
+        }).limit(3);
+        
+        res.render('pages/experience', { 
+            experience,
+            relatedExperiences
+        });
+    } catch (error) {
+        console.error('Error rendering experience detail page:', error);
+        res.status(500).render('error', { message: 'Failed to load experience details' });
+    }
+};
+
+// ==================== PACKAGES ====================
+module.exports.renderPackagesPage = async (req, res) => {
+    try {
+        const { destination, sort } = req.query;
+        let query = {};
+        
+        if (destination && destination !== 'all') {
+            query.destination = destination;
+        }
+        
+        let packages = await Package.find(query);
+        
+        if (sort === 'price-low') {
+            packages.sort((a, b) => a.price - b.price);
+        } else if (sort === 'price-high') {
+            packages.sort((a, b) => b.price - a.price);
+        } else if (sort === 'rating') {
+            packages.sort((a, b) => b.rating - a.rating);
+        }
+        
+        const uniqueDestinations = await Package.distinct('destination');
+        
+        res.render('pages/packages', { 
+            packages,
+            destinations: uniqueDestinations,
+            selectedDestination: destination || 'all'
+        });
+    } catch (error) {
+        console.error('Error rendering packages page:', error);
+        res.status(500).render('error', { message: 'Failed to load packages' });
+    }
+};
+
+module.exports.renderPackageDetailPage = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const package_item = await Package.findById(id);
+        
+        if (!package_item) {
+            return res.status(404).render('error', { message: 'Package not found' });
+        }
+        
+        const relatedPackages = await Package.find({
+            destination: package_item.destination,
+            _id: { $ne: id }
+        }).limit(3);
+        
+        res.render('pages/package', { 
+            package: package_item,
+            relatedPackages
+        });
+    } catch (error) {
+        console.error('Error rendering package detail page:', error);
+        res.status(500).render('error', { message: 'Failed to load package details' });
+    }
+};
+
+// ==================== BLOGS ====================
+module.exports.renderBlogsPage = async (req, res) => {
+    try {
+        const { category, search, sort } = req.query;
+        let query = {};
+        
+        if (category && category !== 'all') {
+            query.category = category;
+        }
+        
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: 'i' } },
+                { excerpt: { $regex: search, $options: 'i' } }
+            ];
+        }
+        
+        let blogs = await Blog.find(query);
+        
+        if (sort === 'latest') {
+            blogs.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+        } else if (sort === 'popular') {
+            blogs.sort((a, b) => b.viewCount - a.viewCount);
+        } else if (sort === 'rating') {
+            blogs.sort((a, b) => b.rating - a.rating);
+        }
+        
+        const categories = await Blog.distinct('category');
+        
+        res.render('pages/blogs', { 
+            blogs,
+            categories,
+            selectedCategory: category || 'all',
+            searchQuery: search || ''
+        });
+    } catch (error) {
+        console.error('Error rendering blogs page:', error);
+        res.status(500).render('error', { message: 'Failed to load blogs' });
+    }
+};
+
+module.exports.renderBlogDetailPage = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const blog = await Blog.findByIdAndUpdate(
+            id,
+            { $inc: { viewCount: 1 } },
+            { new: true }
+        );
+        
+        if (!blog) {
+            return res.status(404).render('error', { message: 'Blog not found' });
+        }
+        
+        const relatedBlogs = await Blog.find({
+            category: blog.category,
+            _id: { $ne: id }
+        }).limit(3);
+        
+        res.render('pages/blog', { 
+            blog,
+            relatedBlogs
+        });
+    } catch (error) {
+        console.error('Error rendering blog detail page:', error);
+        res.status(500).render('error', { message: 'Failed to load blog details' });
+    }
+};
+
+// ==================== PLAN TRIP ====================
+module.exports.renderPlanTripPage = async (req, res) => {
+    try {
+        const destinations = await Destination.find().select('name region');
+        const experiences = await Experience.find().select('title category');
+        const packages = await Package.find().select('name destination');
+        
+        res.render('pages/plan-trip', { 
+            destinations,
+            experiences,
+            packages
+        });
+    } catch (error) {
+        console.error('Error rendering plan trip page:', error);
+        res.status(500).render('error', { message: 'Failed to load plan trip page' });
+    }
+};
+
+// ==================== BOOK NOW ====================
+module.exports.renderBookNowPage = async (req, res) => {
+    try {
+        const packages = await Package.find();
+        const destinations = await Destination.find().select('name');
+        
+        res.render('pages/book-now', { 
+            packages,
+            destinations
+        });
+    } catch (error) {
+        console.error('Error rendering book now page:', error);
+        res.status(500).render('error', { message: 'Failed to load booking page' });
+    }
+};
+
+// ==================== API ENDPOINTS (for AJAX requests) ====================
+
+// Get all destinations API
+module.exports.getAllDestinations = async (req, res) => {
+    try {
+        const { region, sort } = req.query;
+        let query = {};
+        
+        if (region && region !== 'all') {
+            query.region = region;
+        }
+        
+        let destinations = await Destination.find(query);
+        
+        if (sort === 'rating') {
+            destinations.sort((a, b) => b.rating - a.rating);
+        } else if (sort === 'name') {
+            destinations.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        
+        res.json({ success: true, data: destinations });
+    } catch (error) {
+        console.error('Error fetching destinations:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get single destination API
+module.exports.getDestinationById = async (req, res) => {
+    try {
+        const destination = await Destination.findById(req.params.id);
+        
+        if (!destination) {
+            return res.status(404).json({ success: false, message: 'Destination not found' });
+        }
+        
+        res.json({ success: true, data: destination });
+    } catch (error) {
+        console.error('Error fetching destination:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get all experiences API
+module.exports.getAllExperiences = async (req, res) => {
+    try {
+        const { category, sort } = req.query;
+        let query = {};
+        
+        if (category && category !== 'all') {
+            query.category = category;
+        }
+        
+        let experiences = await Experience.find(query);
+        
+        if (sort === 'price-low') {
+            experiences.sort((a, b) => a.price - b.price);
+        } else if (sort === 'price-high') {
+            experiences.sort((a, b) => b.price - a.price);
+        } else if (sort === 'rating') {
+            experiences.sort((a, b) => b.rating - a.rating);
+        }
+        
+        res.json({ success: true, data: experiences });
+    } catch (error) {
+        console.error('Error fetching experiences:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get single experience API
+module.exports.getExperienceById = async (req, res) => {
+    try {
+        const experience = await Experience.findById(req.params.id);
+        
+        if (!experience) {
+            return res.status(404).json({ success: false, message: 'Experience not found' });
+        }
+        
+        res.json({ success: true, data: experience });
+    } catch (error) {
+        console.error('Error fetching experience:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get all packages API
+module.exports.getAllPackages = async (req, res) => {
+    try {
+        const { destination, sort } = req.query;
+        let query = {};
+        
+        if (destination && destination !== 'all') {
+            query.destination = destination;
+        }
+        
+        let packages = await Package.find(query);
+        
+        if (sort === 'price-low') {
+            packages.sort((a, b) => a.price - b.price);
+        } else if (sort === 'price-high') {
+            packages.sort((a, b) => b.price - a.price);
+        } else if (sort === 'rating') {
+            packages.sort((a, b) => b.rating - a.rating);
+        }
+        
+        res.json({ success: true, data: packages });
+    } catch (error) {
+        console.error('Error fetching packages:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get single package API
+module.exports.getPackageById = async (req, res) => {
+    try {
+        const package_item = await Package.findById(req.params.id);
+        
+        if (!package_item) {
+            return res.status(404).json({ success: false, message: 'Package not found' });
+        }
+        
+        res.json({ success: true, data: package_item });
+    } catch (error) {
+        console.error('Error fetching package:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get all blogs API
+module.exports.getAllBlogs = async (req, res) => {
+    try {
+        const { category, search, sort } = req.query;
+        let query = {};
+        
+        if (category && category !== 'all') {
+            query.category = category;
+        }
+        
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: 'i' } },
+                { excerpt: { $regex: search, $options: 'i' } }
+            ];
+        }
+        
+        let blogs = await Blog.find(query);
+        
+        if (sort === 'latest') {
+            blogs.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+        } else if (sort === 'popular') {
+            blogs.sort((a, b) => b.viewCount - a.viewCount);
+        } else if (sort === 'rating') {
+            blogs.sort((a, b) => b.rating - a.rating);
+        }
+        
+        res.json({ success: true, data: blogs });
+    } catch (error) {
+        console.error('Error fetching blogs:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get single blog API
+module.exports.getBlogById = async (req, res) => {
+    try {
+        const blog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            { $inc: { viewCount: 1 } },
+            { new: true }
+        );
+        
+        if (!blog) {
+            return res.status(404).json({ success: false, message: 'Blog not found' });
+        }
+        
+        res.json({ success: true, data: blog });
+    } catch (error) {
+        console.error('Error fetching blog:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get all testimonials API
+module.exports.getAllTestimonials = async (req, res) => {
+    try {
+        const testimonials = await Testimonial.find().sort({ createdAt: -1 });
+        res.json({ success: true, data: testimonials });
+    } catch (error) {
+        console.error('Error fetching testimonials:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get search results API
+module.exports.searchAll = async (req, res) => {
+    try {
+        const { q } = req.query;
+        
+        if (!q || q.trim().length < 2) {
+            return res.json({ success: true, data: { destinations: [], experiences: [], blogs: [], packages: [] } });
+        }
+        
+        const searchRegex = { $regex: q, $options: 'i' };
+        
+        const destinations = await Destination.find({
+            $or: [
+                { name: searchRegex },
+                { description: searchRegex },
+                { attractions: searchRegex }
+            ]
+        }).limit(5);
+        
+        const experiences = await Experience.find({
+            $or: [
+                { title: searchRegex },
+                { description: searchRegex }
+            ]
+        }).limit(5);
+        
+        const blogs = await Blog.find({
+            $or: [
+                { title: searchRegex },
+                { excerpt: searchRegex },
+                { content: searchRegex }
+            ]
+        }).limit(5);
+        
+        const packages = await Package.find({
+            $or: [
+                { name: searchRegex },
+                { description: searchRegex }
+            ]
+        }).limit(5);
+        
+        res.json({ 
+            success: true, 
+            data: { destinations, experiences, blogs, packages }
+        });
+    } catch (error) {
+        console.error('Error searching:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
 module.exports.renderExperienceDetailPage = (req, res) => {
     const experienceId = parseInt(req.params.id);
     
