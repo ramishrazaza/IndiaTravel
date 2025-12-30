@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page not found - IndiaTravel">
+    <title>404 - Page Not Found | IndiaTravel</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Theme Initialization Script -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+            
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            } else if (savedTheme === 'light') {
+                html.classList.remove('dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                html.classList.add('dark');
+            }
+        })();
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <!-- Error Modal Component -->
+    <div id="errorModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+            <!-- Error Header -->
+            <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-white/20 rounded-full p-2">
+                        <i class="fas fa-exclamation-circle text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Page Not Found</h3>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="px-6 py-4">
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                    The page you're looking for doesn't exist or has been moved. Let's get you back to exploring India's beautiful destinations!
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700 flex gap-3 justify-center">
+                <a href="/" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition font-medium text-sm flex items-center gap-2">
+                    <i class="fas fa-home"></i>Go Home
+                </a>
+                <a href="/destinations" class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white transition font-medium text-sm flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i>Explore Destinations
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main 404 Content -->
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="text-center max-w-2xl mx-auto">
+            <!-- Large 404 Display -->
+            <div class="mb-8">
+                <div class="text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 dark:from-red-400 dark:to-orange-400 mb-4">
+                    404
+                </div>
+                <div class="h-1 w-32 bg-gradient-to-r from-red-500 to-orange-500 mx-auto mb-6"></div>
+            </div>
+
+            <!-- Heading -->
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800 dark:text-white">
+                Oops! Page Not Found
+            </h1>
+
+            <!-- Description -->
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                It looks like you've ventured off the beaten path. The page you're searching for doesn't exist in our collection of wonderful Indian experiences.
+            </p>
+
+            <!-- Illustration -->
+            <div class="mb-8">
+                <i class="fas fa-map text-9xl text-red-200 dark:text-red-900 opacity-50"></i>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <a href="/" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2">
+                    <i class="fas fa-home"></i>
+                    <span>Back to Home</span>
+                </a>
+                <a href="/destinations" class="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Explore Destinations</span>
+                </a>
+                <a href="/plan-trip" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2">
+                    <i class="fas fa-compass"></i>
+                    <span>Plan a Trip</span>
+                </a>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="bg-gray-50 dark:bg-slate-800 rounded-xl p-6 mt-8">
+                <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Quick Links</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <a href="/experiences" class="px-4 py-2 bg-white dark:bg-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-star mr-2"></i>Experiences
+                    </a>
+                    <a href="/packages" class="px-4 py-2 bg-white dark:bg-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-box mr-2"></i>Packages
+                    </a>
+                    <a href="/blogs" class="px-4 py-2 bg-white dark:bg-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-blog mr-2"></i>Blog
+                    </a>
+                    <a href="/book-now" class="px-4 py-2 bg-white dark:bg-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-calendar mr-2"></i>Book Now
+                    </a>
+                    <a href="/ai-trip-planner" class="px-4 py-2 bg-white dark:bg-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-robot mr-2"></i>AI Planner
+                    </a>
+                    <a href="#" onclick="showErrorModal('Contact Us', 'Email: support@indiatravel.com\nPhone: +91-9876543210')" class="px-4 py-2 bg-white dark:bg-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <i class="fas fa-envelope mr-2"></i>Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal Script -->
+    <script>
+        function showErrorModal(title, message) {
+            const modal = document.getElementById('errorModal');
+            const header = modal.querySelector('.bg-gradient-to-r');
+            const msgEl = modal.querySelector('p');
+            
+            // Update header title if provided
+            if (title) {
+                const titleEl = header.querySelector('h3');
+                titleEl.textContent = title;
+            }
+            
+            // Update message if provided
+            if (message) {
+                msgEl.textContent = message;
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeErrorModal() {
+            document.getElementById('errorModal').classList.add('hidden');
+        }
+
+        // Close modal when clicking buttons
+        document.querySelectorAll('[href]').forEach(link => {
+            if (link.getAttribute('href').startsWith('/')) {
+                link.addEventListener('click', (e) => {
+                    if (!link.onclick) {
+                        closeErrorModal();
+                    }
+                });
+            }
+        });
+
+        // Show error modal on page load
+        window.addEventListener('load', () => {
+            // Modal is already visible by default, just keep it showing
+        });
+    </script>
+</body>
+</html>

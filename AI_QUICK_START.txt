@@ -1,0 +1,81 @@
+## 🤖 AI Trip Planner - Quick Start
+
+### 30-Second Setup
+
+```bash
+# 1. Install axios
+npm install axios
+
+# 2. Get OpenAI key from https://platform.openai.com/api-keys
+
+# 3. Add to .env
+OPENAI_API_KEY=sk-your_key_here
+
+# 4. Restart server
+npm start
+
+# 5. Visit http://localhost:3000/ai-trip-planner
+```
+
+### How It Works
+
+| When | System | Speed |
+|------|--------|-------|
+| OpenAI key added ✅ | Real AI (OpenAI) | 2-5s |
+| OpenAI fails ❌ | Rule-based | 0.5s |
+| No key provided | Rule-based | 0.5s |
+
+### Test It
+
+1. **Without AI**: Remove OPENAI_API_KEY from .env, restart, test
+2. **With AI**: Add valid key, restart, test
+
+### What Happens
+
+```
+User fills form
+    ↓
+POST /api/ai/plan
+    ↓
+Check: Is OpenAI configured?
+    ↓
+    YES → Call OpenAI → Get AI itinerary
+    NO → Use rules → Get instant itinerary
+    ↓
+Display result with day-wise activities, budget, hotels
+```
+
+### Files Added/Modified
+
+```
+✅ services/aiGeneration.service.js (NEW) - OpenAI integration
+✅ controllers/index.js (MODIFIED) - generateAIPlan method
+✅ package.json (MODIFIED) - Added axios
+✅ .env (MODIFIED) - Added OPENAI_API_KEY config
+✅ AI_SETUP_GUIDE.md (NEW) - Full guide
+```
+
+### Troubleshooting
+
+**"Using rule-based itinerary"**
+- API key not in .env or missing → Add it and restart
+
+**"Error calling OpenAI"**
+- Invalid key → Check at https://platform.openai.com/api-keys
+- No quota → Add payment method to OpenAI account
+
+### Cost
+
+- ~$0.0015 per itinerary
+- ~$45/month for 100 plans/day
+
+### Next: Production
+
+1. Add rate limiting (prevent API abuse)
+2. Add caching (reduce costs)
+3. Monitor costs on OpenAI dashboard
+4. Set up alerts for quota
+
+---
+
+**Ready?** → Visit `/ai-trip-planner` and test! 🚀

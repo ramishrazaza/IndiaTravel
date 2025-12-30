@@ -202,3 +202,101 @@ a:focus {
 .experience-card.loading {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+/* ==================== RESPONSIVE OPTIMIZATIONS ==================== */
+
+/* Mobile Devices (xs < 640px) */
+@media (max-width: 640px) {
+    .experience-card {
+        height: 300px !important;
+    }
+    
+    .filter-btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        min-height: 36px;
+    }
+    
+    section {
+        padding: 2rem 0 !important;
+    }
+    
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.875rem !important;
+    }
+    
+    h2 {
+        font-size: 1.75rem !important;
+    }
+}
+
+/* Small Devices (sm: 640px - 768px) */
+@media (min-width: 640px) and (max-width: 768px) {
+    .experience-card {
+        height: 320px !important;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Medium Devices (md: 768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .experience-card {
+        height: 350px !important;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .filter-btn {
+        min-height: 44px;
+        padding: 10px 20px;
+    }
+    
+    .experience-card:hover img {
+        transform: scale(1.05);
+    }
+    
+    button,
+    a.btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Landscape Orientation - Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    section {
+        padding: 1.5rem 0;
+    }
+    
+    .experience-card {
+        height: 250px !important;
+    }
+}
+
+/* High Resolution Displays (1920px+) */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1400px;
+    }
+    
+    .experience-card {
+        height: 450px !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .filter-btn,
+    .sticky {
+        display: none !important;
+    }
+}

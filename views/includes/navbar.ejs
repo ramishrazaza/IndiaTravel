@@ -12,35 +12,36 @@
             <!-- Desktop Navigation -->
             <div class="hidden lg:flex items-center space-x-8">
                 <div class="relative group">
-                    <a href="/destinations" class="text-white hover:text-yellow-300 font-semibold transition flex items-center">
+                    <a href="/destinations" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold transition flex items-center">
                         Destinations <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </a>
-                    <div class="absolute top-full left-0 mt-4 w-64 glass rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">North India</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">South India</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">East India</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">West India</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg">Northeast India</a>
+                    <div class="absolute top-full left-0 mt-4 w-64 glass rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-white/10 dark:bg-slate-800/80 dark:border-slate-700">
+                        <a href="/destinations?region=north" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">North India</a>
+                        <a href="/destinations?region=south" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">South India</a>
+                        <a href="/destinations?region=east" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">East India</a>
+                        <a href="/destinations?region=west" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">West India</a>
+                        <a href="/destinations?region=northeast" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg transition">Northeast India</a>
                     </div>
                 </div>
                 <div class="relative group">
-                    <a href="/experiences" class="text-white hover:text-yellow-300 font-semibold transition flex items-center">
+                    <a href="/experiences" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold transition flex items-center">
                         Experiences <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </a>
-                    <div class="absolute top-full left-0 mt-4 w-64 glass rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">🛕 Spiritual</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">🏔️ Adventure</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg mb-2">🏖️ Beach Escapes</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/20 rounded-lg">👑 Royal Heritage</a>
+                    <div class="absolute top-full left-0 mt-4 w-64 glass rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-white/10 dark:bg-slate-800/80 dark:border-slate-700">
+                        <a href="/experiences?category=Spiritual" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">🛕 Spiritual</a>
+                        <a href="/experiences?category=Adventure" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">🏔️ Adventure</a>
+                        <a href="/experiences?category=Beach" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg mb-2 transition">🏖️ Beach Escapes</a>
+                        <a href="/experiences?category=Heritage" class="block px-4 py-2 text-white dark:text-slate-100 hover:bg-white/20 dark:hover:bg-slate-700/50 rounded-lg transition">👑 Royal Heritage</a>
                     </div>
                 </div>
-                <a href="/packages" class="text-white hover:text-yellow-300 font-semibold transition">Packages</a>
-                <a href="/blogs" class="text-white hover:text-yellow-300 font-semibold transition">Blogs</a>
-                <a href="/plan-trip" class="text-white hover:text-yellow-300 font-semibold transition">Plan Trip</a>
-                <button class="theme-toggle text-white" id="themeToggle" aria-label="Toggle theme">
+                <a href="/packages" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold transition">Packages</a>
+                <a href="/blogs" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold transition">Blogs</a>
+                <a href="/plan-trip" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold transition">Plan Trip</a>
+                <a href="/ai-trip-planner" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold transition">AI Planner</a>
+                <button class="theme-toggle text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 transition" id="themeToggle" aria-label="Toggle theme">
                     <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-                <a href="/" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2.5 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all ripple">Book Now</a>
+                <a href="/book-now" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2.5 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all">Book Now</a>
             </div>
             
             <!-- Mobile Menu Button -->
@@ -51,15 +52,17 @@
         
         <!-- Mobile Navigation -->
         <div class="lg:hidden hidden mt-4 pb-4" id="mobileMenu">
-            <div class="flex flex-col space-y-3 glass rounded-xl p-4">
-                <a href="/" class="text-white hover:text-yellow-300 font-semibold py-2">Destinations</a>
-                <a href="/" class="text-white hover:text-yellow-300 font-semibold py-2">Packages</a>
-                <a href="/" class="text-white hover:text-yellow-300 font-semibold py-2">Blogs</a>
-                <a href="/" class="text-white hover:text-yellow-300 font-semibold py-2">Plan Trip</a>
-                <button class="theme-toggle text-white w-full justify-center py-2" id="themeToggleMobile">
+            <div class="flex flex-col space-y-3 glass rounded-xl p-4 bg-white/10 dark:bg-slate-800/80 dark:border-slate-700">
+                <a href="/destinations" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold py-2 transition">Destinations</a>
+                <a href="/experiences" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold py-2 transition">Experiences</a>
+                <a href="/packages" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold py-2 transition">Packages</a>
+                <a href="/blogs" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold py-2 transition">Blogs</a>
+                <a href="/plan-trip" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold py-2 transition">Plan Trip</a>
+                <a href="/ai-trip-planner" class="text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 font-semibold py-2 transition">AI Planner</a>
+                <button class="theme-toggle text-white dark:text-slate-100 hover:text-yellow-300 dark:hover:text-yellow-300 w-full justify-center py-2 transition" id="themeToggleMobile">
                     <i class="fas fa-moon" id="themeIconMobile"></i> Toggle Theme
                 </button>
-                <a href="/" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-center">Book Now</a>
+                <a href="/book-now" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-center hover:scale-105 transition">Book Now</a>
             </div>
         </div>
     </nav>

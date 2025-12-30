@@ -11,7 +11,7 @@ const destinationSchema = new mongoose.Schema({
         enum: ['North', 'South', 'East', 'West', 'Northeast'],
         required: true
     },
-    description: String,
+    description: String,    
     shortDescription: String,
     image: String,
     bestTimeToVisit: String,

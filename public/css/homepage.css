@@ -44,7 +44,6 @@ video:not([src]):not([poster]) {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 1rem;
-    padding: 0.5rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
@@ -70,6 +69,58 @@ video:not([src]):not([poster]) {
 
 .dark .search-modern input::placeholder {
     color: #d1d5db;
+}
+
+/* Enhanced Search Bar Styling */
+.search-modern input:focus,
+.search-modern select:focus {
+    color: inherit;
+}
+
+/* Quick Filter Buttons */
+.quick-filter {
+    cursor: pointer;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.quick-filter:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.quick-filter:active {
+    transform: translateY(0);
+}
+
+/* Ensure inputs are visible */
+#searchDestination,
+#searchMonth,
+#searchDuration,
+#searchBudget {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+#searchDuration option,
+#searchBudget option {
+    background-color: #1f2937;
+    color: white;
+}
+
+.dark #searchDuration option,
+.dark #searchBudget option {
+    background-color: #1e293b;
+    color: #f1f5f9;
+}
+
+/* Search form responsive adjustments */
+@media (max-width: 640px) {
+    #searchForm {
+        gap: 1.25rem;
+    }
 }
 
 /* ==================== INDIA MAP CONTAINER ==================== */
@@ -225,4 +276,223 @@ video:not([src]):not([poster]) {
 
 .region-btn:active {
     transform: scale(0.98);
+}
+/* ==================== RESPONSIVE IMPROVEMENTS ==================== */
+
+/* Mobile First - Extra Small Devices (xs: <640px) */
+@media (max-width: 640px) {
+    .search-modern {
+        padding: 0.25rem;
+    }
+    
+    .search-modern input,
+    .search-modern select {
+        font-size: 14px;
+    }
+    
+    h1 {
+        overflow-wrap: break-word;
+    }
+}
+
+/* Small Devices (sm: 640px - 768px) */
+@media (min-width: 640px) and (max-width: 768px) {
+    .search-modern {
+        padding: 0.5rem;
+    }
+}
+
+/* Medium Devices (md: 768px - 1024px) */
+@media (min-width: 768px) {
+    .search-modern {
+        padding: 0.75rem;
+    }
+}
+
+/* Large Devices (lg: 1024px+) */
+@media (min-width: 1024px) {
+    .search-modern {
+        padding: 1rem;
+    }
+}
+
+/* Touch Device Improvements */
+@media (hover: none) and (pointer: coarse) {
+    button,
+    a {
+        padding: 0.75rem 1.25rem;
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    input,
+    select {
+        min-height: 44px;
+    }
+}
+
+/* Landscape Mode Optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+    section {
+        padding: 2rem 0;
+    }
+    
+    .min-h-screen {
+        min-height: auto;
+        height: auto;
+    }
+}
+
+/* High Resolution Displays */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+/* ==================== CREATIVE ANIMATIONS ==================== */
+
+/* Shimmer Text Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.animate-shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Glow Pulse */
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+    }
+}
+
+.glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Rotate Infinite */
+@keyframes rotateInfinite {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-rotate-infinite {
+    animation: rotateInfinite 3s linear infinite;
+}
+
+/* Bounce Subtle */
+@keyframes bounceSubtle {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce-subtle {
+    animation: bounceSubtle 2s ease-in-out infinite;
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+}
+
+/* Scale Pulse */
+@keyframes scalePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.scale-pulse {
+    animation: scalePulse 2s ease-in-out infinite;
+}
+
+/* Gradient Shift */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient-shift {
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+}
+
+/* Print Styles */
+@media print {
+    .sticky,
+    .animate-bounce,
+    button[type="submit"],
+    .ripple {
+        display: none !important;
+    }
 }

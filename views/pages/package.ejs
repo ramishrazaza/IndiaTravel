@@ -1,95 +1,179 @@
 <% layout('layouts/boilerplate') -%>
 
 <% block('head', `
-    <link rel="stylesheet" href="/css/destination.css">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+        }
+        
+        .package-hero {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .package-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .package-hero-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        
+        .package-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 2rem;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .package-hero-title {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .package-hero-info {
+            font-size: clamp(0.875rem, 3vw, 1.25rem);
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        /* Mobile overflow prevention */
+        @media (max-width: 640px) {
+            .package-hero-content {
+                padding: 1.5rem;
+            }
+            
+            .package-hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .package-hero-info {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
 `) -%>
 
 <!-- 🔹 1. HERO SECTION -->
-<section id="hero" class="hero-section">
-    <img src="<%= package.image %>" alt="<%= package.name %>" class="hero-image">
-    <div class="hero-overlay"></div>
+<section class="package-hero">
+    <img src="<%= package.image %>" alt="<%= package.name %>" class="package-hero-image">
+    <div class="absolute inset-0 bg-black/40 z-[1]"></div>
     
-    <div class="hero-content px-6 max-w-4xl mx-auto">
-        <h1 class="hero-title fade-in">
+    <div class="package-hero-content">
+        <h1 class="package-hero-title" data-aos="fade-up">
             <%= package.name %>
         </h1>
-        <p class="hero-tagline fade-in" data-aos="fade-up" data-aos-delay="200">
-            <%= package.tagline %>
+        <p class="package-hero-info" data-aos="fade-up" data-aos-delay="100">
+            <%= package.destination %> • <%= package.duration %> • ₹<%= typeof package.price === 'number' ? package.price.toLocaleString() : package.price %>
         </p>
         
-        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mt-10" data-aos="fade-up" data-aos-delay="400">
-            <a href="#book" class="w-full sm:w-auto bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ripple text-center">
-                Book Now
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center" data-aos="fade-up" data-aos-delay="200">
+            <a href="#book" class="px-8 py-3 rounded-lg font-bold text-lg bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                <i class="fas fa-calendar-check mr-2"></i>Book Now
             </a>
-            <a href="#details" class="w-full sm:w-auto border-2 border-white text-white px-8 sm:px-12 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 text-center">
-                View Details ↓
+            <a href="#details" class="px-8 py-3 rounded-lg font-bold text-lg border-2 border-white text-white hover:bg-white hover:text-purple-600 transition-all duration-300">
+                Explore Details
             </a>
         </div>
-    </div>
-    
-    <div class="scroll-indicator">
-        <i class="fas fa-chevron-down text-white text-2xl"></i>
     </div>
 </section>
 
 <!-- 🔹 2. QUICK FACTS BAR -->
-<section id="quick-facts" class="quick-facts-section">
+<section class="py-16 bg-white dark:bg-slate-900">
     <div class="container mx-auto px-4">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 md:p-10 transform -translate-y-16">
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
-                <div class="flex flex-col items-center justify-center text-center">
-                    <div class="text-4xl mb-3">📅</div>
-                    <h4 class="text-xs md:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Duration</h4>
-                    <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white break-words"><%= package.duration %></p>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center text-center">
-                    <div class="text-4xl mb-3">📍</div>
-                    <h4 class="text-xs md:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Destination</h4>
-                    <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white break-words"><%= package.destination %></p>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center text-center">
-                    <div class="text-4xl mb-3">👥</div>
-                    <h4 class="text-xs md:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Group Size</h4>
-                    <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white break-words"><%= package.groupSize %></p>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center text-center">
-                    <div class="text-4xl mb-3">🎯</div>
-                    <h4 class="text-xs md:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Category</h4>
-                    <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white break-words"><%= package.category %></p>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center text-center">
-                    <div class="text-4xl mb-3">💰</div>
-                    <h4 class="text-xs md:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Price</h4>
-                    <p class="text-base md:text-lg font-bold text-purple-600 dark:text-purple-400 break-words"><%= package.price %></p>
-                </div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 hover:shadow-lg transition-all" data-aos="fade-up">
+                <div class="text-3xl md:text-4xl mb-2">📅</div>
+                <h4 class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1">Duration</h4>
+                <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white text-center break-words"><%= package.duration || 'N/A' %></p>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:shadow-lg transition-all" data-aos="fade-up" data-aos-delay="50">
+                <div class="text-3xl md:text-4xl mb-2">📍</div>
+                <h4 class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1">Destination</h4>
+                <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white text-center break-words"><%= package.destination || 'N/A' %></p>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 hover:shadow-lg transition-all" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-3xl md:text-4xl mb-2">👥</div>
+                <h4 class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1">Group Size</h4>
+                <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white text-center break-words"><%= package.groupSize || 'N/A' %></p>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 hover:shadow-lg transition-all" data-aos="fade-up" data-aos-delay="150">
+                <div class="text-3xl md:text-4xl mb-2">📊</div>
+                <h4 class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1">Difficulty</h4>
+                <p class="text-base md:text-lg font-bold text-gray-900 dark:text-white text-center break-words"><%= package.difficulty || 'Moderate' %></p>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 hover:shadow-lg transition-all" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-3xl md:text-4xl mb-2">💰</div>
+                <h4 class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1">Price</h4>
+                <p class="text-base md:text-lg font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent"><%= typeof package.price === 'number' ? '₹' + package.price.toLocaleString() : package.price %></p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- 🔹 3. PACKAGE OVERVIEW -->
-<section id="details" class="about-section">
+<section id="details" class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
     <div class="container mx-auto px-4">
-        <div class="about-container">
-            <div class="about-image" data-aos="fade-right">
-                <img src="<%= package.image %>" alt="<%= package.name %>">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <!-- Image -->
+            <div data-aos="fade-right" class="rounded-2xl overflow-hidden shadow-2xl h-96 lg:h-full min-h-96">
+                <img src="<%= package.image %>" alt="<%= package.name %>" class="w-full h-full object-cover">
             </div>
             
-            <div class="about-content" data-aos="fade-left">
-                <h2 class="about-title">
-                    About this <span class="gradient-text">Package</span>
-                </h2>
-                <div class="about-text">
-                    <%- package.fullDescription %>
+            <!-- Content -->
+            <div data-aos="fade-left">
+                <div class="mb-8">
+                    <div class="inline-block mb-4">
+                        <span class="px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-600 text-white">
+                            <%= package.category || 'Adventure' %>
+                        </span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                        Package <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Overview</span>
+                    </h2>
+                    <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        <%- package.description || 'Discover the beauty and adventure this package has to offer. A carefully crafted itinerary designed to give you an unforgettable experience.' %>
+                    </p>
                 </div>
                 
                 <!-- Rating -->
-                <div class="flex items-center gap-4 my-6">
-                    <div class="flex text-yellow-400">
+                <div class="flex items-center gap-4 py-6 border-y border-gray-200 dark:border-gray-700">
+                    <div class="flex text-yellow-400 gap-1">
                         <% for(let i = 0; i < Math.floor(package.rating); i++) { %>
                             <i class="fas fa-star text-lg"></i>
                         <% } %>
@@ -97,12 +181,17 @@
                             <i class="fas fa-star-half-alt text-lg"></i>
                         <% } %>
                     </div>
-                    <span class="font-semibold text-gray-700 dark:text-gray-300"><%= package.rating %> (<%= package.reviews %> reviews)</span>
+                    <span class="text-lg font-bold text-gray-900 dark:text-white"><%= package.rating %></span>
+                    <span class="text-gray-600 dark:text-gray-400">(<%= package.reviewCount || 0 %> reviews)</span>
                 </div>
                 
-                <div class="flex gap-4 mt-8">
-                    <a href="#book" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-3 rounded-lg font-bold hover:shadow-lg transition-all">
-                        Book This Package
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                    <a href="#book" class="flex-1 px-8 py-4 rounded-lg font-bold text-lg text-center text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <i class="fas fa-calendar-check mr-2"></i>Book Package
+                    </a>
+                    <a href="#itinerary" class="flex-1 px-8 py-4 rounded-lg font-bold text-lg text-center border-2 border-purple-600 text-purple-600 dark:text-purple-400 dark:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-all duration-300">
+                        <i class="fas fa-list-check mr-2"></i>View Itinerary
                     </a>
                 </div>
             </div>
@@ -111,93 +200,123 @@
 </section>
 
 <!-- 🔹 4. HIGHLIGHTS SECTION -->
-<section id="highlights" class="py-20 bg-gray-50 dark:bg-slate-800">
+<section class="py-20 bg-white dark:bg-slate-900">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">
-                Package <span class="gradient-text">Highlights</span>
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Why Choose This <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Package?</span>
             </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400">Curated experiences and exclusive benefits</p>
         </div>
         
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <% package.highlights.forEach((highlight, idx) => { %>
-                <div class="text-center p-6 rounded-lg bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="<%= idx * 80 %>">
-                    <i class="fas fa-star text-3xl text-yellow-400 mb-3"></i>
-                    <p class="font-semibold text-gray-800 dark:text-white"><%= highlight %></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <% if (package.description && package.description.length > 0) { %>
+                <% const highlights = package.description.split('.').filter(h => h.trim().length > 0).slice(0, 4); %>
+                <% const icons = ['✨', '🏆', '💎', '🌟']; %>
+                <% highlights.forEach((highlight, idx) => { %>
+                    <div class="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200 dark:border-purple-800/50 hover:shadow-lg hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="<%= idx * 80 %>">
+                        <div class="text-4xl mb-3"><%= icons[idx] %></div>
+                        <p class="font-semibold text-gray-800 dark:text-white"><%= highlight.trim().substring(0, 60) %></p>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 col-span-1 md:col-span-2 lg:col-span-4 text-center">
+                    <p class="text-gray-600 dark:text-gray-400">Premium package features await</p>
                 </div>
-            <% }); %>
+            <% } %>
         </div>
     </div>
 </section>
 
 <!-- 🔹 5. ITINERARY SECTION -->
-<section id="itinerary" class="py-20">
+<section id="itinerary" class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">
-                Detailed <span class="gradient-text">Itinerary</span>
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Your <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Adventure Awaits</span>
             </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-300">Day-by-day breakdown of your package</p>
+            <p class="text-lg text-gray-600 dark:text-gray-400">Day-by-day breakdown of your unforgettable journey</p>
         </div>
         
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
-            <% package.itinerary.forEach((day, idx) => { %>
-                <div class="card-modern p-6 rounded-lg" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
-                            <% if (typeof day.day === 'string') { %>
-                                <%= day.day.split('-')[0] %>
-                            <% } else { %>
-                                <%= day.day %>
-                            <% } %>
+        <div class="grid gap-8 md:grid-cols-2">
+            <% if (package.itinerary && Array.isArray(package.itinerary) && package.itinerary.length > 0) { %>
+                <% package.itinerary.forEach((day, idx) => { %>
+                    <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                                <%= idx + 1 %>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                                Day <%= idx + 1 %>
+                            </h3>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white"><%= day.title %></h3>
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                            <%= typeof day === 'string' ? day : (day.description || day.title || 'Activity day') %>
+                        </p>
                     </div>
-                    <ul class="space-y-2">
-                        <% day.activities.forEach(activity => { %>
-                            <li class="flex items-start gap-2 text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-check-circle text-green-500 mt-1 flex-shrink-0"></i>
-                                <span><%= activity %></span>
-                            </li>
-                        <% }); %>
-                    </ul>
+                <% }); %>
+            <% } else { %>
+                <div class="p-8 rounded-2xl bg-white dark:bg-slate-800 col-span-1 md:col-span-2 text-center border-2 border-dashed border-gray-300 dark:border-gray-600">
+                    <p class="text-gray-600 dark:text-gray-400 font-semibold">Detailed itinerary coming soon</p>
                 </div>
-            <% }); %>
+            <% } %>
         </div>
     </div>
 </section>
 
 <!-- 🔹 6. INCLUDES & EXCLUDES -->
-<section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
+<section class="py-20 bg-white dark:bg-slate-900">
     <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 gap-12">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                What's <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Included</span>
+            </h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
             <!-- Includes -->
-            <div data-aos="fade-right" class="bg-white dark:bg-slate-700 rounded-2xl p-10 shadow-lg hover:shadow-xl transition-shadow">
-                <h3 class="text-3xl font-heading font-bold mb-8 flex items-center gap-3 text-gray-800 dark:text-white">
-                    <span class="text-4xl">✓</span> What's Included
+            <div data-aos="fade-right" class="p-8 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border-2 border-green-200 dark:border-green-800/50">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">✓</span>
+                    Included
                 </h3>
-                <ul class="space-y-4">
-                    <% package.includes.forEach((item, idx) => { %>
-                        <li class="flex items-start gap-4 text-gray-700 dark:text-gray-200 p-3 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors" data-aos="fade-right" data-aos-delay="<%= idx * 50 %>">
-                            <span class="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center flex-shrink-0 font-bold text-sm">✓</span>
-                            <span class="text-lg"><%= item %></span>
-                        </li>
-                    <% }); %>
+                <ul class="space-y-3">
+                    <% if (package.inclusions && Array.isArray(package.inclusions) && package.inclusions.length > 0) { %>
+                        <% package.inclusions.forEach((item, idx) => { %>
+                            <li class="flex items-start gap-3 text-gray-700 dark:text-gray-200" data-aos="fade-right" data-aos-delay="<%= idx * 50 %>">
+                                <span class="text-green-600 dark:text-green-400 font-bold text-lg mt-1">✓</span>
+                                <span><%= item %></span>
+                            </li>
+                        <% }); %>
+                    <% } else { %>
+                        <li class="text-gray-700 dark:text-gray-300">Carefully selected accommodation</li>
+                        <li class="text-gray-700 dark:text-gray-300">Daily breakfast and key meals</li>
+                        <li class="text-gray-700 dark:text-gray-300">Expert guided tours</li>
+                        <li class="text-gray-700 dark:text-gray-300">Transportation during the package</li>
+                    <% } %>
                 </ul>
             </div>
             
             <!-- Excludes -->
-            <div data-aos="fade-left" class="bg-white dark:bg-slate-700 rounded-2xl p-10 shadow-lg hover:shadow-xl transition-shadow">
-                <h3 class="text-3xl font-heading font-bold mb-8 flex items-center gap-3 text-gray-800 dark:text-white">
-                    <span class="text-4xl">✕</span> What's Not Included
+            <div data-aos="fade-left" class="p-8 rounded-2xl bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border-2 border-red-200 dark:border-red-800/50">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold">✕</span>
+                    Not Included
                 </h3>
-                <ul class="space-y-4">
-                    <% package.excludes.forEach((item, idx) => { %>
-                        <li class="flex items-start gap-4 text-gray-700 dark:text-gray-200 p-3 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" data-aos="fade-left" data-aos-delay="<%= idx * 50 %>">
-                            <span class="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center flex-shrink-0 font-bold text-sm">✕</span>
-                            <span class="text-lg"><%= item %></span>
-                        </li>
-                    <% }); %>
+                <ul class="space-y-3">
+                    <% if (package.exclusions && Array.isArray(package.exclusions) && package.exclusions.length > 0) { %>
+                        <% package.exclusions.forEach((item, idx) => { %>
+                            <li class="flex items-start gap-3 text-gray-700 dark:text-gray-200" data-aos="fade-left" data-aos-delay="<%= idx * 50 %>">
+                                <span class="text-red-600 dark:text-red-400 font-bold text-lg mt-1">✕</span>
+                                <span><%= item %></span>
+                            </li>
+                        <% }); %>
+                    <% } else { %>
+                        <li class="text-gray-700 dark:text-gray-300">International flights</li>
+                        <li class="text-gray-700 dark:text-gray-300">Travel insurance</li>
+                        <li class="text-gray-700 dark:text-gray-300">Personal expenses</li>
+                        <li class="text-gray-700 dark:text-gray-300">Items not mentioned in itinerary</li>
+                    <% } %>
                 </ul>
             </div>
         </div>
@@ -205,80 +324,100 @@
 </section>
 
 <!-- 🔹 7. ADDITIONAL INFO -->
-<section class="py-20">
+<section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-slate-900 dark:to-slate-800">
     <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 gap-12">
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-10 border-l-4 border-blue-500 hover:shadow-lg transition-shadow" data-aos="fade-up">
-                <h3 class="text-2xl font-heading font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-3">
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-2 border-blue-200 dark:border-blue-800/50 hover:shadow-lg transition-shadow" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white flex items-center gap-3">
                     <span class="text-4xl">📅</span> Best Season
                 </h3>
-                <p class="text-lg text-gray-700 dark:text-gray-300"><%= package.bestSeason %></p>
+                <p class="text-lg text-gray-700 dark:text-gray-300">
+                    <% if (package.bestSeason && Array.isArray(package.bestSeason) && package.bestSeason.length > 0) { %>
+                        <%= package.bestSeason.join(', ') %>
+                    <% } else { %>
+                        Year-round destination with unique experiences in each season
+                    <% } %>
+                </p>
             </div>
             
-            <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-2xl p-10 border-l-4 border-red-500 hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="100">
-                <h3 class="text-2xl font-heading font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-3">
-                    <span class="text-4xl">💪</span> Physical Requirement
+            <div class="p-8 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border-2 border-orange-200 dark:border-orange-800/50 hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white flex items-center gap-3">
+                    <span class="text-4xl">📊</span> Difficulty Level
                 </h3>
-                <p class="text-lg text-gray-700 dark:text-gray-300"><%= package.physicalRequirement %></p>
+                <p class="text-lg text-gray-700 dark:text-gray-300 font-semibold">
+                    <% if (package.difficulty) { %>
+                        <span class="inline-block px-3 py-1 rounded-full bg-orange-500 text-white text-sm">
+                            <%= package.difficulty %>
+                        </span>
+                    <% } else { %>
+                        Moderate
+                    <% } %>
+                </p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- 🔹 8. BOOKING SECTION -->
-<section id="book" class="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 dark:from-blue-700 dark:via-purple-700 dark:to-purple-800 relative overflow-hidden">
-    <!-- Animated background shapes -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-    <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+<section id="book" class="py-24 bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600 dark:from-purple-800 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-80 h-80 bg-white rounded-full blur-3xl"></div>
+    </div>
     
-    <div class="container mx-auto px-4 relative z-10 text-center" data-aos="fade-up">
-        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Ready to Book?</h2>
-        <p class="text-xl text-gray-100 mb-10 max-w-2xl mx-auto leading-relaxed">Secure your spot for the <%= package.name %> package today and start planning your Indian adventure</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="#" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-14 py-5 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ripple">
-                <i class="fas fa-calendar-check mr-2"></i> Book Now - <%= package.price.split(' - ')[0] %>
-            </a>
-            <a href="#details" class="border-2 border-white text-white px-14 py-5 rounded-full font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300">
-                <i class="fas fa-info-circle mr-2"></i> Learn More
-            </a>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Embark on Your Journey?</h2>
+            <p class="text-xl text-purple-100 mb-10 leading-relaxed">
+                Secure your spot for the <strong><%= package.name %></strong> package today. Experience the adventure of a lifetime with expert guides and unforgettable memories.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#" class="px-10 py-4 rounded-lg font-bold text-lg text-purple-600 bg-white hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <i class="fas fa-calendar-check mr-2"></i>Book Now - <% if (typeof package.price === 'number') { %>₹<%= package.price.toLocaleString() %><% } else { %><%= package.price %><% } %>
+                </a>
+                <a href="#details" class="px-10 py-4 rounded-lg font-bold text-lg border-2 border-white text-white hover:bg-white hover:text-purple-600 transition-all duration-300">
+                    <i class="fas fa-info-circle mr-2"></i>More Details
+                </a>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- 🔹 9. SIMILAR PACKAGES -->
-<% if (similarPackages && similarPackages.length > 0) { %>
+<!-- 🔹 9. RELATED PACKAGES -->
+<% if (relatedPackages && relatedPackages.length > 0) { %>
     <section class="py-20 bg-gray-50 dark:bg-slate-800">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">
-                    More <span class="gradient-text"><%= package.category %></span> Packages
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    Explore More <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"><%= package.category || 'Amazing' %></span> Packages
                 </h2>
-                <p class="text-xl text-gray-600 dark:text-gray-300">Explore other amazing packages in the same category</p>
+                <p class="text-lg text-gray-600 dark:text-gray-400">Discover other incredible packages in the same category</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <% similarPackages.forEach((pkg, idx) => { %>
-                    <a href="/packages/<%= pkg.id %>" class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-80" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
+                <% relatedPackages.forEach((pkg, idx) => { %>
+                    <a href="/packages/<%= pkg._id %>" class="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-96" data-aos="fade-up" data-aos-delay="<%= idx * 100 %>">
                         <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                         
-                        <div class="absolute inset-0 p-6 flex flex-col justify-between">
+                        <div class="absolute inset-0 p-6 flex flex-col justify-between text-white">
                             <div class="flex justify-between items-start">
-                                <span class="tag-pill bg-purple-500 text-white font-semibold text-xs py-1 px-3 rounded-full">
-                                    <%= pkg.category %>
+                                <span class="px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-purple-500 to-purple-600">
+                                    <%= pkg.category || 'Package' %>
                                 </span>
-                                <div class="flex text-yellow-400 bg-black bg-opacity-50 px-3 py-1 rounded-full">
-                                    <i class="fas fa-star text-xs"></i>
-                                    <span class="ml-1 text-xs font-semibold text-white"><%= pkg.rating %></span>
+                                <div class="flex items-center gap-2 bg-black/50 px-3 py-2 rounded-full">
+                                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                                    <span class="text-sm font-bold"><%= pkg.rating || 4.5 %></span>
                                 </div>
                             </div>
                             
                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <h3 class="text-xl font-bold text-white mb-2"><%= pkg.name %></h3>
-                                <p class="text-gray-200 text-sm mb-4"><%= pkg.duration %> • <%= pkg.destination %></p>
-                                <span class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2 rounded-lg font-semibold text-sm">
-                                    View <i class="fas fa-arrow-right ml-2"></i>
+                                <h3 class="text-2xl font-bold mb-2"><%= pkg.name %></h3>
+                                <p class="text-purple-200 text-sm mb-4"><%= pkg.duration %> • <%= pkg.destination %></p>
+                                <span class="inline-block bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 px-6 py-2 rounded-lg font-bold transition-all">
+                                    Explore <i class="fas fa-arrow-right ml-2"></i>
                                 </span>
                             </div>
                         </div>
