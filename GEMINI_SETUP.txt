@@ -1,0 +1,65 @@
+## 🤖 AI Trip Planner - Gemini Setup (30 seconds)
+
+### What Changed?
+✅ Now uses **Google Gemini** (completely OpenAI-free!)
+✅ **FREE** API (unlike OpenAI)
+✅ More powerful model
+✅ Same great itineraries
+
+### Setup (30 Seconds)
+
+```bash
+# The Gemini API key is ALREADY in your .env file!
+# That's it! Just restart:
+
+npm start
+
+# Visit: http://localhost:3000/ai-trip-planner
+```
+
+### Already Configured!
+
+Your `.env` already has:
+```
+GEMINI_API_KEY=AIzaSyA994U2_mvKihCmlOksXSsooQwfLfug_vs
+```
+
+Just restart the server and you're done! 🚀
+
+---
+
+## Test It
+
+1. **Visit**: http://localhost:3000/ai-trip-planner
+2. **Fill form** with your preferences
+3. **Watch** the magic (2-3 seconds)
+4. **Get** personalized AI itinerary
+
+---
+
+## What's Different?
+
+| OpenAI | Gemini |
+|--------|--------|
+| ❌ Paid | ✅ FREE |
+| ❌ Complex setup | ✅ Already setup |
+| ❌ $0.0015 per plan | ✅ $0 cost |
+| ❌ ChatGPT only | ✅ Google Gemini |
+
+---
+
+## Logs You'll See
+
+```
+✅ AI plan generated successfully for Taj Mahal using Gemini
+```
+
+or fallback:
+
+```
+🔄 Falling back to rule-based itinerary...
+```
+
+---
+
+Done! Enjoy AI itineraries powered by Google Gemini! ✨

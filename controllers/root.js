@@ -558,10 +558,70 @@ module.exports.renderPlanTripPage = async (req, res) => {
         const experiences = await Experience.find().select('title category');
         const packages = await Package.find().select('name destination');
         
+        // Define travel planning options
+        const travelStyles = [
+            { label: 'Adventure', icon: 'fa-mountain' },
+            { label: 'Culture', icon: 'fa-landmark' },
+            { label: 'Relaxation', icon: 'fa-spa' },
+            { label: 'Food & Wine', icon: 'fa-utensils' }
+        ];
+        
+        const accommodationTypes = [
+            { label: 'Luxury Hotels', icon: 'fa-crown' },
+            { label: 'Budget Hotels', icon: 'fa-bed' },
+            { label: 'Resorts', icon: 'fa-tree' },
+            { label: 'Homestays', icon: 'fa-house' }
+        ];
+        
+        const transportModes = [
+            { label: 'Flight', icon: 'fa-plane' },
+            { label: 'Train', icon: 'fa-train' },
+            { label: 'Car', icon: 'fa-car' },
+            { label: 'Bus', icon: 'fa-bus' }
+        ];
+        
+        const interests = [
+            { label: 'History & Heritage', icon: 'fa-history' },
+            { label: 'Nature & Wildlife', icon: 'fa-leaf' },
+            { label: 'Spirituality', icon: 'fa-om' },
+            { label: 'Adventure Sports', icon: 'fa-person-hiking' },
+            { label: 'Photography', icon: 'fa-camera' },
+            { label: 'Local Cuisine', icon: 'fa-drumstick-bite' }
+        ];
+        
+        const testimonials = [
+            {
+                name: 'Sarah Johnson',
+                location: 'USA',
+                rating: 5,
+                image: 'https://via.placeholder.com/80',
+                quote: 'An unforgettable experience! The team made everything seamless and magical.'
+            },
+            {
+                name: 'Michael Chen',
+                location: 'Singapore',
+                rating: 5,
+                image: 'https://via.placeholder.com/80',
+                quote: 'Best trip of my life. Highly recommended for anyone seeking authentic India.'
+            },
+            {
+                name: 'Emma Wilson',
+                location: 'UK',
+                rating: 4.5,
+                image: 'https://via.placeholder.com/80',
+                quote: 'Great guides, comfortable accommodations, and incredible memories.'
+            }
+        ];
+        
         res.render('pages/plan-trip', { 
             destinations,
             experiences,
-            packages
+            packages,
+            travelStyles,
+            accommodationTypes,
+            transportModes,
+            interests,
+            testimonials
         });
     } catch (error) {
         console.error('Error rendering plan trip page:', error);
@@ -572,12 +632,42 @@ module.exports.renderPlanTripPage = async (req, res) => {
 // ==================== BOOK NOW ====================
 module.exports.renderBookNowPage = async (req, res) => {
     try {
-        const packages = await Package.find();
+        const packages = await Package.find().limit(6);
         const destinations = await Destination.find().select('name');
         
+        // Format destination names for dropdown
+        const destinationNames = destinations.map(d => d.name);
+        
+        // Define months
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        
+        // Define budget ranges
+        const budgetRanges = [
+            '₹30,000 - ₹50,000',
+            '₹50,000 - ₹1,00,000',
+            '₹1,00,000 - ₹2,00,000',
+            '₹2,00,000 - ₹5,00,000',
+            '₹5,00,000+'
+        ];
+        
+        // Format popular packages with required fields
+        const popularPackages = packages.map(pkg => ({
+            name: pkg.name,
+            image: pkg.image || 'https://via.placeholder.com/400x300',
+            duration: pkg.duration || 'N/A',
+            price: typeof pkg.price === 'number' ? '₹' + pkg.price.toLocaleString() : pkg.price,
+            highlights: pkg.inclusions && Array.isArray(pkg.inclusions) ? pkg.inclusions.slice(0, 3) : ['Expert guides', 'Accommodation', 'Meals']
+        }));
+        
         res.render('pages/book-now', { 
-            packages,
-            destinations
+            packages: popularPackages,
+            destinations: destinationNames,
+            months,
+            budgetRanges,
+            popularPackages
         });
     } catch (error) {
         console.error('Error rendering book now page:', error);
@@ -785,7 +875,7 @@ module.exports.searchAll = async (req, res) => {
         const { q } = req.query;
         
         if (!q || q.trim().length < 2) {
-            return res.json({ success: true, data: { destinations: [], experiences: [], blogs: [], packages: [] } });
+            return res.json({ destinations: [], experiences: [], blogs: [], packages: [], testimonials: [] });
         }
         
         const searchRegex = { $regex: q, $options: 'i' };
@@ -794,14 +884,15 @@ module.exports.searchAll = async (req, res) => {
             $or: [
                 { name: searchRegex },
                 { description: searchRegex },
-                { attractions: searchRegex }
+                { region: searchRegex }
             ]
         }).limit(5);
         
         const experiences = await Experience.find({
             $or: [
                 { title: searchRegex },
-                { description: searchRegex }
+                { description: searchRegex },
+                { category: searchRegex }
             ]
         }).limit(5);
         
@@ -809,7 +900,8 @@ module.exports.searchAll = async (req, res) => {
             $or: [
                 { title: searchRegex },
                 { excerpt: searchRegex },
-                { content: searchRegex }
+                { content: searchRegex },
+                { category: searchRegex }
             ]
         }).limit(5);
         
@@ -820,9 +912,20 @@ module.exports.searchAll = async (req, res) => {
             ]
         }).limit(5);
         
+        const testimonials = await Testimonial.find({
+            $or: [
+                { name: searchRegex },
+                { location: searchRegex },
+                { text: searchRegex }
+            ]
+        }).limit(5);
+        
         res.json({ 
-            success: true, 
-            data: { destinations, experiences, blogs, packages }
+            destinations, 
+            experiences, 
+            blogs, 
+            packages,
+            testimonials
         });
     } catch (error) {
         console.error('Error searching:', error);
@@ -2076,97 +2179,7 @@ module.exports.renderBlogDetailPage = (req, res) => {
     res.render('pages/blog', { blog, relatedBlogs });
 }
 
-module.exports.renderPlanTripPage = (req, res) => {
-    const destinations = [
-        'Kerala',
-        'Rajasthan',
-        'Goa',
-        'Himachal Pradesh',
-        'Tamil Nadu',
-        'Uttar Pradesh',
-        'Karnataka',
-        'Uttarakhand',
-        'Maharashtra',
-        'Andhra Pradesh'
-    ];
-
-    const travelStyles = [
-        { id: 'budget', label: 'Budget', icon: 'fa-dollar-sign' },
-        { id: 'luxury', label: 'Luxury', icon: 'fa-crown' },
-        { id: 'adventure', label: 'Adventure', icon: 'fa-mountain' },
-        { id: 'relaxation', label: 'Relaxation', icon: 'fa-spa' },
-        { id: 'spiritual', label: 'Spiritual', icon: 'fa-om' },
-        { id: 'family', label: 'Family', icon: 'fa-people-group' }
-    ];
-
-    const interests = [
-        'Nature',
-        'Culture',
-        'Food',
-        'Wildlife',
-        'Shopping',
-        'Photography',
-        'History',
-        'Adventure Sports'
-    ];
-
-    const accommodationTypes = [
-        'Hotels',
-        'Resorts',
-        'Homestays',
-        'Houseboats',
-        'Heritage Stays',
-        'Luxury Villas'
-    ];
-
-    const transportModes = [
-        'Flight',
-        'Train',
-        'Car Rental',
-        'Bus'
-    ];
-
-    const testimonials = [
-        {
-            name: 'Rajesh Kumar',
-            destination: 'Kerala',
-            rating: 5,
-            text: 'Amazing experience! The itinerary was perfectly customized and the local guides were incredibly helpful.',
-            image: 'https://i.pravatar.cc/150?img=1'
-        },
-        {
-            name: 'Priya Sharma',
-            destination: 'Rajasthan',
-            rating: 5,
-            text: 'Best decision to book with them. Felt like having a friend guiding us through every place!',
-            image: 'https://i.pravatar.cc/150?img=2'
-        },
-        {
-            name: 'Michael Thompson',
-            destination: 'Himachal Pradesh',
-            rating: 5,
-            text: 'Highly professional team. They handled everything seamlessly. Will definitely book again!',
-            image: 'https://i.pravatar.cc/150?img=3'
-        },
-        {
-            name: 'Anjali Patel',
-            destination: 'Goa',
-            rating: 5,
-            text: 'The best price guarantee saved us money, and we got premium experience. Worth every rupee!',
-            image: 'https://i.pravatar.cc/150?img=4'
-        }
-    ];
-
-    res.render('pages/plan-trip', { 
-        destinations, 
-        travelStyles, 
-        interests, 
-        accommodationTypes, 
-        transportModes,
-        testimonials 
-    });
-}
-
+// Render plan trip page - moved to async version above
 module.exports.renderBookNowPage = (req, res) => {
     const destinations = [
         'Kerala',
@@ -2234,4 +2247,104 @@ module.exports.renderBookNowPage = (req, res) => {
         budgetRanges,
         popularPackages
     });
+}
+
+// ==================== TRIP BOOKING API ====================
+module.exports.submitTripBooking = async (req, res) => {
+    try {
+        const { destination, startDate, endDate, travelers, budget, travelStyle, accommodation, transport, interests, name, email, phone, message } = req.body;
+
+        // Validate required fields
+        if (!destination || !startDate || !endDate || !travelers || !budget || !name || !email || !phone) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please fill in all required fields',
+                errors: {
+                    destination: !destination ? 'Destination is required' : null,
+                    startDate: !startDate ? 'Start date is required' : null,
+                    endDate: !endDate ? 'End date is required' : null,
+                    travelers: !travelers ? 'Number of travelers is required' : null,
+                    budget: !budget ? 'Budget is required' : null,
+                    name: !name ? 'Name is required' : null,
+                    email: !email ? 'Email is required' : null,
+                    phone: !phone ? 'Phone is required' : null
+                }
+            });
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please enter a valid email address'
+            });
+        }
+
+        // Validate date logic
+        if (new Date(startDate) >= new Date(endDate)) {
+            return res.status(400).json({
+                success: false,
+                message: 'End date must be after start date'
+            });
+        }
+
+        // Parse destination (it comes as JSON string from form)
+        let destinationData;
+        try {
+            destinationData = typeof destination === 'string' ? JSON.parse(destination) : destination;
+        } catch (e) {
+            destinationData = { name: destination, region: 'North' };
+        }
+
+        // Create new trip booking
+        const TripBooking = require('../models/TripBooking');
+        
+        const booking = new TripBooking({
+            destination: destinationData.name || destination,
+            travelMonth: startDate,
+            endDate: endDate,
+            travelers: parseInt(travelers) || 1,
+            budgetRange: budget,
+            travelStyles: Array.isArray(travelStyle) ? travelStyle : (travelStyle ? [travelStyle] : []),
+            accommodationType: accommodation || 'Not specified',
+            transportMode: transport || 'Not specified',
+            interests: Array.isArray(interests) ? interests : (interests ? [interests] : []),
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            phone: phone.trim(),
+            specialRequests: message || '',
+            status: 'pending',
+            priority: 'medium',
+            source: 'website'
+        });
+
+        // Save to database
+        await booking.save();
+
+        // Return success response
+        return res.status(201).json({
+            success: true,
+            message: 'Your trip booking request has been submitted successfully! Our team will contact you within 24 hours.',
+            bookingId: booking._id,
+            booking: {
+                id: booking._id,
+                name: booking.name,
+                email: booking.email,
+                destination: booking.destination,
+                travelMonth: booking.travelMonth,
+                travelers: booking.travelers,
+                status: booking.status,
+                createdAt: booking.createdAt
+            }
+        });
+
+    } catch (error) {
+        console.error('Error submitting trip booking:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while processing your booking. Please try again later.',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
 }

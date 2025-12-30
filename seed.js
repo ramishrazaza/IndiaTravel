@@ -6,6 +6,7 @@ const Experience = require('./models/Experience');
 const Blog = require('./models/Blog');
 const Testimonial = require('./models/Testimonial');
 const Package = require('./models/Package');
+const AIPlan = require('./models/AIPlan');
 
 const seedDatabase = async () => {
     try {
@@ -17,6 +18,7 @@ const seedDatabase = async () => {
         await Blog.deleteMany({});
         await Testimonial.deleteMany({});
         await Package.deleteMany({});
+        await AIPlan.deleteMany({});
         
         console.log('🗑️  Cleared existing data');
         

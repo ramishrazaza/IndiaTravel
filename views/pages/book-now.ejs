@@ -344,13 +344,52 @@
     const quickForm = document.getElementById('quickBookForm');
     const selectPkgBtns = document.querySelectorAll('.select-pkg-btn');
 
+    // Map packages to destinations
+    const packageDestinationMap = {
+        'Taj Mahal & Agra Explorer': 'Taj Mahal',
+        'Kerala Backwater Cruise': 'Kerala Backwaters',
+        'Himalayan Adventure Trek': 'Himalayan Mountains',
+        'Goa Beach Getaway': 'Goa Beaches',
+        'Varanasi Spiritual Journey': 'Varanasi',
+        'Jaipur City Palace Tour': 'Jaipur',
+        'Darjeeling Tea Garden Escape': 'Darjeeling'
+    };
+
     // Pre-fill form if package is selected
     selectPkgBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
             const packageName = btn.dataset.package;
-            // Scroll to form
-            document.getElementById('quick-form').scrollIntoView({ behavior: 'smooth' });
-            // Could pre-fill destination based on package if needed
+            const destination = packageDestinationMap[packageName] || packageName;
+            
+            // Set destination in the form
+            const destSelect = document.getElementById('bookDestination');
+            console.log('Selected Package:', packageName);
+            console.log('Mapped Destination:', destination);
+            console.log('Available options:', Array.from(destSelect.options).map(o => o.value));
+            
+            // Try to find matching option
+            let found = false;
+            for (let option of destSelect.options) {
+                if (option.value === destination || option.textContent.trim() === destination) {
+                    destSelect.value = option.value;
+                    found = true;
+                    console.log('✅ Destination set to:', option.value);
+                    break;
+                }
+            }
+            
+            if (!found) {
+                console.log('⚠️ Destination not found in dropdown');
+            }
+            
+            // Scroll to form with slight delay to ensure DOM is ready
+            setTimeout(() => {
+                document.getElementById('quick-form').scrollIntoView({ behavior: 'smooth' });
+                // Focus on the next field (month)
+                setTimeout(() => {
+                    document.getElementById('bookMonth').focus();
+                }, 300);
+            }, 100);
         });
     });
 
@@ -360,21 +399,53 @@
 
         const formData = {
             destination: document.getElementById('bookDestination').value,
-            month: document.getElementById('bookMonth').value,
+            startDate: document.getElementById('bookMonth').value,
+            endDate: document.getElementById('bookMonth').value,
             travelers: document.getElementById('bookTravelers').value,
             budget: document.getElementById('bookBudget').value,
             name: document.getElementById('bookName').value,
+            email: 'inquiry@indiatravel.com',
             phone: document.getElementById('bookPhone').value,
-            intent: 'book-now',
-            priority: 'high',
-            createdAt: new Date().toISOString()
+            message: 'Quick booking from book-now page'
         };
 
-        console.log('Book Now Form Data:', formData);
-        alert('🎉 Thank you for booking!\n\nWe will call you within 24 hours with exclusive offers and custom itineraries.\n\nWhatsApp: ' + formData.phone);
-        
-        // Reset form
-        quickForm.reset();
+        // Show loading state
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
+        try {
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Show success message
+                showSuccessModal(data.message + ` (ID: ${data.bookingId})`);
+                quickForm.reset();
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 500);
+            } else {
+                // Show error message
+                const errorMsg = data.message || 'Failed to submit booking';
+                showErrorModal(errorMsg, data.errors || null, true);
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            showErrorModal('An error occurred while submitting your request', error.message, true);
+        } finally {
+            // Restore button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
     });
 
     // Initialize AOS

@@ -26,29 +26,29 @@
         </p>
         
         <!-- Search & Filter -->
-        <div class="max-w-2xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="400">
-            <div class="flex flex-col sm:flex-row gap-4">
+        <div class="max-w-2xl mx-auto mb-6 md:mb-8 px-2" data-aos="fade-up" data-aos-delay="400">
+            <div class="flex flex-col sm:flex-row gap-3">
                 <div class="flex-1 relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <i class="fas fa-search absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     <input 
                         type="text" 
                         id="searchInput" 
                         placeholder="Search experiences..." 
-                        class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full pl-10 md:pl-12 pr-3 md:pr-4 py-2 md:py-3 rounded-lg border-0 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
                     >
                 </div>
-                <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all ripple">
-                    <i class="fas fa-search mr-2"></i> Search
+                <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all ripple text-sm md:text-base whitespace-nowrap">
+                    <i class="fas fa-search mr-1 md:mr-2"></i> <span class="hidden sm:inline">Search</span>
                 </button>
             </div>
         </div>
 
         <!-- Category Filter -->
-        <div class="flex flex-wrap gap-3 justify-center mt-8" data-aos="fade-up" data-aos-delay="500">
-            <button class="filter-btn active" data-filter="all" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">All Types</button>
-            <button class="filter-btn" data-filter="adventure" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Adventure</button>
-            <button class="filter-btn" data-filter="culture" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Culture</button>
-            <button class="filter-btn" data-filter="wellness" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Wellness</button>
+        <div class="flex flex-wrap gap-2 md:gap-3 justify-center mt-6 md:mt-8 px-2" data-aos="fade-up" data-aos-delay="500">
+            <button class="filter-btn active" data-filter="all" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 6px 14px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 12px; white-space: nowrap;">All Types</button>
+            <button class="filter-btn" data-filter="adventure" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 12px; white-space: nowrap;">Adventure</button>
+            <button class="filter-btn" data-filter="culture" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 12px; white-space: nowrap;">Culture</button>
+            <button class="filter-btn" data-filter="wellness" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 12px; white-space: nowrap;">Wellness</button>
         </div>
     </div>
 
@@ -74,7 +74,7 @@
         <!-- Experiences Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="experiencesGrid">
             <% experiences.forEach((experience, index) => { %>
-                <a href="/experiences/<%= experience.id %>" class="experience-card group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 h-96" data-category="<%= experience.category.toLowerCase() %>" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                <a href="/experiences/experience?title=<%= experience.title %>&category=<%= experience.category %>" class="experience-card group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 h-96" data-category="<%= experience.category.toLowerCase() %>" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
                     <!-- Card Image -->
                     <img src="<%= experience.image %>" alt="<%= experience.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
                     
@@ -95,8 +95,8 @@
                     <!-- Bottom Content (animated on hover) -->
                     <div class="absolute inset-0 p-6 flex flex-col justify-end pointer-events-none">
                         <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            <h3 class="text-2xl font-bold text-white mb-2 line-clamp-1"><%= experience.name %></h3>
-                            <p class="text-gray-200 text-sm mb-2 line-clamp-1"><%= experience.tagline %></p>
+                            <h3 class="text-2xl font-bold text-white mb-2 line-clamp-1"><%= experience.title %></h3>
+                            <p class="text-gray-200 text-sm mb-2 line-clamp-1"><%= experience.category %></p>
                             <p class="text-gray-300 text-sm mb-3 line-clamp-2"><%= experience.description %></p>
                             
                             <!-- Info Grid (4 items) -->
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="flex items-center text-yellow-400 font-bold">
                                     <i class="fas fa-rupee-sign mr-1 flex-shrink-0"></i>
-                                    <span><%= experience.price.split(' - ')[0] %></span>
+                                    <span>₹<%= experience.price.toLocaleString() %></span>
                                 </div>
                             </div>
 

@@ -17,6 +17,10 @@ const packageSchema = new mongoose.Schema({
     inclusions: [String],
     exclusions: [String],
     groupSize: String,
+    category: {
+        type: String,
+        default: 'Adventure'
+    },
     difficulty: {
         type: String,
         enum: ['Easy', 'Moderate', 'Hard'],

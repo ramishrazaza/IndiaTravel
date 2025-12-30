@@ -12,6 +12,10 @@ router.route('/destination')
 router.route('/destinations')
     .get(controller.renderDestinationsPage);
 
+// Destination detail page - GET /destinations/:id
+router.route('/destinations/:id')
+    .get(controller.renderDestinationDetailPage);
+
 router.route('/experiences')
     .get(controller.renderExperiencesPage);
 
@@ -73,5 +77,9 @@ router.route('/api/testimonials')
 // Search API
 router.route('/api/search')
     .get(controller.searchAll);
+
+// Trip Booking API
+router.route('/api/bookings')
+    .post(controller.submitTripBooking);
 
 module.exports = router;

@@ -7,7 +7,7 @@
 <!-- 🔹 1. HERO SECTION -->
 <section id="hero" class="hero-section">
         <!-- Hero Image -->
-        <img src="<%= destination.heroImage %>" alt="<%= destination.name %>" class="hero-image">
+        <img src="<%= destination.image %>" alt="<%= destination.name %>" class="hero-image">
         <div class="hero-overlay"></div>
         
         <!-- Hero Content -->
@@ -16,7 +16,7 @@
                 <%= destination.name %>
             </h1>
             <p class="hero-tagline fade-in" data-aos="fade-up" data-aos-delay="200">
-                <%= destination.tagline %>
+                <%= destination.region %> | <%= destination.bestTimeToVisit %>
             </p>
             
             <!-- CTA Buttons -->
@@ -24,7 +24,10 @@
                 <a href="#packages" class="cta-btn-primary ripple">
                     View Packages
                 </a>
-                <a href="#contact" class="glass text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-purple-600 transition-all inline-block">
+                <a href="/ai-trip-planner?destination=<%= destination.name %>" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all inline-block">
+                    <i class="fas fa-magic mr-2"></i>Plan with AI
+                </a>
+                <a href="#contact" class="glass text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-emerald-600 transition-all inline-block">
                     Plan Custom Trip
                 </a>
             </div>
@@ -49,25 +52,25 @@
                 <div class="quick-fact-item">
                     <div class="quick-fact-icon">🗓️</div>
                     <h4 class="quick-fact-label">Best Time</h4>
-                    <p class="quick-fact-value"><%= destination.bestTime %></p>
-                </div>
-                
-                <div class="quick-fact-item">
-                    <div class="quick-fact-icon">⏳</div>
-                    <h4 class="quick-fact-label">Duration</h4>
-                    <p class="quick-fact-value"><%= destination.duration %></p>
-                </div>
-                
-                <div class="quick-fact-item">
-                    <div class="quick-fact-icon">💰</div>
-                    <h4 class="quick-fact-label">Budget</h4>
-                    <p class="quick-fact-value"><%= destination.budget %></p>
+                    <p class="quick-fact-value"><%= destination.bestTimeToVisit %></p>
                 </div>
                 
                 <div class="quick-fact-item">
                     <div class="quick-fact-icon">🌡️</div>
                     <h4 class="quick-fact-label">Climate</h4>
-                    <p class="quick-fact-value"><%= destination.climate %></p>
+                    <p class="quick-fact-value"><%= destination.temperature %></p>
+                </div>
+                
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">⭐</div>
+                    <h4 class="quick-fact-label">Rating</h4>
+                    <p class="quick-fact-value"><%= destination.rating %>/5.0</p>
+                </div>
+                
+                <div class="quick-fact-item">
+                    <div class="quick-fact-icon">📝</div>
+                    <h4 class="quick-fact-label">Reviews</h4>
+                    <p class="quick-fact-value"><%= destination.reviewCount %> reviews</p>
                 </div>
             </div>
         </div>
@@ -78,7 +81,7 @@
         <div class="container mx-auto px-4">
             <div class="about-container">
                 <div class="about-image" data-aos="fade-right">
-                    <img src="<%= destination.aboutImage %>" alt="About <%= destination.name %>">
+                    <img src="<%= destination.image %>" alt="About <%= destination.name %>">
                 </div>
                 
                 <div class="about-content" data-aos="fade-left">
@@ -86,7 +89,7 @@
                         About <span class="gradient-text"><%= destination.name %></span>
                     </h2>
                     <div class="about-text">
-                        <%- destination.aboutContent %>
+                        <p><%= destination.description %></p>
                     </div>
                     <div class="flex gap-4 mt-8">
                         <a href="#packages" class="cta-btn-primary">
@@ -111,19 +114,20 @@
             </div>
             
             <div class="places-grid">
-                <% destination.places.forEach((place, index) => { %>
-                    <a href="#" class="place-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
-                        <img src="<%= place.image %>" alt="<%= place.name %>" class="place-card-image">
-                        <div class="place-card-overlay"></div>
-                        <div class="place-card-content">
-                            <h3 class="place-card-title"><%= place.name %></h3>
-                            <p class="place-card-type"><%= place.type %></p>
-                            <p class="place-card-description"><%= place.description %></p>
+                <% if (destination.attractions && destination.attractions.length > 0) { %>
+                    <% destination.attractions.forEach((attraction, index) => { %>
+                        <div class="place-card-text" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                            <div class="place-card-icon">
+                                <i class="fas fa-map-pin"></i>
+                            </div>
+                            <h3 class="place-card-title"><%= attraction %></h3>
+                            <p class="place-card-description">A must-visit attraction in <%= destination.name %></p>
                         </div>
-                    </a>
-                <% }); %>
+                    <% }); %>
+                <% } else { %>
+                    <p class="text-center text-gray-500 col-span-full py-8">No attractions listed for this destination.</p>
+                <% } %>
             </div>
-        </div>
     </section>
 
     <!-- 🔹 5. EXPERIENCES IN THIS DESTINATION -->
@@ -138,18 +142,15 @@
                 </p>
             </div>
             
-            <div class="experiences-grid">
-                <% destination.experiences.forEach((exp, index) => { %>
-                    <div class="experience-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
-                        <div class="experience-emoji"><%= exp.emoji %></div>
-                        <h3 class="experience-title"><%= exp.title %></h3>
-                        <p class="experience-description"><%= exp.description %></p>
-                        <a href="#" class="experience-link">
-                            Learn More <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
+            <% if (destination.highlights && destination.highlights.length > 0) { %>
+            <div class="highlights-grid">
+                <% destination.highlights.forEach((highlight, index) => { %>
+                    <div class="highlight-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                        <h3 class="highlight-title"><%= highlight %></h3>
                     </div>
                 <% }); %>
             </div>
+            <% } %>
         </div>
     </section>
 
@@ -168,23 +169,16 @@
             <div class="seasons-grid">
                 <div class="season-card best-season" data-aos="fade-up">
                     <div class="season-icon">✅</div>
-                    <h3 class="season-name">Best Season</h3>
-                    <p class="season-months"><%= destination.bestSeason.months %></p>
-                    <p class="season-description"><%= destination.bestSeason.description %></p>
+                    <h3 class="season-name">Best Time to Visit</h3>
+                    <p class="season-months"><%= destination.bestTimeToVisit %></p>
+                    <p class="season-description">Enjoy pleasant weather and clear skies</p>
                 </div>
                 
                 <div class="season-card moderate-season" data-aos="fade-up" data-aos-delay="100">
-                    <div class="season-icon">⚠️</div>
-                    <h3 class="season-name">Moderate</h3>
-                    <p class="season-months"><%= destination.moderateSeason.months %></p>
-                    <p class="season-description"><%= destination.moderateSeason.description %></p>
-                </div>
-                
-                <div class="season-card challenging-season" data-aos="fade-up" data-aos-delay="200">
-                    <div class="season-icon">🌧️</div>
-                    <h3 class="season-name">Challenging</h3>
-                    <p class="season-months"><%= destination.challenging.months %></p>
-                    <p class="season-description"><%= destination.challenging.description %></p>
+                    <div class="season-icon">🌡️</div>
+                    <h3 class="season-name">Temperature</h3>
+                    <p class="season-months"><%= destination.temperature %></p>
+                    <p class="season-description">Average climate conditions</p>
                 </div>
             </div>
         </div>
@@ -203,30 +197,31 @@
             </div>
             
             <div class="packages-grid">
-                <% destination.packages.forEach((pkg, index) => { %>
-                    <div class="package-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
-                        <div class="package-image-container">
-                            <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="package-image">
-                            <div class="absolute top-4 right-4">
-                                <span class="tag-pill"><%= pkg.tag %></span>
+                <% if (packages && packages.length > 0) { %>
+                    <% packages.forEach((pkg, index) => { %>
+                        <div class="package-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                            <div class="package-image-container">
+                                <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="package-image">
+                                <div class="absolute top-4 right-4">
+                                    <span class="tag-pill"><%= pkg.category %></span>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="package-body">
-                            <h3 class="package-title"><%= pkg.name %></h3>
-                            <p class="package-description"><%= pkg.description %></p>
                             
-                            <div class="package-details">
-                                <div class="package-detail">
-                                    <span class="detail-label">Duration:</span>
-                                    <span class="detail-value"><i class="fas fa-calendar mr-2"></i><%= pkg.duration %></span>
-                                </div>
-                                <div class="package-detail">
-                                    <span class="detail-label">Price:</span>
-                                    <span class="package-price"><%= pkg.price %></span>
-                                </div>
-                                <div class="package-detail">
-                                    <span class="detail-label">Rating:</span>
+                            <div class="package-body">
+                                <h3 class="package-title"><%= pkg.name %></h3>
+                                <p class="package-description"><%= pkg.tagline || pkg.destination %></p>
+                                
+                                <div class="package-details">
+                                    <div class="package-detail">
+                                        <span class="detail-label">Duration:</span>
+                                        <span class="detail-value"><i class="fas fa-calendar mr-2"></i><%= pkg.duration %></span>
+                                    </div>
+                                    <div class="package-detail">
+                                        <span class="detail-label">Price:</span>
+                                        <span class="package-price"><%= pkg.price %></span>
+                                    </div>
+                                    <div class="package-detail">
+                                        <span class="detail-label">Rating:</span>
                                     <span class="star-rating">
                                         <% for(let i = 0; i < pkg.rating; i++) { %>
                                             <i class="fas fa-star text-sm"></i>
@@ -240,7 +235,10 @@
                             </a>
                         </div>
                     </div>
-                <% }); %>
+                    <% }); %>
+                <% } else { %>
+                    <p class="text-center text-gray-500 col-span-full py-8">No packages available for this destination.</p>
+                <% } %>
             </div>
         </div>
     </section>
@@ -298,26 +296,33 @@
             </div>
 
             <div class="testimonials-grid">
-                <% destination.testimonials.forEach((testimonial, index) => { %>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
-                        <div class="testimonial-header">
-                            <img src="<%= testimonial.image %>" alt="<%= testimonial.name %>" class="testimonial-photo">
-                            <div class="testimonial-info">
-                                <h4 class="testimonial-name"><%= testimonial.name %></h4>
-                                <div class="testimonial-country">
-                                    <span class="country-flag"><%= testimonial.flag %></span>
-                                    <span><%= testimonial.country %></span>
+                <% if (relatedDestinations && relatedDestinations.length > 0) { %>
+                    <% relatedDestinations.forEach((dest, index) => { %>
+                        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                            <div class="testimonial-header">
+                                <img src="<%= dest.image %>" alt="<%= dest.name %>" class="testimonial-photo">
+                                <div class="testimonial-info">
+                                    <h4 class="testimonial-name"><%= dest.name %></h4>
+                                    <div class="testimonial-country">
+                                        <span class="country-flag">📍</span>
+                                        <span><%= dest.region %></span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="star-rating">
+                                <% for(let i = 0; i < dest.rating; i++) { %>
+                                    <i class="fas fa-star"></i>
+                                <% } %>
+                            </div>
+                            <p class="testimonial-text"><%= dest.description %></p>
+                            <a href="/destinations/place?name=<%= dest.name %>&region=<%=dest.region%>" class="mt-4 inline-block text-emerald-600 hover:text-emerald-700 font-semibold">
+                                Explore <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
                         </div>
-                        <div class="star-rating">
-                            <% for(let i = 0; i < testimonial.rating; i++) { %>
-                                <i class="fas fa-star"></i>
-                            <% } %>
-                        </div>
-                        <p class="testimonial-text">"<%= testimonial.text %>"</p>
-                    </div>
-                <% }); %>
+                    <% }); %>
+                <% } else { %>
+                    <p class="text-center text-gray-500 col-span-full">No related destinations available.</p>
+                <% } %>
             </div>
         </div>
     </section>
@@ -335,14 +340,30 @@
             </div>
             
             <div class="faq-container" data-aos="fade-up">
-                <% destination.faqs.forEach((faq) => { %>
-                    <div class="faq-item">
-                        <details class="faq-details">
-                            <summary class="faq-summary"><i class="fas fa-question-circle mr-3"></i><%= faq.question %></summary>
-                            <div class="faq-answer"><%= faq.answer %></div>
-                        </details>
-                    </div>
-                <% }); %>
+                <div class="faq-item">
+                    <details class="faq-details">
+                        <summary class="faq-summary"><i class="fas fa-question-circle mr-3"></i>What's the best time to visit?</summary>
+                        <div class="faq-answer"><%= destination.bestTimeToVisit %></div>
+                    </details>
+                </div>
+                <div class="faq-item">
+                    <details class="faq-details">
+                        <summary class="faq-summary"><i class="fas fa-question-circle mr-3"></i>What's the climate like?</summary>
+                        <div class="faq-answer"><%= destination.temperature %></div>
+                    </details>
+                </div>
+                <div class="faq-item">
+                    <details class="faq-details">
+                        <summary class="faq-summary"><i class="fas fa-question-circle mr-3"></i>What can I visit here?</summary>
+                        <div class="faq-answer">
+                            <% if (destination.attractions && destination.attractions.length > 0) { %>
+                                <%= destination.attractions.join(', ') %>
+                            <% } else { %>
+                                Check our attractions section to see what's available.
+                            <% } %>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
     </section>

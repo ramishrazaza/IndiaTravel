@@ -1,0 +1,194 @@
+<!-- Global Error Modal -->
+<div id="errorModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+        <!-- Error Header -->
+        <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/20 rounded-full p-2">
+                    <i class="fas fa-exclamation-circle text-white text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Error</h3>
+            </div>
+            <button onclick="closeErrorModal()" class="text-white/80 hover:text-white transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Error Message -->
+        <div class="px-6 py-4">
+            <p id="errorMessage" class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed"></p>
+        </div>
+
+        <!-- Error Details (if available) -->
+        <div id="errorDetails" class="px-6 py-3 bg-gray-50 dark:bg-slate-700 hidden">
+            <p class="text-xs text-gray-600 dark:text-gray-400 font-mono break-words" id="errorDetailsText"></p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700 flex gap-3 justify-end">
+            <button onclick="closeErrorModal()" class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600 transition font-medium text-sm">
+                Close
+            </button>
+            <button id="retryBtn" onclick="retryLastAction()" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition font-medium text-sm hidden">
+                <i class="fas fa-redo mr-2"></i>Retry
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+        <!-- Success Header -->
+        <div class="bg-gradient-to-r from-green-500 to-green-600 px-6 py-4 flex items-center gap-3">
+            <div class="bg-white/20 rounded-full p-2">
+                <i class="fas fa-check-circle text-white text-xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white">Success</h3>
+        </div>
+
+        <!-- Success Message -->
+        <div class="px-6 py-4">
+            <p id="successMessage" class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed"></p>
+        </div>
+
+        <!-- Action Button -->
+        <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700 flex justify-end">
+            <button onclick="closeSuccessModal()" class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white transition font-medium text-sm">
+                <i class="fas fa-check mr-2"></i>Okay
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Store last failed action for retry
+    let lastFailedAction = null;
+
+    // Show Error Modal
+    function showErrorModal(message, details = null, retryable = false) {
+        const modal = document.getElementById('errorModal');
+        const messageEl = document.getElementById('errorMessage');
+        const detailsEl = document.getElementById('errorDetails');
+        const detailsText = document.getElementById('errorDetailsText');
+        const retryBtn = document.getElementById('retryBtn');
+
+        messageEl.textContent = message;
+
+        if (details) {
+            detailsEl.classList.remove('hidden');
+            detailsText.textContent = typeof details === 'string' ? details : JSON.stringify(details, null, 2);
+        } else {
+            detailsEl.classList.add('hidden');
+        }
+
+        if (retryable) {
+            retryBtn.classList.remove('hidden');
+        } else {
+            retryBtn.classList.add('hidden');
+        }
+
+        modal.classList.remove('hidden');
+
+        // Auto-close after 10 seconds if no details
+        if (!details) {
+            setTimeout(() => {
+                if (!modal.classList.contains('hidden')) {
+                    closeErrorModal();
+                }
+            }, 10000);
+        }
+    }
+
+    // Close Error Modal
+    function closeErrorModal() {
+        document.getElementById('errorModal').classList.add('hidden');
+    }
+
+    // Show Success Modal
+    function showSuccessModal(message) {
+        const modal = document.getElementById('successModal');
+        const messageEl = document.getElementById('successMessage');
+
+        messageEl.textContent = message;
+        modal.classList.remove('hidden');
+
+        // Auto-close after 3 seconds
+        setTimeout(() => {
+            if (!modal.classList.contains('hidden')) {
+                closeSuccessModal();
+            }
+        }, 3000);
+    }
+
+    // Close Success Modal
+    function closeSuccessModal() {
+        document.getElementById('successModal').classList.add('hidden');
+    }
+
+    // Retry last failed action
+    function retryLastAction() {
+        closeErrorModal();
+        if (lastFailedAction && typeof lastFailedAction === 'function') {
+            lastFailedAction();
+        }
+    }
+
+    // Global fetch wrapper with error handling
+    async function fetchWithErrorHandling(url, options = {}, retryable = false) {
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                },
+                ...options
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMessage = data.message || data.error || `Error: ${response.status}`;
+                const errorDetails = data.errors || data.details;
+
+                // Store the action for potential retry
+                lastFailedAction = () => fetchWithErrorHandling(url, options, retryable);
+
+                showErrorModal(errorMessage, errorDetails, retryable);
+                return null;
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Fetch error:', error);
+
+            // Store the action for potential retry
+            lastFailedAction = () => fetchWithErrorHandling(url, options, retryable);
+
+            showErrorModal(
+                'Network error occurred',
+                error.message,
+                retryable
+            );
+            return null;
+        }
+    }
+
+    // Global error handler for uncaught errors
+    window.addEventListener('error', (event) => {
+        console.error('Uncaught error:', event.error);
+        showErrorModal(
+            'An unexpected error occurred',
+            event.error?.message
+        );
+    });
+
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection:', event.reason);
+        showErrorModal(
+            'An unexpected error occurred',
+            typeof event.reason === 'string' ? event.reason : event.reason?.message
+        );
+    });
+</script>

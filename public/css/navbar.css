@@ -1,6 +1,7 @@
 /* ==================== STICKY NAVBAR ==================== */
 .navbar-sticky {
     transition: all 0.3s ease;
+    background: transparent;
 }
 
 .navbar-sticky.scrolled {
@@ -9,8 +10,13 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.dark .navbar-sticky {
+    background: transparent;
+}
+
 .dark .navbar-sticky.scrolled {
     background: rgba(15, 23, 42, 0.98);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* ==================== NAVBAR STRUCTURE ==================== */
@@ -157,5 +163,94 @@
 
     #mobileMenuBtn {
         display: block;
+    }
+}
+/* Mobile Devices - Extra Small (xs < 640px) */
+@media (max-width: 640px) {
+    nav.container {
+        padding: 1rem;
+    }
+    
+    .navbar-logo img {
+        height: 2.5rem;
+    }
+    
+    #mobileMenuBtn {
+        font-size: 1.5rem;
+    }
+    
+    #mobileMenu {
+        margin-top: 0.75rem;
+    }
+    
+    .mobile-menu-content {
+        gap: 0.5rem;
+        padding: 0.75rem;
+    }
+    
+    .mobile-menu-content a,
+    .mobile-menu-content button {
+        padding: 0.75rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* Small Devices (sm: 640px - 768px) */
+@media (min-width: 640px) and (max-width: 768px) {
+    nav.container {
+        padding: 1rem;
+    }
+    
+    .navbar-logo img {
+        height: 2.75rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    #mobileMenuBtn {
+        padding: 0.5rem;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mobile-menu-content a,
+    .mobile-menu-content button {
+        min-height: 48px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .navbar-cta-btn {
+        min-height: 44px;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* High Resolution Displays */
+@media (min-width: 1920px) {
+    nav.container {
+        max-width: 1400px;
+    }
+}
+
+/* Landscape Orientation - Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    nav {
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-logo img {
+        height: 2rem;
+    }
+    
+    #mobileMenu {
+        max-height: 70vh;
+        overflow-y: auto;
     }
 }

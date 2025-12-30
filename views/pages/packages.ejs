@@ -40,16 +40,16 @@
 <!-- 🔹 SEARCH & FILTER SECTION -->
 <section class="py-12 bg-white dark:bg-slate-800 sticky top-20 z-30 shadow-lg">
     <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <!-- Search -->
             <div class="relative">
-                <input type="text" id="searchInput" placeholder="Search packages..." class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
-                <i class="fas fa-search absolute right-4 top-4 text-gray-400"></i>
+                <input type="text" id="searchInput" placeholder="Search packages..." class="w-full px-4 md:px-6 py-2 md:py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors text-sm md:text-base">
+                <i class="fas fa-search absolute right-3 md:right-4 top-2 md:top-4 text-gray-400"></i>
             </div>
             
             <!-- Category Filter -->
             <div>
-                <select id="categoryFilter" class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                <select id="categoryFilter" class="w-full px-4 md:px-6 py-2 md:py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors text-sm md:text-base">
                     <option value="">All Categories</option>
                     <option value="Classic">Classic</option>
                     <option value="Cultural">Cultural</option>
@@ -64,7 +64,7 @@
             
             <!-- Duration Filter -->
             <div>
-                <select id="durationFilter" class="w-full px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors">
+                <select id="durationFilter" class="w-full px-4 md:px-6 py-2 md:py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:outline-none transition-colors text-sm md:text-base">
                     <option value="">All Durations</option>
                     <option value="3">3 Days</option>
                     <option value="4">4 Days</option>
@@ -90,7 +90,7 @@
         
         <div id="packagesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <% packages.forEach((pkg, idx) => { %>
-                <a href="/packages/<%= pkg.id %>" class="group package-card relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 bg-white dark:bg-slate-800 h-full flex flex-col" data-aos="fade-up" data-aos-delay="<%= idx * 80 %>" data-category="<%= pkg.category %>" data-duration="<%= parseInt(pkg.duration) %>">
+                <a href="/packages/<%= pkg._id %>" class="group package-card relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 bg-white dark:bg-slate-800 h-full flex flex-col" data-aos="fade-up" data-aos-delay="<%= idx * 80 %>" data-category="<%= pkg.category %>" data-duration="<%= parseInt(pkg.duration) %>">
                     <!-- Image Container with Overlay -->
                     <div class="relative h-64 overflow-hidden bg-gradient-to-br from-purple-400 to-blue-400">
                         <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -136,7 +136,7 @@
                             </div>
                             <div class="flex items-center gap-2 text-yellow-600 dark:text-yellow-400 text-xs">
                                 <i class="fas fa-star text-yellow-500 w-4 flex-shrink-0"></i>
-                                <span class="font-bold"><%= pkg.reviews %> reviews</span>
+                                <span class="font-bold"><%= pkg.rating || '4.5' %>/5</span>
                             </div>
                         </div>
                         
@@ -145,8 +145,13 @@
                             <div>
                                 <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">From</p>
                                 <p class="text-xl font-heading font-bold text-purple-600 dark:text-purple-400">
-                                    <% const priceStart = pkg.price.split(' - ')[0]; %>
-                                    <%= priceStart %>
+                                    <% if (typeof pkg.price === 'string' && pkg.price.includes(' - ')) { %>
+                                        <%= pkg.price.split(' - ')[0] %>
+                                    <% } else if (typeof pkg.price === 'number') { %>
+                                        ₹<%= pkg.price.toLocaleString() %>
+                                    <% } else { %>
+                                        <%= pkg.price %>
+                                    <% } %>
                                 </p>
                             </div>
                             <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-lg font-bold text-sm group-hover:shadow-xl transition-all whitespace-nowrap">
@@ -226,14 +231,14 @@
 
     function filterPackages() {
         const searchTerm = searchInput.value.toLowerCase();
-        const selectedCategory = categoryFilter.value;
+        const selectedCategory = categoryFilter.value.toLowerCase();
         const selectedDuration = durationFilter.value;
         
         let visibleCount = 0;
         
         cards.forEach(card => {
             const name = card.textContent.toLowerCase();
-            const category = card.dataset.category;
+            const category = card.dataset.category.toLowerCase();
             const duration = card.dataset.duration;
             
             const matchesSearch = name.includes(searchTerm);

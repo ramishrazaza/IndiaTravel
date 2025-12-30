@@ -8,6 +8,22 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Theme Initialization Script - Must be in head to prevent flash -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+            
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            } else if (savedTheme === 'light') {
+                html.classList.remove('dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                html.classList.add('dark');
+            }
+        })();
+    </script>
+    
     <!-- Google Fonts - Modern Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,18 +43,21 @@
     <!-- Page-specific CSS -->
     <%- block('head') %>
 </head>
-<body class="bg-white text-gray-800 dark:bg-slate-900 dark:text-slate-100">
+<body class="bg-white text-gray-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
     
     <!-- Include Navbar -->
     <%- include('../includes/navbar') %>
 
+    <!-- Error & Success Modals -->
+    <%- include('../includes/error-modal') %>
+
     <!-- Main Content -->
     <%- body %>
     
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/919876543210?text=Hi,%20I%20want%20to%20plan%20a%20trip%20to%20India" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <a href="https://wa.me/919876543210?text=Hi,%20I%20want%20to%20plan%20a%20trip%20to%20India" target="_blank" class="whatsapp-float dark:bg-green-600 dark:hover:bg-green-700 transition-colors" aria-label="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -65,33 +84,50 @@
             menu.classList.toggle('hidden');
         };
 
-        // Theme toggle
+        // Theme toggle with proper icon update
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
+            
             if (isDark) {
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-                document.getElementById('themeIcon').classList.remove('fa-sun');
-                document.getElementById('themeIcon').classList.add('fa-moon');
+                // Update all theme icons
+                updateThemeIcons(false);
             } else {
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
-                document.getElementById('themeIcon').classList.remove('fa-moon');
-                document.getElementById('themeIcon').classList.add('fa-sun');
+                // Update all theme icons
+                updateThemeIcons(true);
             }
         }
         
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            document.getElementById('themeIcon').classList.remove('fa-moon');
-            document.getElementById('themeIcon').classList.add('fa-sun');
+        // Update theme icons across the page
+        function updateThemeIcons(isDark) {
+            const icons = document.querySelectorAll('[id$="themeIcon"]');
+            icons.forEach(icon => {
+                if (isDark) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
         }
         
-        document.getElementById('themeToggle').onclick = toggleTheme;
-        document.getElementById('themeToggleMobile').onclick = toggleTheme;
+        // Initialize theme icons on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            updateThemeIcons(isDark);
+            
+            // Attach click handlers
+            const themeToggle = document.getElementById('themeToggle');
+            const themeToggleMobile = document.getElementById('themeToggleMobile');
+            
+            if (themeToggle) themeToggle.onclick = toggleTheme;
+            if (themeToggleMobile) themeToggleMobile.onclick = toggleTheme;
+        });
         
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

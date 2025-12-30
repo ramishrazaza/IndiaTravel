@@ -1,128 +1,158 @@
 <% layout('layouts/boilerplate') -%>
 
 <% block('head', `
-    <link rel="stylesheet" href="/css/destinations.css">
+    <link rel="stylesheet" href="/css/experiences.css">
 `) -%>
 
-<!-- HERO SECTION -->
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="margin-top: 0;">
-    <!-- Background Gradient -->
-    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-    <div class="absolute inset-0 hero-overlay-modern"></div>
-    
-    <!-- Animated Background Elements -->
-    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-    <div class="absolute top-40 right-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+<body class="bg-white text-gray-800 dark:bg-slate-900 dark:text-slate-100">
 
-    <!-- Hero Content -->
-    <div class="relative z-10 container mx-auto px-4 py-32 text-center text-white">
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-6 fade-in" data-aos="fade-up">
-            Explore<br>
-            <span class="gradient-text" style="-webkit-text-fill-color: white;">India's Destinations</span>
+<!-- 🔹 HERO SECTION -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Video Background with Multiple Sources -->
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+        <source src="https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_25fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4" type="video/mp4">
+    </video>
+    <!-- Fallback Image -->
+    <img src="https://images.unsplash.com/photo-1524522252454-d5441bcab4d0?w=1920&h=1080&fit=crop" alt="India Destinations" class="absolute inset-0 w-full h-full object-cover" id="heroFallback" style="display: none;">
+    
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-900/70 via-purple-900/70 to-indigo-900/70"></div>
+    
+    <!-- Content -->
+    <div class="relative z-10 container mx-auto px-4 py-20 md:py-32 text-center text-white">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-4 md:mb-6" data-aos="fade-up">
+            Explore India's<br>
+            <span class="gradient-text" style="-webkit-text-fill-color: white;">Most Enchanting Destinations</span>
         </h1>
-        <p class="text-lg md:text-2xl mb-12 text-gray-200 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-            Discover breathtaking destinations across the length and breadth of India
+        <p class="text-sm sm:text-base md:text-xl lg:text-2xl mb-8 md:mb-12 text-gray-200 max-w-3xl mx-auto px-2" data-aos="fade-up" data-aos-delay="200">
+            From snow-capped mountains to sun-kissed beaches • Ancient temples to bustling cities
         </p>
         
-        <!-- Search & Filter -->
-        <div class="max-w-2xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="400">
-            <div class="flex flex-col sm:flex-row gap-4">
-                <div class="flex-1 relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        placeholder="Search destinations..." 
-                        class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                </div>
-                <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all ripple">
-                    <i class="fas fa-search mr-2"></i> Search
-                </button>
-            </div>
-        </div>
-
-        <!-- Region Filter -->
-        <div class="flex flex-wrap gap-3 justify-center mt-8" data-aos="fade-up" data-aos-delay="500">
-            <button class="filter-btn active" data-filter="all" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">All Regions</button>
-            <button class="filter-btn" data-filter="north" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">North</button>
-            <button class="filter-btn" data-filter="south" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">South</button>
-            <button class="filter-btn" data-filter="west" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">West</button>
+        <!-- CTA Buttons -->
+        <div class="flex flex max-w-3xl xs:flex-row gap-3 md:gap-4 justify-center mx-auto" data-aos="fade-up" data-aos-delay="400">
+            <a href="#destinations" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg hover:shadow-2xl hover:scale-105 transition-all inline-block w-full xs:w-auto text-center">
+                <i class="fas fa-map mr-2"></i>Browse Destinations
+            </a>
+            <a href="/" class="glass text-white px-6 md:px-10 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg border-2 border-white hover:bg-white hover:text-blue-600 transition-all inline-block w-full xs:w-auto text-center">
+                <i class="fas fa-home mr-2"></i>Back Home
+            </a>
         </div>
     </div>
-
+    
     <!-- Scroll Indicator -->
     <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
         <i class="fas fa-chevron-down text-white text-2xl"></i>
     </div>
 </section>
 
-<!-- DESTINATIONS GRID SECTION -->
-<section class="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-slate-900 dark:to-slate-800">
+<!-- 🔹 SEARCH & FILTER SECTION - Sticky -->
+<section class="sticky top-20 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-slate-700/50 shadow-lg">
+    <div class="container mx-auto px-4 py-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            <!-- Search Input -->
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Search destinations..." class="w-full px-4 md:px-6 py-2.5 md:py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300/50 dark:border-slate-700/50 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 outline-none transition-all text-sm md:text-base">
+                <i class="fas fa-search absolute right-4 top-2.5 md:top-3.5 text-gray-400"></i>
+            </div>
+            
+            <!-- Region Filter -->
+            <div>
+                <select id="regionFilter" class="w-full px-4 md:px-6 py-2.5 md:py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 text-gray-900 dark:text-white border border-gray-300/50 dark:border-slate-700/50 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 outline-none transition-all text-sm md:text-base font-medium">
+                    <option value="">All Regions</option>
+                    <option value="north">North India</option>
+                    <option value="south">South India</option>
+                    <option value="west">West India</option>
+                    <option value="east">East India</option>
+                    <option value="northeast">Northeast India</option>
+                    <option value="central">Central India</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 DESTINATIONS GRID SECTION -->
+<section id="destinations" class="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-slate-900 dark:to-slate-800">
     <div class="container mx-auto px-4">
         <!-- Section Header -->
-        <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-5xl md:text-6xl font-heading font-bold mb-4">
+        <div class="text-center mb-16 max-w-3xl mx-auto" data-aos="fade-up">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-gray-900 dark:text-white mb-4">
                 Featured <span class="gradient-text">Destinations</span>
             </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Choose from our carefully curated collection of India's most beautiful locations
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300">
+                Discover carefully curated destinations across India's most beautiful regions
             </p>
         </div>
 
-        <!-- Destinations Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="destinationsGrid">
+        <!-- Destinations Grid - 3 columns -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="destinationsGrid">
             <% destinations.forEach((destination, index) => { %>
-                <a href="/destination" class="destination-card group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 h-96" data-region="<%= destination.region.toLowerCase().split(' ')[0] %>" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
-                    <!-- Card Image -->
-                    <img src="<%= destination.image %>" alt="<%= destination.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                    
-                    <!-- Overlay with stronger gradient on hover -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300"></div>
-                    
-                    <!-- Top Badges (always visible) -->
-                    <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-10">
-                        <span class="bg-yellow-400 text-black font-bold text-xs py-1.5 px-3 rounded-full shadow-lg">
-                            <%= destination.region.split(' ')[0] %>
-                        </span>
-                        <div class="flex items-center text-yellow-400 bg-black bg-opacity-70 px-3 py-1.5 rounded-full shadow-lg gap-1">
-                            <i class="fas fa-star text-xs"></i>
-                            <span class="font-bold text-sm"><%= destination.rating %></span>
+                <a href="/destinations/place?name=<%= destination.name %>&region=<%=destination.region%>" class="group destination-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 bg-white dark:bg-slate-800 h-full flex flex-col border border-gray-100 dark:border-slate-700" data-aos="fade-up" data-aos-delay="<%= index * 80 %>" data-region="<%= destination.region.toLowerCase() %>" data-name="<%= destination.name.toLowerCase() %>">
+                    <!-- Image Container with Overlay -->
+                    <div class="relative h-72 overflow-hidden bg-gradient-to-br from-blue-400 to-purple-500">
+                        <img src="<%= destination.image %>" alt="<%= destination.name %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                        
+                        <!-- Badges -->
+                        <div class="absolute top-4 left-4 right-4 flex justify-between items-start gap-2 z-10">
+                            <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                <%= destination.region %>
+                            </span>
+                            <div class="flex items-center gap-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 px-4 py-1.5 rounded-full shadow-lg font-bold">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="text-sm"><%= destination.rating %></span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Bottom Content (animated on hover) -->
-                    <div class="absolute inset-0 p-6 flex flex-col justify-end">
-                        <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            <h3 class="text-2xl font-bold text-white mb-2"><%= destination.name %></h3>
-                            <p class="text-gray-200 text-sm mb-2 line-clamp-1"><%= destination.tagline %></p>
-                            <p class="text-gray-300 text-sm mb-3 line-clamp-2"><%= destination.description %></p>
-                            
-                            <!-- Info Grid -->
-                            <div class="grid grid-cols-2 gap-2 mb-4 text-xs">
-                                <div class="flex items-center text-gray-200">
-                                    <i class="fas fa-sun mr-2 text-yellow-400"></i>
-                                    <span><%= destination.bestTime %></span>
+                    
+                    <!-- Content Section -->
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <!-- Title -->
+                        <h3 class="text-xl md:text-2xl font-heading font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            <%= destination.name %>
+                        </h3>
+                        
+                        <!-- Description -->
+                        <p class="text-gray-600 dark:text-gray-400 text-sm md:text-base mb-5 line-clamp-2 flex-grow leading-relaxed">
+                            <%= destination.description %>
+                        </p>
+                        
+                        <!-- Info Grid -->
+                        <div class="grid grid-cols-2 gap-3 mb-6 pb-6 border-b border-gray-200 dark:border-slate-700">
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs md:text-sm">
+                                <div class="w-8 h-8 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-sun text-yellow-600 dark:text-yellow-400"></i>
                                 </div>
-                                <div class="flex items-center text-gray-200">
-                                    <i class="fas fa-clock mr-2 text-blue-400"></i>
-                                    <span><%= destination.duration %></span>
+                                <div>
+                                    <span class="font-semibold"><%= destination.temperature %></span>
                                 </div>
                             </div>
-
-                            <!-- Highlights -->
-                            <div class="flex flex-wrap gap-2 mb-3">
-                                <% destination.highlights.slice(0, 3).forEach(highlight => { %>
-                                    <span class="text-xs bg-cyan-500 bg-opacity-70 text-white px-2 py-0.5 rounded-full font-medium"><%= highlight %></span>
-                                <% }); %>
-                            </div>
-
-                            <!-- CTA Button -->
-                            <div class="text-white px-4 py-2 rounded-lg font-semibold text-sm text-center bg-gradient-to-r from-yellow-400 to-orange-500 hover:shadow-xl transition-all cursor-pointer">
-                                Explore <i class="fas fa-arrow-right ml-2"></i>
+                            <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-xs md:text-sm">
+                                <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-calendar text-blue-600 dark:text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <span class="font-semibold line-clamp-1"><%= destination.bestTimeToVisit %></span>
+                                </div>
                             </div>
                         </div>
+                        
+                        <!-- Highlights -->
+                        <% if (destination.highlights && destination.highlights.length > 0) { %>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <% destination.highlights.slice(0, 3).forEach(highlight => { %>
+                                    <span class="text-xs bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/40 dark:to-purple-900/40 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full font-semibold">
+                                        <%= highlight %>
+                                    </span>
+                                <% }); %>
+                            </div>
+                        <% } %>
+                        
+                        <!-- CTA Button -->
+                        <button class="w-full text-center bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-semibold text-sm md:text-base hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group/btn">
+                            Explore <i class="fas fa-arrow-right group-hover/btn:translate-x-1 transition-transform"></i>
+                        </button>
                     </div>
                 </a>
             <% }); %>
@@ -130,71 +160,123 @@
     </div>
 </section>
 
-<!-- CTA SECTION -->
-<section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700">
-    <div class="container mx-auto px-4 text-center" data-aos="fade-up">
-        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Ready for Your Indian Adventure?</h2>
-        <p class="text-xl text-gray-100 mb-8 max-w-2xl mx-auto">Let our expert team customize the perfect itinerary just for you</p>
-        <a href="#contact" class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all ripple">
-            Start Planning Now <i class="fas fa-arrow-right ml-2"></i>
-        </a>
+<!-- 🔹 CTA SECTION -->
+<section class="py-16 md:py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-700 dark:via-purple-700 dark:to-indigo-700 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path d=%22M0,50 Q25,25 50,50 T100,50%22 fill=%22none%22 stroke=%22white%22 stroke-width=%220.5%22/></svg>'); background-size: 50px 50px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <h2 class="text-4xl md:text-6xl font-heading font-bold text-white mb-6" data-aos="fade-up">
+            Ready for Your <span class="text-yellow-300">Indian Adventure?</span>
+        </h2>
+        <p class="text-lg md:text-xl text-gray-100 mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Choose your destination and let us help you plan an unforgettable journey across India
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap" data-aos="fade-up" data-aos-delay="400">
+            <a href="/plan-trip" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 md:px-12 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105 active:scale-95 inline-flex items-center gap-2">
+                <i class="fas fa-map"></i>
+                Plan Trip Now
+            </a>
+            <a href="/packages" class="border-2 border-white text-white px-8 md:px-12 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all hover:scale-105 active:scale-95 inline-flex items-center gap-2">
+                <i class="fas fa-suitcase"></i>
+                View Packages
+            </a>
+        </div>
     </div>
 </section>
 
 <% block('scripts') %>
 <script>
-    // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    const destinationCards = document.querySelectorAll('.destination-card');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        filterDestinations(searchTerm, 'search');
-    });
-
-    // Filter functionality
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => {
-                b.style.background = 'rgba(255,255,255,0.1)';
-                b.style.borderColor = 'rgba(255,255,255,0.3)';
-            });
-            btn.style.background = 'rgba(255,255,255,0.2)';
-            btn.style.borderColor = 'white';
-            
-            const filterValue = btn.dataset.filter;
-            filterDestinations(filterValue, 'region');
+    // Video fallback handler
+    const heroVideo = document.querySelector('video');
+    const heroFallback = document.getElementById('heroFallback');
+    
+    if (heroVideo && heroFallback) {
+        heroVideo.addEventListener('error', function() {
+            heroFallback.style.display = 'block';
         });
-    });
-
-    function filterDestinations(value, type) {
-        destinationCards.forEach(card => {
-            if (type === 'search') {
-                const name = card.getAttribute('data-name') || card.querySelector('h3')?.textContent || '';
-                const description = card.getAttribute('data-description') || '';
-                const matches = name.toLowerCase().includes(value) || description.toLowerCase().includes(value);
-                card.style.display = matches ? 'block' : 'none';
-            } else if (type === 'region') {
-                if (value === 'all') {
-                    card.style.display = 'block';
-                } else {
-                    const region = card.dataset.region;
-                    card.style.display = region === value ? 'block' : 'none';
-                }
+        
+        // Also check if video can load within 3 seconds
+        setTimeout(() => {
+            if (heroVideo.readyState < 2) {
+                heroFallback.style.display = 'block';
             }
-        });
+        }, 3000);
     }
 
-    // Add data attributes to cards
-    destinationCards.forEach(card => {
-        const name = card.querySelector('h3')?.textContent || '';
-        const desc = card.querySelector('p')?.textContent || '';
-        card.setAttribute('data-name', name);
-        card.setAttribute('data-description', desc);
+    // Get DOM elements
+    const searchInput = document.getElementById('searchInput');
+    const regionFilter = document.getElementById('regionFilter');
+    const destinationCards = document.querySelectorAll('.destination-card');
+
+    // Search and filter state
+    let searchTerm = "";
+    let selectedRegion = "";
+    
+    // Get region from URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const regionParam = urlParams.get('region');
+    if (regionParam) {
+        regionFilter.value = regionParam;
+        selectedRegion = regionParam.toLowerCase();
+        applyFilters();
+    }
+
+    // Search input handler
+    searchInput.addEventListener("input", (e) => {
+        searchTerm = e.target.value.toLowerCase();
+        applyFilters();
     });
 
-    // Initialize AOS
+    // Region filter handler
+    regionFilter.addEventListener("change", (e) => {
+        selectedRegion = e.target.value.toLowerCase();
+        applyFilters();
+    });
+
+    // Apply filters to destination cards
+    function applyFilters() {
+        let visibleCount = 0;
+        destinationCards.forEach(card => {
+            const name = card.dataset.name;
+            const region = card.dataset.region;
+
+            const matchesSearch = name.includes(searchTerm);
+            const matchesRegion = selectedRegion === "" || region === selectedRegion;
+
+            if (matchesSearch && matchesRegion) {
+                card.style.display = "block";
+                visibleCount++;
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        // Show "no results" message if needed
+        const grid = document.getElementById('destinationsGrid');
+        let noResultsMsg = document.getElementById('noResultsMessage');
+        
+        if (visibleCount === 0) {
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('div');
+                noResultsMsg.id = 'noResultsMessage';
+                noResultsMsg.className = 'col-span-full text-center py-12';
+                noResultsMsg.innerHTML = `
+                    <div class="text-6xl mb-4">🔍</div>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">No Destinations Found</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Try adjusting your search terms or filters</p>
+                `;
+                grid.appendChild(noResultsMsg);
+            }
+        } else if (noResultsMsg) {
+            noResultsMsg.remove();
+        }
+    }
+
+    // Initialize AOS animations
     if (window.AOS) {
         AOS.init({
             duration: 800,
@@ -203,3 +285,6 @@
         });
     }
 </script>
+
+</body>
+</html>

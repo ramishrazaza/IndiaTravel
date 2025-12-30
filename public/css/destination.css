@@ -243,29 +243,75 @@
 
 .places-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .places-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (min-width: 768px) {
     .places-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
     .places-grid {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
+/* Text-only Place Card */
+.place-card-text {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border: 1.5px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.place-card-text:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+}
+
+.place-card-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.place-card-text:hover .place-card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Old image-based card styles - kept for backward compatibility */
 .place-card {
     position: relative;
     overflow: hidden;
     border-radius: 1.25rem;
     height: 20rem;
     cursor: pointer;
-    display: block;
+    display: none;
     text-decoration: none;
 }
 
@@ -982,4 +1028,155 @@
 .cta-btn-whatsapp:hover {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     transform: scale(1.05);
+}
+/* ==================== RESPONSIVE OPTIMIZATIONS ==================== */
+
+/* Mobile Devices (xs < 640px) */
+@media (max-width: 640px) {
+    .hero-title {
+        font-size: 1.875rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-tagline {
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-cta-buttons {
+        gap: 0.75rem;
+    }
+    
+    .cta-btn-primary,
+    .cta-btn-whatsapp {
+        padding: 0.75rem 1.5rem !important;
+        font-size: 0.875rem !important;
+        width: 100%;
+    }
+    
+    .destination-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .card-modern {
+        padding: 1rem !important;
+    }
+    
+    section {
+        padding: 2rem 0 !important;
+    }
+    
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Small Devices (sm: 640px - 768px) */
+@media (min-width: 640px) and (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem !important;
+    }
+    
+    .hero-tagline {
+        font-size: 1.125rem !important;
+    }
+    
+    .cta-btn-primary,
+    .cta-btn-whatsapp {
+        padding: 0.875rem 2rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .destination-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* Medium Devices (md: 768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .destination-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .cta-btn-primary,
+    .cta-btn-whatsapp {
+        min-height: 44px;
+        padding: 0.875rem 2rem;
+    }
+    
+    button,
+    a.btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    input,
+    select,
+    textarea {
+        min-height: 44px;
+        font-size: 16px;
+    }
+}
+
+/* Landscape Orientation - Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    section {
+        padding: 1.5rem 0;
+    }
+    
+    .hero-section {
+        min-height: auto;
+        padding: 2rem 0;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-tagline {
+        font-size: 0.875rem !important;
+        margin-bottom: 1rem;
+    }
+}
+
+/* High Resolution Displays (1920px+) */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1400px;
+    }
+    
+    .hero-title {
+        font-size: 8rem !important;
+    }
+}
+
+/* Dark Mode Styles */
+.dark .place-card-text {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.dark .place-card-text:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
+}
+
+.dark .place-card-title {
+    color: #f1f5f9;
+}
+
+/* Print Styles */
+@media print {
+    .scroll-indicator,
+    .hero-overlay,
+    button[type="submit"],
+    .sticky {
+        display: none !important;
+    }
 }

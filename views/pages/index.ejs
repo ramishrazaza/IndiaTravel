@@ -11,57 +11,194 @@
     <!-- Hero Section with Video Background -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="margin-top: 0;">
         <!-- Video Background with Multiple Sources -->
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="https://videos.pexels.com/video-files/18064/18064-hd_1920_1080_30fps.mp4" type="video/mp4">
+       <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_25fps.mp4" type="video/mp4">
+            <source src="https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4" type="video/mp4">
         </video>
         <!-- Fallback Image for Video Failure -->
         <img src="https://images.unsplash.com/photo-1524522252454-d5441bcab4d0?w=1920&h=1080&fit=crop" alt="India Travel" class="hero-video" style="display: none;" id="heroFallback">
         <div class="hero-overlay-modern"></div>
         
         <!-- Hero Content -->
-        <div class="relative z-10 container mx-auto px-4 py-32 text-center text-white">
-            <h1 class="text-6xl md:text-8xl font-heading font-bold mb-6 fade-in" data-aos="fade-up">
-                Discover India.<br>
+        <div class="relative z-10 container mx-auto px-4 py-20 md:py-32 text-center text-white">
+            <!-- Animated Badge -->
+            <div class="inline-block mb-6 animate-float" data-aos="fade-down">
+                <span class="px-6 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-semibold text-white flex items-center gap-2">
+                    <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                    Trusted by 50K+ Travelers
+                </span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-4 md:mb-6 fade-in" data-aos="fade-up">
+                Discover <span class="inline-block animate-shimmer bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-500 bg-clip-text text-transparent">India.</span><br>
                 <span class="gradient-text" style="-webkit-text-fill-color: white;">One Journey at a Time.</span>
             </h1>
-            <p class="text-xl md:text-2xl mb-12 text-gray-200 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-                Premium Travel Experiences • Spiritual Journeys • Adventure Escapes • Royal Heritage
+            <p class="text-sm sm:text-base md:text-xl lg:text-2xl mb-8 md:mb-12 text-gray-200 max-w-2xl mx-auto px-2" data-aos="fade-up" data-aos-delay="200">
+                <span class="inline-flex items-center gap-2">
+                    <i class="fas fa-star text-yellow-400 animate-spin" style="animation-duration: 3s;"></i>
+                    Premium Travel Experiences • Spiritual Journeys • Adventure Escapes • Royal Heritage
+                    <i class="fas fa-star text-yellow-400 animate-spin" style="animation-duration: 4s;"></i>
+                </span>
             </p>
             
-            <!-- Smart Search Bar -->
-            <div class="max-w-4xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="400">
-                <div class="search-modern">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 p-2">
-                        <div class="relative">
-                            <i class="fas fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" placeholder="Destination" class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <!-- Smart Search Bar - Redesigned to Match Homepage -->
+            <div class="max-w-5xl mx-auto mb-10 md:mb-16 px-2 sm:px-4" data-aos="fade-up" data-aos-delay="400">
+                <!-- Search Card Container -->
+                <div class="bg-white/10 dark:bg-slate-800/10 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/20 dark:border-slate-700/20 shadow-2xl hover:shadow-3xl transition-all duration-300">
+                    <form id="searchForm" class="space-y-6">
+                        <!-- Main Search Row -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Destination -->
+                            <div class="group">
+                                <label class="text-white text-sm font-semibold block mb-2 group-hover:text-yellow-300 transition">
+                                    <i class="fas fa-map-pin mr-2 text-blue-400"></i>Where to?
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="searchDestination" 
+                                    placeholder="Search destination..." 
+                                    class="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30 outline-none transition-all" 
+                                    minlength="2"
+                                >
+                            </div>
+                            
+                            <!-- Month -->
+                            <div class="group">
+                                <label class="text-white text-sm font-semibold block mb-2 group-hover:text-yellow-300 transition">
+                                    <i class="fas fa-calendar mr-2 text-purple-400"></i>When?
+                                </label>
+                                <input 
+                                    type="month" 
+                                    id="searchMonth" 
+                                    class="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 text-gray-900 dark:text-white border border-gray-300 dark:border-slate-700 focus:border-purple-500 dark:focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 outline-none transition-all"
+                                >
+                            </div>
+                            
+                            <!-- Duration -->
+                            <div class="group">
+                                <label class="text-white text-sm font-semibold block mb-2 group-hover:text-yellow-300 transition">
+                                    <i class="fas fa-hourglass-end mr-2 text-green-400"></i>Duration
+                                </label>
+                                <select 
+                                    id="searchDuration" 
+                                    class="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 text-gray-900 dark:text-white border border-gray-300 dark:border-slate-700 focus:border-green-500 dark:focus:border-green-400 focus:ring-2 focus:ring-green-500/30 outline-none transition-all"
+                                >
+                                    <option value="">Any</option>
+                                    <option value="3">3 Days</option>
+                                    <option value="5">5 Days</option>
+                                    <option value="7">7 Days</option>
+                                    <option value="14">14+ Days</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Budget -->
+                            <div class="group">
+                                <label class="text-white text-sm font-semibold block mb-2 group-hover:text-yellow-300 transition">
+                                    <i class="fas fa-wallet mr-2 text-orange-400"></i>Budget
+                                </label>
+                                <select 
+                                    id="searchBudget" 
+                                    class="w-full px-4 py-3 rounded-xl bg-white/90 dark:bg-slate-800/90 text-gray-900 dark:text-white border border-gray-300 dark:border-slate-700 focus:border-orange-500 dark:focus:border-orange-400 focus:ring-2 focus:ring-orange-500/30 outline-none transition-all"
+                                >
+                                    <option value="">Any</option>
+                                    <option value="10000-50000">₹10K - ₹50K</option>
+                                    <option value="50000-100000">₹50K - ₹1L</option>
+                                    <option value="100000-500000">₹1L - ₹5L</option>
+                                    <option value="500000+">₹5L+</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="relative">
-                            <i class="fas fa-calendar absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="month" placeholder="Month" class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        
+                        <!-- Search Button Row -->
+                        <div class="flex flex-col sm:flex-row gap-3 justify-center sm:justify-end">
+                            <button 
+                                type="submit" 
+                                class="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-8 md:px-12 py-3 md:py-4 rounded-full font-bold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto"
+                            >
+                                <i class="fas fa-search text-lg"></i>
+                                <span>Explore Now</span>
+                            </button>
                         </div>
-                        <div class="relative">
-                            <i class="fas fa-rupee-sign absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <select class="w-full pl-12 pr-4 py-3 rounded-lg border-0 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option>Budget</option>
-                                <option>₹10,000 - ₹50,000</option>
-                                <option>₹50,000 - ₹1,00,000</option>
-                                <option>₹1,00,000+</option>
-                            </select>
+                    </form>
+                    
+                    <!-- Divider -->
+                    <div class="my-6 relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-white/10"></div>
                         </div>
-                        <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all ripple">
-                            <i class="fas fa-search mr-2"></i> Search
+                        <div class="relative flex justify-center">
+                            <span class="px-3 text-sm text-gray-300 font-medium">Quick Picks</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Popular Destinations Pills -->
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button type="button" class="quick-filter px-4 py-2 text-sm font-semibold bg-gradient-to-r from-blue-500/20 to-blue-600/20 hover:from-blue-500/40 hover:to-blue-600/40 text-blue-200 border border-blue-400/30 rounded-full transition-all duration-300 hover:scale-110 active:scale-95" data-destination="Goa">
+                            <i class="fas fa-wave-square mr-2"></i>Goa
+                        </button>
+                        <button type="button" class="quick-filter px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-500/20 to-purple-600/20 hover:from-purple-500/40 hover:to-purple-600/40 text-purple-200 border border-purple-400/30 rounded-full transition-all duration-300 hover:scale-110 active:scale-95" data-destination="Jaipur">
+                            <i class="fas fa-crown mr-2"></i>Jaipur
+                        </button>
+                        <button type="button" class="quick-filter px-4 py-2 text-sm font-semibold bg-gradient-to-r from-green-500/20 to-green-600/20 hover:from-green-500/40 hover:to-green-600/40 text-green-200 border border-green-400/30 rounded-full transition-all duration-300 hover:scale-110 active:scale-95" data-destination="Kerala">
+                            <i class="fas fa-leaf mr-2"></i>Kerala
+                        </button>
+                        <button type="button" class="quick-filter px-4 py-2 text-sm font-semibold bg-gradient-to-r from-pink-500/20 to-pink-600/20 hover:from-pink-500/40 hover:to-pink-600/40 text-pink-200 border border-pink-400/30 rounded-full transition-all duration-300 hover:scale-110 active:scale-95" data-destination="Varanasi">
+                            <i class="fas fa-gopuram mr-2"></i>Varanasi
+                        </button>
+                        <button type="button" class="quick-filter px-4 py-2 text-sm font-semibold bg-gradient-to-r from-orange-500/20 to-orange-600/20 hover:from-orange-500/40 hover:to-orange-600/40 text-orange-200 border border-orange-400/30 rounded-full transition-all duration-300 hover:scale-110 active:scale-95" data-destination="Agra">
+                            <i class="fas fa-monument mr-2"></i>Agra
                         </button>
                     </div>
                 </div>
+                </form>
+                
             </div>
+
+            <!-- Search Results Modal -->
+                <div id="searchResultsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-start justify-center pt-4 sm:pt-20 p-4 overflow-y-auto" role="dialog" aria-modal="true">
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-5xl shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+                        <!-- Modal Header -->
+                        <div class="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-6 rounded-t-3xl flex justify-between items-center z-10">
+                            <div>
+                                <h2 class="text-2xl font-heading font-bold">Search Results</h2>
+                                <p id="resultsSummary" class="text-blue-100 text-sm mt-1">Loading...</p>
+                            </div>
+                            <button type="button" class="p-2 hover:bg-white/20 rounded-full transition-all transform hover:scale-110" onclick="document.getElementById('searchResultsModal').classList.add('hidden')" aria-label="Close">
+                                <i class="fas fa-times text-2xl"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Results Content -->
+                        <div id="searchResultsContent" class="p-6 max-h-[70vh] overflow-y-auto">
+                            <div class="text-center py-12">
+                                <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-4"></i>
+                                <p class="text-gray-600 dark:text-gray-400">Searching...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- No Results State -->
+                        <div id="noResultsState" class="hidden p-12 text-center">
+                            <div class="text-6xl mb-4">🔍</div>
+                            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">No Results Found</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">Try adjusting your search terms or browse our collections</p>
+                            <div class="flex gap-3 justify-center flex-wrap">
+                                <a href="/destinations" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">Browse Destinations</a>
+                                <a href="/experiences" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg transition">Browse Experiences</a>
+                                <a href="/packages" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition">Browse Packages</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             
             <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="600">
-                <a href="contact/index.html" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all ripple inline-block">
+            <div class="flex xs:flex-row gap-3 md:gap-4 justify-center mx-auto" data-aos="fade-up" data-aos-delay="600">
+                <a href="/plan-trip" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg hover:shadow-2xl hover:scale-105 transition-all ripple inline-block w-full xs:w-auto text-center">
                     Plan Your Trip
                 </a>
-                <a href="tours/index.html" class="glass text-white px-10 py-4 rounded-full font-semibold text-lg border-2 border-white hover:bg-white hover:text-purple-600 transition-all inline-block">
+                <a href="/ai-trip-planner" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 md:px-10 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg hover:shadow-2xl hover:scale-105 transition-all ripple inline-block w-full xs:w-auto text-center">
+                    <i class="fas fa-magic mr-1 md:mr-2"></i><span class="inline">AI Planner</span>
+                </a>
+                <a href="/packages" class="glass text-white px-6 md:px-10 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg border-2 border-white hover:bg-white hover:text-purple-600 transition-all inline-block w-full xs:w-auto text-center">
                     Explore Packages
                 </a>
             </div>
@@ -85,12 +222,15 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
                 <% if(destinations && destinations.length > 0) { %>
                     <% destinations.forEach((dest, idx) => { %>
-                        <a href="/destinations/<%= dest._id %>" class="destination-card group" data-aos="fade-up" data-aos-delay="<%= (idx % 7) * 100 %>">
-                            <img src="<%= dest.image %>" alt="<%= dest.name %>" class="w-full h-96 object-cover transition-transform duration-500">
-                            <div class="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                        <a href="/destinations/place?name=<%= dest.name %>&region=<%=dest.region%>" class="destination-card group relative overflow-hidden rounded-xl" data-aos="fade-up" data-aos-delay="<%= (idx % 7) * 100 %>">
+                            <!-- Animated Border Effect -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-20"></div>
+                            
+                            <img src="<%= dest.image %>" alt="<%= dest.name %>" class="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 flex flex-col justify-end p-6 z-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent">
                                 <div class="flex items-center flex-wrap gap-2 mb-2">
                                     <span class="tag-pill"><%= dest.region %></span>
                                     <div class="flex text-yellow-400 ml-auto">
@@ -99,9 +239,12 @@
                                         <% } %>
                                     </div>
                                 </div>
-                                <h3 class="font-heading text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition"><%= dest.name %></h3>
+                                <h3 class="font-heading text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition transform group-hover:scale-105"><%= dest.name %></h3>
                                 <p class="text-white/90 text-sm mb-2"><%= dest.bestTimeToVisit %></p>
-                                <p class="text-white/80 text-xs opacity-0 group-hover:opacity-100 transition-opacity"><%= dest.description.substring(0, 60) %>...</p>
+                                <p class="text-white/80 text-xs opacity-0 group-hover:opacity-100 transition-opacity line-clamp-2"><%= dest.description.substring(0, 60) %>...</p>
+                                <div class="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button class="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-bold hover:bg-yellow-300 transition transform scale-75 group-hover:scale-100">Explore →</button>
+                                </div>
                             </div>
                         </a>
                     <% }); %>
@@ -122,11 +265,14 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <% if(experiences && experiences.length > 0) { %>
                     <% experiences.forEach((exp, idx) => { %>
-                        <div class="experience-card" data-aos="fade-up" data-aos-delay="<%= (idx + 1) * 100 %>">
-                            <div class="text-5xl mb-4">
+                        <div class="experience-card group cursor-pointer relative" data-aos="fade-up" data-aos-delay="<%= (idx + 1) * 100 %>">
+                            <!-- Animated Border -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity blur group-hover:blur-sm"></div>
+                            
+                            <div class="text-6xl mb-4 transform transition-transform group-hover:scale-125 group-hover:rotate-12 origin-left">
                                 <% 
                                     const categoryEmoji = {
                                         'Spiritual': '🛕',
@@ -137,10 +283,10 @@
                                 %>
                                 <%= categoryEmoji[exp.category] || '🌍' %>
                             </div>
-                            <h3 class="font-heading text-2xl font-bold mb-3"><%= exp.title %></h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4"><%= exp.description %></p>
-                            <a href="/experiences/<%= exp._id %>" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
-                                Explore <i class="fas fa-arrow-right ml-2"></i>
+                            <h3 class="font-heading text-2xl font-bold mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition"><%= exp.title %></h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2"><%= exp.description %></p>
+                            <a href="/experiences/<%= exp._id %>" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline inline-flex items-center group/link">
+                                Explore <i class="fas fa-arrow-right ml-2 transform group-hover/link:translate-x-1 transition"></i>
                             </a>
                         </div>
                     <% }); %>
@@ -149,7 +295,7 @@
                         <div class="text-5xl mb-4">🛕</div>
                         <h3 class="font-heading text-2xl font-bold mb-3">Spiritual India</h3>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">Discover ancient temples, sacred rivers, and spiritual retreats.</p>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                        <a href="/experiences" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
                             Explore <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -172,19 +318,19 @@
             
             <div class="india-map-container" data-aos="fade-up">
                 <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-2xl">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:scale-105 transition-all" data-region="north">
-                            North India
-                        </button>
-                        <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold hover:scale-105 transition-all" data-region="south">
-                            South India
-                        </button>
-                                                <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold hover:scale-105 transition-all" data-region="east">
-                            East India
-                        </button>
-                        <button class="region-btn px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold hover:scale-105 transition-all" data-region="west">
-                            West India
-                        </button>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+                        <a class="region-btn px-4 md:px-6 py-2 md:py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold text-sm md:text-base hover:scale-105 transition-all text-center" href="/destinations?region=north" data-region="north">
+                            North
+                        </a>
+                        <a class="region-btn px-4 md:px-6 py-2 md:py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold text-sm md:text-base hover:scale-105 transition-all text-center" href="/destinations?region=south" data-region="south">
+                            South
+                        </a>
+                        <a class="region-btn px-4 md:px-6 py-2 md:py-3 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold text-sm md:text-base hover:scale-105 transition-all text-center" href="/destinations?region=east" data-region="east">
+                            East
+                        </a>
+                        <a class="region-btn px-4 md:px-6 py-2 md:py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold text-sm md:text-base hover:scale-105 transition-all text-center" href="/destinations?region=west" data-region="west">
+                            West
+                        </a>
                     </div>
 
                     <div class="text-center text-gray-600 dark:text-gray-300">
@@ -213,28 +359,78 @@
             <div class="grid md:grid-cols-3 gap-8">
                 <% if(blogs && blogs.length > 0) { %>
                     <% blogs.forEach((blog, idx) => { %>
-                        <article class="blog-card-modern" data-aos="fade-up" data-aos-delay="<%= (idx + 1) * 100 %>">
-                            <div class="overflow-hidden">
-                                <img src="<%= blog.image %>" alt="<%= blog.title %>" class="w-full h-64 object-cover">
-                            </div>
-                            <div class="p-6">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="tag-pill"><%= blog.category %></span>
-                                    <span class="reading-time">
-                                        <i class="fas fa-clock"></i> <%= Math.ceil(blog.content.length / 200) %> min read
-                                    </span>
-                                </div>
-                                <h3 class="font-heading text-2xl font-bold mb-3 text-gray-800 dark:text-white">
-                                    <%= blog.title %>
-                                </h3>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4">
-                                    <%= blog.excerpt %>
-                                </p>
-                                <a href="/blogs/<%= blog._id %>" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline inline-flex items-center">
-                                    Read More <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
-                            </div>
-                        </article>
+                        <article
+  class="blog-card-modern
+         bg-white text-gray-800
+         dark:bg-slate-800 dark:text-gray-100
+         border border-gray-200 dark:border-slate-700
+         rounded-2xl overflow-hidden
+         transition-all duration-300
+         hover:-translate-y-2 hover:shadow-2xl"
+  data-aos="fade-up"
+  data-aos-delay="<%= (idx + 1) * 100 %>"
+>
+  <!-- Image -->
+  <div class="overflow-hidden">
+    <img
+      src="<%= blog.image %>"
+      alt="<%= blog.title %>"
+      class="w-full h-64 object-cover transition-transform duration-500 hover:scale-105"
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="p-6">
+    <!-- Meta -->
+    <div class="flex items-center justify-between mb-3">
+      <span
+        class="tag-pill
+               bg-blue-100 text-blue-700
+               dark:bg-blue-900/40 dark:text-blue-300"
+      >
+        <%= blog.category %>
+      </span>
+
+      <span
+        class="reading-time
+               text-gray-500 dark:text-gray-400"
+      >
+        <i class="fas fa-clock"></i> <%= blog.readTime || Math.floor(Math.random() * 5) + 1 %> Minutes
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h3
+      class="font-heading text-2xl font-bold mb-3
+             text-gray-900 dark:text-white"
+    >
+      <%= blog.title %>
+    </h3>
+
+    <!-- Description -->
+    <p
+      class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed"
+    >
+      <% if (blog.excerpt) { %>
+        <%= blog.excerpt %>
+      <% } else if (blog.description) { %>
+        <%= blog.description.length > 100 ? blog.description.substring(0, 100) + "..." : blog.description %>
+      <% } %>
+    </p>
+
+    <!-- CTA -->
+    <a
+      href="/blogs/<%= blog._id %>"
+      class="inline-flex items-center font-semibold
+             text-blue-600 hover:text-blue-700
+             dark:text-blue-400 dark:hover:text-blue-300
+             transition-colors"
+    >
+      Read More <i class="fas fa-arrow-right ml-2"></i>
+    </a>
+  </div>
+</article>
+
                     <% }); %>
                 <% } else { %>
                     <article class="blog-card-modern" data-aos="fade-up" data-aos-delay="100">
@@ -263,7 +459,7 @@
             </div>
             
             <div class="text-center mt-12" data-aos="fade-up">
-                <a href="blogs/index.html" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl hover:scale-105 transition-all">
+                <a href="/blogs" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl hover:scale-105 transition-all">
                     View All Blogs <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
@@ -271,12 +467,16 @@
     </section>
 
     <!-- AI Trip Planner Section -->
-    <section class="py-20 bg-white dark:bg-slate-900">
-        <div class="container mx-auto px-4">
+    <section class="py-20 bg-white dark:bg-slate-900 relative overflow-hidden">
+        <!-- Animated Background Orbs -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-duration: 8s;"></div>
+        <div class="absolute top-1/2 right-0 w-96 h-96 bg-purple-200 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-duration: 10s; animation-delay: 2s;"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
             <div class="ai-planner-card max-w-4xl mx-auto" data-aos="fade-up">
                 <div class="relative z-10">
                     <div class="flex items-center justify-center mb-6">
-                        <div class="text-6xl mb-4">🤖</div>
+                        <div class="text-7xl mb-4 animate-bounce" style="animation-duration: 2s;">🤖</div>
                     </div>
                     <h2 class="text-4xl md:text-5xl font-heading font-bold text-center mb-4">
                         AI Trip <span class="gradient-text">Planner</span>
@@ -286,25 +486,34 @@
                     </p>
                     
                     <div class="grid md:grid-cols-3 gap-6 mb-8">
-                        <div class="text-center p-4 glass rounded-xl">
-                            <i class="fas fa-calendar-alt text-3xl text-blue-500 mb-3"></i>
-                            <h4 class="font-semibold mb-2">Choose Dates</h4>
+                        <div class="text-center p-6 glass rounded-xl group hover:scale-105 transition-transform duration-300 cursor-pointer">
+                            <div class="mb-3 text-center">
+                                <i class="fas fa-calendar-alt text-4xl text-blue-500 mb-3 block group-hover:animate-spin" style="animation-duration: 2s;"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2 group-hover:text-blue-600 transition">Choose Dates</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-300">Select your travel period</p>
+                            <div class="h-1 bg-gradient-to-r from-blue-400 to-transparent mt-3 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                         </div>
-                        <div class="text-center p-4 glass rounded-xl">
-                            <i class="fas fa-heart text-3xl text-pink-500 mb-3"></i>
-                            <h4 class="font-semibold mb-2">Set Preferences</h4>
+                        <div class="text-center p-6 glass rounded-xl group hover:scale-105 transition-transform duration-300 cursor-pointer">
+                            <div class="mb-3 text-center">
+                                <i class="fas fa-heart text-4xl text-pink-500 mb-3 block group-hover:animate-pulse"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2 group-hover:text-pink-600 transition">Set Preferences</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-300">Tell us what you love</p>
+                            <div class="h-1 bg-gradient-to-r from-pink-400 to-transparent mt-3 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                         </div>
-                        <div class="text-center p-4 glass rounded-xl">
-                            <i class="fas fa-magic text-3xl text-purple-500 mb-3"></i>
-                            <h4 class="font-semibold mb-2">Get Itinerary</h4>
+                        <div class="text-center p-6 glass rounded-xl group hover:scale-105 transition-transform duration-300 cursor-pointer">
+                            <div class="mb-3 text-center">
+                                <i class="fas fa-magic text-4xl text-purple-500 mb-3 block group-hover:animate-spin" style="animation-duration: 1.5s;"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2 group-hover:text-purple-600 transition">Get Itinerary</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-300">AI creates your plan</p>
+                            <div class="h-1 bg-gradient-to-r from-purple-400 to-transparent mt-3 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                         </div>
                     </div>
                     
                     <div class="text-center">
-                        <a href="contact/index.html" class="inline-flex items-center px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all ripple">
+                        <a href="/ai-trip-planner" class="inline-flex items-center px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all ripple">
                             <i class="fas fa-robot mr-2"></i> Plan My Trip with AI
                         </a>
                     </div>
@@ -392,12 +601,239 @@
             }, 3000);
         }
 
+        // Quick Filter Buttons Handler
+        document.querySelectorAll('.quick-filter').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const destination = btn.dataset.destination;
+                document.getElementById('searchDestination').value = destination;
+                document.getElementById('searchDestination').focus();
+                // Auto-submit after a short delay for better UX
+                setTimeout(() => {
+                    document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+                }, 300);
+            });
+        });
+
+        // Search Form Handler
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const destination = document.getElementById('searchDestination').value.trim();
+            const month = document.getElementById('searchMonth').value;
+            const budget = document.getElementById('searchBudget').value;
+            
+            // Validate minimum search query length
+            if (destination.length < 2) {
+                showErrorModal('Search Validation', 'Please enter at least 2 characters to search');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                const resultsModal = document.getElementById('searchResultsModal');
+                const resultsContent = document.getElementById('searchResultsContent');
+                const noResultsState = document.getElementById('noResultsState');
+                
+                resultsContent.innerHTML = '<div class="text-center py-12"><i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-4"></i><p class="text-gray-600 dark:text-gray-400">Searching...</p></div>';
+                resultsContent.style.display = 'block';
+                noResultsState.classList.add('hidden');
+                resultsModal.classList.remove('hidden');
+                resultsModal.classList.add('flex');
+                
+                // Call search API
+                const params = new URLSearchParams();
+                params.append('q', destination);
+                if (month) params.append('month', month);
+                if (budget) params.append('budget', budget);
+                
+                const url = `/api/search?${params.toString()}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Search failed');
+                }
+                
+                // Display results
+                displaySearchResults(data, destination);
+                
+            } catch (error) {
+                console.error('Search error:', error);
+                const resultsContent = document.getElementById('searchResultsContent');
+                resultsContent.innerHTML = `<div class="text-center py-12">
+                    <div class="text-5xl mb-4">⚠️</div>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Search Error</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">${error.message || 'An error occurred while searching'}</p>
+                    <button onclick="document.getElementById('searchResultsModal').classList.add('hidden')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
+                        Close
+                    </button>
+                </div>`;
+            }
+        });
+        
+        // Display search results
+        function displaySearchResults(data, query) {
+            const resultsContent = document.getElementById('searchResultsContent');
+            const noResultsState = document.getElementById('noResultsState');
+            const resultsSummary = document.getElementById('resultsSummary');
+            
+            // Check if there are any results
+            const hasResults = (data.destinations?.length > 0) || (data.experiences?.length > 0) || 
+                             (data.packages?.length > 0) || (data.blogs?.length > 0);
+            
+            if (!hasResults) {
+                resultsContent.style.display = 'none';
+                noResultsState.classList.remove('hidden');
+                resultsSummary.textContent = 'No results found';
+                return;
+            }
+            
+            resultsContent.style.display = 'block';
+            noResultsState.classList.add('hidden');
+            
+            // Count total results
+            const totalResults = (data.destinations?.length || 0) + (data.experiences?.length || 0) + 
+                                (data.packages?.length || 0) + (data.blogs?.length || 0);
+            resultsSummary.textContent = `Found ${totalResults} result${totalResults !== 1 ? 's' : ''} for "${query}"`;
+            
+            let html = `<div class="space-y-8">`;
+            
+            // Destinations results
+            if (data.destinations && data.destinations.length > 0) {
+                html += `<section>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-map-pin text-blue-600 dark:text-blue-400 text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Destinations</h3>
+                        <span class="ml-auto bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-semibold">${data.destinations.length}</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                
+                data.destinations.forEach(dest => {
+                    const rating = Math.round(dest.rating || 4.5);
+                    html += `<a href="/destinations/place?name=${encodeURIComponent(dest.name)}&region=${encodeURIComponent(dest.region)}" class="group p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-700/50 dark:to-slate-600/50 rounded-xl hover:shadow-lg transition-all duration-300 border border-blue-200 dark:border-slate-600">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">${dest.name}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${dest.region}</p>
+                            </div>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700 dark:text-gray-300">${rating}</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-blue-200 dark:border-slate-600 text-xs text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-arrow-right mr-2 group-hover:translate-x-1 transition"></i>View Details
+                        </div>
+                    </a>`;
+                });
+                html += `</div></section>`;
+            }
+            
+            // Experiences results
+            if (data.experiences && data.experiences.length > 0) {
+                html += `<section>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-compass text-purple-600 dark:text-purple-400 text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Experiences</h3>
+                        <span class="ml-auto bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-3 py-1 rounded-full text-sm font-semibold">${data.experiences.length}</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                
+                data.experiences.forEach(exp => {
+                    html += `<a href="/experiences/experience?title=${encodeURIComponent(exp.title)}&category=${encodeURIComponent(exp.category)}" class="group p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-700/50 dark:to-slate-600/50 rounded-xl hover:shadow-lg transition-all duration-300 border border-purple-200 dark:border-slate-600">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">${exp.title}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${exp.category || 'Experience'}</p>
+                            </div>
+                            <span class="text-sm font-bold text-purple-600 dark:text-purple-400 bg-white dark:bg-slate-800 px-2 py-1 rounded">₹${typeof exp.price === 'string' ? exp.price : exp.price?.toLocaleString()}</span>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-purple-200 dark:border-slate-600 text-xs text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-arrow-right mr-2 group-hover:translate-x-1 transition"></i>Explore
+                        </div>
+                    </a>`;
+                });
+                html += `</div></section>`;
+            }
+            
+            // Packages results
+            if (data.packages && data.packages.length > 0) {
+                html += `<section>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-box text-green-600 dark:text-green-400 text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Packages</h3>
+                        <span class="ml-auto bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-3 py-1 rounded-full text-sm font-semibold">${data.packages.length}</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                
+                data.packages.forEach(pkg => {
+                    html += `<a href="/packages/${pkg._id}" class="group p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-700/50 dark:to-slate-600/50 rounded-xl hover:shadow-lg transition-all duration-300 border border-green-200 dark:border-slate-600">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition">${pkg.name}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${pkg.duration || 5} days • ₹${pkg.price?.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-green-200 dark:border-slate-600 text-xs text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-arrow-right mr-2 group-hover:translate-x-1 transition"></i>View Package
+                        </div>
+                    </a>`;
+                });
+                html += `</div></section>`;
+            }
+            
+            // Blogs results
+            if (data.blogs && data.blogs.length > 0) {
+                html += `<section>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-newspaper text-orange-600 dark:text-orange-400 text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Articles</h3>
+                        <span class="ml-auto bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 px-3 py-1 rounded-full text-sm font-semibold">${data.blogs.length}</span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4">`;
+                
+                data.blogs.forEach(blog => {
+                    html += `<a href="/blogs/${blog._id}" class="group p-4 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-slate-700/50 dark:to-slate-600/50 rounded-xl hover:shadow-lg transition-all duration-300 border border-orange-200 dark:border-slate-600 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition">${blog.title}</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-1">${blog.excerpt || blog.content?.substring(0, 100)}</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-orange-600 dark:text-orange-400 ml-4 group-hover:translate-x-1 transition flex-shrink-0"></i>
+                    </a>`;
+                });
+                html += `</div></section>`;
+            }
+            
+            html += `</div>`;
+            resultsContent.innerHTML = html;
+        }
+
         // Region button functionality for destinations
         document.querySelectorAll('.region-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const region = this.dataset.region;
-                alert(`Exploring ${region.charAt(0).toUpperCase() + region.slice(1)} India destinations...`);
+                document.getElementById('searchDestination').value = region.charAt(0).toUpperCase() + region.slice(1) + ' India';
+                document.getElementById('searchDestination').focus();
             });
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('searchResultsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+                this.classList.remove('flex');
+            }
         });
         
         // Lazy loading images - handled by boilerplate

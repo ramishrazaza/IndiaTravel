@@ -1,0 +1,746 @@
+<% layout('layouts/boilerplate') -%>
+
+<% block('head', `
+    <link rel="stylesheet" href="/css/experiences.css">
+`) -%>
+
+<!-- 🤖 AI TRIP PLANNER HERO SECTION -->
+<section class="relative overflow-hidden bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" style="margin-top: 0;">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-30">
+        <div class="absolute top-20 right-20 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 left-20 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/2 left-1/2 w-72 h-72 bg-pink-500 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-4 py-20 md:py-32">
+        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+            <div class="mb-8 inline-block">
+                <span class="bg-gradient-to-r from-purple-500 to-pink-500 bg-opacity-20 text-transparent bg-clip-text px-6 py-3 rounded-full text-sm font-bold border border-purple-500/30 backdrop-blur-sm">
+                    <i class="fas fa-sparkles mr-2"></i>Powered by Google Gemini AI
+                </span>
+            </div>
+            <h1 class="text-6xl md:text-7xl lg:text-8xl font-heading font-black text-white mb-6 leading-tight">
+                Your Perfect Trip,<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 animate-pulse">Planned by AI</span>
+            </h1>
+            <p class="text-2xl text-purple-200 mb-4 font-light">
+                Answer 4 questions. Get your personalized itinerary in <span class="font-bold text-white">seconds</span>.
+            </p>
+            <p class="text-lg text-purple-300 mb-10">
+                💯 No hidden fees • 🔒 Privacy first • 🚀 Lightning fast
+            </p>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <a href="#plannerForm" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-arrow-down mr-2"></i>Start Planning
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔄 AI TRIP PLANNER FORM -->
+<section class="py-20 bg-gradient-to-b from-slate-50 via-purple-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div class="container mx-auto px-4 max-w-5xl">
+        <!-- Form Container -->
+        <div id="plannerForm" class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 md:p-14 border border-gray-200 dark:border-slate-700">
+            <!-- Step Indicator with improved styling -->
+            <div class="flex items-center justify-between mb-14 px-2">
+                <% for (let i = 1; i <= 4; i++) { %>
+                    <div class="flex items-center flex-1" data-step="<%= i %>">
+                        <div class="step-circle <%= i === 1 ? 'active' : '' %>" data-step="<%= i %>">
+                            <span class="text-lg"><%= i %></span>
+                        </div>
+                        <% if (i < 4) { %>
+                            <div class="step-line <%= i === 1 ? 'active' : '' %>" style="flex: 1; margin: 0 10px;"></div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Progress indicator text -->
+            <div class="text-center mb-8">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    <span class="font-bold text-purple-600 dark:text-purple-400" id="currentStepText">Step 1</span>
+                    <span class="text-gray-400"> of 4</span>
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form id="aiPlannerForm" class="space-y-8">
+                <!-- STEP 1: Destination & Dates -->
+                <div class="form-step active" data-step="1">
+                    <h3 class="text-3xl font-heading font-bold text-gray-900 dark:text-white mb-2">
+                        <i class="fas fa-map-pin text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mr-3"></i>Where & When?
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-8">Let's start with the basics of your adventure</p>
+
+                    <div class="space-y-6">
+                        <!-- Destination -->
+                        <div data-aos="fade-up">
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-4 uppercase tracking-wide">
+                                🌍 Destination
+                            </label>
+                            <select id="aiDestination" name="destination" class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all text-lg" required>
+                                <option value="">Select a destination</option>
+                                <% destinations.forEach(dest => { %>
+                                    <option value="<%= dest %>"><%= dest %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+
+                        <!-- Number of Days -->
+                        <div data-aos="fade-up" data-aos-delay="100">
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-4 uppercase tracking-wide">
+                                📅 Duration (Days)
+                            </label>
+                            <div class="grid grid-cols-6 gap-2">
+                                <% for (let d = 2; d <= 7; d++) { %>
+                                    <label class="relative">
+                                        <input type="radio" name="days" value="<%= d %>" <%= d === 3 ? 'checked' : '' %> class="hidden peer">
+                                        <span class="block px-4 py-3 text-center rounded-xl border-2 border-gray-300 dark:border-gray-600 cursor-pointer peer-checked:border-purple-600 peer-checked:bg-gradient-to-br peer-checked:from-purple-100 peer-checked:to-pink-100 dark:peer-checked:bg-gradient-to-br dark:peer-checked:from-purple-900 dark:peer-checked:to-pink-900 transition-all font-bold text-gray-800 dark:text-gray-300 peer-checked:text-purple-700 dark:peer-checked:text-purple-200 shadow-sm peer-checked:shadow-md hover:border-gray-400">
+                                            <%= d %>d
+                                        </span>
+                                    </label>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Month -->
+                        <div data-aos="fade-up" data-aos-delay="200">
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-4 uppercase tracking-wide">
+                                🗓️ Travel Month
+                            </label>
+                            <select id="aiMonth" name="month" class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all text-lg" required>
+                                <option value="">Select month</option>
+                                <% months.forEach(month => { %>
+                                    <option value="<%= month %>"><%= month %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Travel Style -->
+                <div class="form-step hidden" data-step="2">
+                    <h3 class="text-3xl font-heading font-bold text-gray-900 dark:text-white mb-2">
+                        <i class="fas fa-compass text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mr-3"></i>Your Travel Style
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-8">Help us understand what makes you tick</p>
+
+                    <div class="space-y-8">
+                        <!-- Travel Interests -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-5 uppercase tracking-wide">
+                                ✨ What interests you? (Select multiple)
+                            </label>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <% travelStyles.forEach(style => { %>
+                                    <label class="flex items-center p-5 border-2 border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-500 transition-all hover:shadow-md dark:hover:bg-slate-700/50">
+                                        <input type="checkbox" name="style" value="<%= style.id %>" class="w-5 h-5 text-purple-600 rounded-lg accent-purple-600">
+                                        <i class="fas <%= style.icon %> text-purple-600 ml-4 text-xl"></i>
+                                        <span class="ml-3 font-semibold text-gray-800 dark:text-gray-200"><%= style.label %></span>
+                                    </label>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                        <!-- Travel Type -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-5 uppercase tracking-wide">
+                                👥 Who are you traveling with?
+                            </label>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <% travelTypes.forEach(type => { %>
+                                    <label class="flex items-center p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-500 transition-all hover:shadow-md dark:hover:bg-slate-700/50">
+                                        <input type="radio" name="travelType" value="<%= type.id %>" class="w-5 h-5 text-purple-600 accent-purple-600">
+                                        <i class="fas <%= type.icon %> text-purple-600 ml-3 text-lg"></i>
+                                        <span class="ml-2 font-semibold text-gray-800 dark:text-gray-200"><%= type.label %></span>
+                                    </label>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Budget & Pace -->
+                <div class="form-step hidden" data-step="3">
+                    <h3 class="text-3xl font-heading font-bold text-gray-900 dark:text-white mb-2">
+                        <i class="fas fa-wallet text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mr-3"></i>Budget & Pace
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-8">Let's match your spending style and travel rhythm</p>
+
+                    <div class="space-y-8">
+                        <!-- Budget -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-5 uppercase tracking-wide">
+                                💰 Budget per person (per day)
+                            </label>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <% budgetRanges.forEach(budget => { %>
+                                    <label class="flex items-center p-5 border-2 border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-500 transition-all hover:shadow-md dark:hover:bg-slate-700/50">
+                                        <input type="radio" name="budget" value="<%= budget.id %>" class="w-5 h-5 text-purple-600 accent-purple-600">
+                                        <span class="ml-3 font-semibold text-gray-800 dark:text-gray-200"><%= budget.label %></span>
+                                    </label>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                        <!-- Travel Pace -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-5 uppercase tracking-wide">
+                                🚀 What's your travel pace?
+                            </label>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <% travelPaces.forEach(pace => { %>
+                                    <label class="flex items-center p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-600 dark:hover:border-purple-500 transition-all hover:shadow-md dark:hover:bg-slate-700/50">
+                                        <input type="radio" name="pace" value="<%= pace.id %>" class="w-5 h-5 text-purple-600 accent-purple-600">
+                                        <span class="ml-3 font-semibold text-gray-800 dark:text-gray-200"><%= pace.label %></span>
+                                    </label>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Contact Info -->
+                <div class="form-step hidden" data-step="4">
+                    <h3 class="text-3xl font-heading font-bold text-gray-900 dark:text-white mb-2">
+                        <i class="fas fa-user text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mr-3"></i>Your Contact Info
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-8">Almost there! Just a couple of details</p>
+
+                    <div class="space-y-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-slate-700/50 dark:to-slate-600/50 p-8 rounded-2xl border border-purple-100 dark:border-slate-600">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-3 uppercase tracking-wide">
+                                👤 Full Name
+                            </label>
+                            <input type="text" id="aiName" name="name" placeholder="John Doe" class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all text-lg" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-3 uppercase tracking-wide">
+                                ✉️ Email
+                            </label>
+                            <input type="email" id="aiEmail" name="email" placeholder="john@example.com" class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all text-lg" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-3 uppercase tracking-wide">
+                                📱 Phone
+                            </label>
+                            <input type="tel" id="aiPhone" name="phone" placeholder="+91 98765 43210" class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all text-lg" required>
+                        </div>
+
+                        <p class="text-sm text-gray-600 dark:text-gray-400 pt-2">
+                            <i class="fas fa-check-circle text-green-600 mr-2"></i>Your itinerary will be sent here
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between gap-4 mt-12 pt-8 border-t border-gray-200 dark:border-slate-700">
+                    <button type="button" id="prevBtn" class="px-8 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-100 dark:hover:bg-slate-700 transition-all transform hover:scale-105 hidden">
+                        <i class="fas fa-arrow-left mr-2"></i>Previous
+                    </button>
+                    <button type="button" id="nextBtn" class="ml-auto px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                        Next <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button type="submit" id="generateBtn" class="ml-auto px-10 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 hidden">
+                        <i class="fas fa-sparkles mr-2"></i>Generate Plan
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden mt-10">
+            <div class="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-3xl p-16 text-center shadow-2xl">
+                <div class="mb-8">
+                    <div class="inline-block relative">
+                        <div class="w-20 h-20 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
+                        <div class="absolute inset-0 animate-pulse">
+                            <i class="fas fa-sparkles text-4xl text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-3xl font-bold text-white mb-3">✨ AI is crafting your perfect journey...</h3>
+                <p class="text-purple-100 text-lg">Analyzing your preferences and creating a personalized itinerary just for you</p>
+            </div>
+        </div>
+
+        <!-- Result Display -->
+        <div id="resultState" class="hidden mt-10 w-full">
+            <div id="resultContainer" class="w-full px-4"></div>
+        </div>
+    </div>
+</section>
+
+<% block('scripts') %>
+<script>
+    const form = document.getElementById('aiPlannerForm');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const loadingState = document.getElementById('loadingState');
+    const resultState = document.getElementById('resultState');
+    const plannerForm = document.getElementById('plannerForm');
+    
+    let currentStep = 1;
+
+    // Get URL query params
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefilledDestination = urlParams.get('destination');
+    if (prefilledDestination) {
+        const destSelect = document.getElementById('aiDestination');
+        const option = Array.from(destSelect.options).find(opt => 
+            opt.value.toLowerCase().includes(prefilledDestination.toLowerCase()) ||
+            opt.textContent.toLowerCase().includes(prefilledDestination.toLowerCase())
+        );
+        if (option) {
+            destSelect.value = option.value;
+        }
+    }
+
+    function showStep(step) {
+        // Hide all steps
+        document.querySelectorAll('.form-step').forEach(el => el.classList.add('hidden'));
+        
+        // Show current step
+        const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.remove('hidden');
+        }
+
+        // Update step text
+        const stepTexts = ['Step 1', 'Step 2', 'Step 3', 'Step 4'];
+        const stepTextEl = document.getElementById('currentStepText');
+        if (stepTextEl) {
+            stepTextEl.textContent = stepTexts[step - 1];
+        }
+
+        // Update stepper
+        document.querySelectorAll('.step-circle').forEach(el => {
+            const stepNum = parseInt(el.dataset.step);
+            el.classList.toggle('active', stepNum <= step);
+        });
+        document.querySelectorAll('.step-line').forEach((el, idx) => {
+            el.classList.toggle('active', idx + 1 < step);
+        });
+        // Update buttons
+        prevBtn.classList.toggle('hidden', step === 1);
+        nextBtn.classList.toggle('hidden', step === 4);
+        generateBtn.classList.toggle('hidden', step !== 4);
+
+        // Scroll to top
+        window.scrollTo({ top: plannerForm.offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function validateStep(step) {
+        const inputs = document.querySelectorAll(`.form-step[data-step="${step}"] input[required], .form-step[data-step="${step}"] select[required]`);
+        for (let input of inputs) {
+            if (!input.value) {
+                showErrorModal('Validation Error', 'Please fill in all required fields');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentStep--;
+        showStep(currentStep);
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            destination: document.getElementById('aiDestination').value,
+            days: document.querySelector('input[name="days"]:checked')?.value,
+            month: document.getElementById('aiMonth').value,
+            style: Array.from(document.querySelectorAll('input[name="style"]:checked')).map(el => el.value),
+            travelType: document.querySelector('input[name="travelType"]:checked')?.value,
+            budget: document.querySelector('input[name="budget"]:checked')?.value,
+            pace: document.querySelector('input[name="pace"]:checked')?.value,
+            name: document.getElementById('aiName').value,
+            email: document.getElementById('aiEmail').value,
+            phone: document.getElementById('aiPhone').value
+        };
+
+        // Show loading state
+        plannerForm.classList.add('hidden');
+        loadingState.classList.remove('hidden');
+        resultState.classList.add('hidden');
+
+        try {
+            const response = await fetch('/api/ai/plan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Display result
+                displayResult(data.plan);
+                loadingState.classList.add('hidden');
+                resultState.classList.remove('hidden');
+                showSuccessModal(data.message || 'Plan generated successfully!');
+            } else {
+                showErrorModal(data.message || 'Failed to generate plan', data.error, true);
+                loadingState.classList.add('hidden');
+                plannerForm.classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showErrorModal('An error occurred while generating your plan', error.message, true);
+            loadingState.classList.add('hidden');
+            plannerForm.classList.remove('hidden');
+        }
+    });
+
+    function displayResult(plan) {
+        const html = `
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-slate-700">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 p-12 text-white">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-5xl font-black mb-3">🎉 Your AI Itinerary</h2>
+                            <p class="text-xl text-purple-100 font-light">${plan.destination} • ${plan.days} Days • ${plan.month}</p>
+                        </div>
+                        <div class="text-6xl opacity-20">✈️</div>
+                    </div>
+                </div>
+
+                <div class="p-10 md:p-16">
+                    <!-- Budget Summary -->
+                    <div class="grid md:grid-cols-3 gap-6 mb-14">
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl border border-purple-200 dark:border-slate-500 hover:shadow-lg transition-all transform hover:-translate-y-1 min-h-32 flex flex-col justify-between">
+                            <div class="text-2xl md:text-3xl font-black text-purple-700 dark:text-purple-300 mb-3 break-words line-clamp-2">${plan.budgetEstimate}</div>
+                            <p class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide">💰 Total Budget</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl border border-blue-200 dark:border-slate-500 hover:shadow-lg transition-all transform hover:-translate-y-1 min-h-32 flex flex-col justify-between">
+                            <div class="text-lg md:text-xl font-black text-blue-700 dark:text-blue-300 mb-3 break-words line-clamp-3">${plan.hotelType}</div>
+                            <p class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide">🏨 Hotels</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-slate-700 dark:to-slate-600 p-8 rounded-2xl border border-pink-200 dark:border-slate-500 hover:shadow-lg transition-all transform hover:-translate-y-1 min-h-32 flex flex-col justify-between">
+                            <div class="text-4xl font-black text-pink-700 dark:text-pink-300 mb-3">${plan.days}d</div>
+                            <p class="text-xs md:text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide">📅 Duration</p>
+                        </div>
+                    </div>
+
+                    <!-- Day-wise Itinerary (Accordion) -->
+                    <div class="mb-14">
+                        <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-8">📍 Day-by-Day Plan</h3>
+                        <div class="space-y-4">
+                            ${Object.entries(plan.itinerary).map(([day, details], idx) => {
+                                // Use the summary from Gemini response
+                                const summary = details.summary || (details.activity ? details.activity.split('.')[0] + '.' : 'Explore and enjoy');
+                                return `
+                                <div class="day-accordion-item border-l-4 border-gradient-to-b from-purple-600 to-pink-600 rounded-r-2xl overflow-hidden bg-white dark:bg-slate-700/50 shadow-md hover:shadow-xl transition-all">
+                                    <!-- Summary (Always Visible) -->
+                                    <button onclick="toggleDayAccordion(this)" class="w-full px-8 py-6 flex items-center justify-between hover:bg-purple-50 dark:hover:bg-slate-700 transition-colors text-left">
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-3 mb-2">
+                                                <span class="text-2xl font-black text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30 px-4 py-1 rounded-full">Day ${idx + 1}</span>
+                                                <span class="text-lg font-bold text-gray-800 dark:text-gray-200">${day}</span>
+                                            </div>
+                                            <p class="text-gray-600 dark:text-gray-300 font-medium text-sm">${summary}</p>
+                                        </div>
+                                        <div class="chevron-icon ml-4 transition-transform duration-300">
+                                            <i class="fas fa-chevron-down text-purple-600 dark:text-purple-400 text-xl"></i>
+                                        </div>
+                                    </button>
+
+                                    <!-- Expanded Details (Hidden by default) -->
+                                    <div class="day-details hidden max-h-0 overflow-hidden transition-all duration-300">
+                                        <div class="px-8 py-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-slate-700/30 dark:to-slate-600/20 border-t border-purple-200 dark:border-slate-600">
+                                            <div class="mb-6">
+                                                <h4 class="font-bold text-gray-900 dark:text-white mb-3 text-lg">📋 Activities</h4>
+                                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${details.activity || 'Explore and enjoy the destination'}</p>
+                                            </div>
+
+                                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                                <div class="bg-white dark:bg-slate-700 p-4 rounded-xl border border-purple-100 dark:border-slate-600">
+                                                    <div class="flex items-center gap-2 mb-2">
+                                                        <span class="text-xl">🏨</span>
+                                                        <span class="font-bold text-gray-800 dark:text-white">Hotel</span>
+                                                    </div>
+                                                    <p class="text-gray-700 dark:text-gray-300 font-semibold">${details.hotel || 'TBD'}</p>
+                                                </div>
+                                                <div class="bg-white dark:bg-slate-700 p-4 rounded-xl border border-pink-100 dark:border-slate-600">
+                                                    <div class="flex items-center gap-2 mb-2">
+                                                        <span class="text-xl">🍽️</span>
+                                                        <span class="font-bold text-gray-800 dark:text-white">Meals</span>
+                                                    </div>
+                                                    <p class="text-gray-700 dark:text-gray-300 font-semibold text-sm">${details.meals || 'Breakfast, Lunch, Dinner'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `}).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Highlights -->
+                    <div class="mb-14">
+                        <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-8">✨ Highlights</h3>
+                        <div class="grid md:grid-cols-2 gap-5">
+                            ${plan.highlights.map((highlight, idx) => `
+                                <div class="flex items-start gap-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-slate-700/50 dark:to-slate-600/30 p-6 rounded-2xl border border-purple-100 dark:border-slate-600 hover:shadow-lg transition-all">
+                                    <span class="text-3xl flex-shrink-0">✨</span>
+                                    <div>
+                                        <span class="text-gray-800 dark:text-gray-300 font-semibold">${highlight}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col md:flex-row gap-4 pt-8 border-t border-gray-200 dark:border-slate-700">
+                        <button onclick="customizeItinerary()" class="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                            <i class="fas fa-edit text-lg"></i>Customize
+                        </button>
+                        <button onclick="shareOnWhatsApp('${plan.whatsappLink}')" class="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                            <i class="fab fa-whatsapp text-lg"></i>Share on WhatsApp
+                        </button>
+                        <button onclick="bookNow()" class="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                            <i class="fas fa-calendar text-lg"></i>Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('resultContainer').innerHTML = html;
+    }
+
+    function toggleDayAccordion(button) {
+        const item = button.closest('.day-accordion-item');
+        const details = item.querySelector('.day-details');
+        const chevron = button.querySelector('.chevron-icon i');
+        
+        // Close all other accordion items
+        document.querySelectorAll('.day-accordion-item').forEach(el => {
+            if (el !== item) {
+                el.querySelector('.day-details').classList.add('hidden');
+                el.querySelector('.day-details').style.maxHeight = '0';
+                el.querySelector('.chevron-icon i').style.transform = 'rotate(0deg)';
+            }
+        });
+        
+        // Toggle current item
+        const isHidden = details.classList.toggle('hidden');
+        
+        if (isHidden) {
+            details.style.maxHeight = '0';
+            chevron.style.transform = 'rotate(0deg)';
+        } else {
+            details.style.maxHeight = details.scrollHeight + 'px';
+            chevron.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    function customizeItinerary() {
+        showErrorModal('Feature Coming Soon', 'Contact our team at support@indiatravel.com to customize your itinerary!');
+    }
+
+    function shareOnWhatsApp(link) {
+        if (link) {
+            window.open(link, '_blank');
+        }
+    }
+
+    function bookNow() {
+        window.location.href = '/book-now';
+    }
+
+    // Initialize
+    showStep(1);
+
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    }
+</script>
+
+<style>
+    .step-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        color: #6b7280;
+        border: 3px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .dark .step-circle {
+        background: #475569;
+        color: #cbd5e1;
+        border-color: #475569;
+    }
+
+    .step-circle.active {
+        background: linear-gradient(135deg, #a855f7, #ec4899);
+        color: white;
+        border-color: #a855f7;
+        box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+        transform: scale(1.1);
+    }
+
+    .step-line {
+        flex: 1;
+        height: 4px;
+        background: #e5e7eb;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        margin: 0 8px;
+    }
+
+    .dark .step-line {
+        background: #475569;
+    }
+
+    .step-line.active {
+        background: linear-gradient(90deg, #a855f7, #ec4899);
+        box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+    }
+
+    .form-step {
+        animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-step.hidden {
+        display: none;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Enhanced form inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    select:focus {
+        box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+    }
+
+    /* Smooth transitions for buttons */
+    button {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    button:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Radio and checkbox styling */
+    input[type="radio"],
+    input[type="checkbox"] {
+        cursor: pointer;
+    }
+
+    /* Improve label hover states */
+    label {
+        transition: all 0.2s ease;
+    }
+
+    label:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Accordion Styles */
+    .day-accordion-item {
+        border-left-width: 4px;
+        border-image: linear-gradient(180deg, #a855f7, #ec4899) 1;
+    }
+
+    .day-accordion-item button {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .day-accordion-item button:active {
+        transform: scale(0.98);
+    }
+
+    .day-details {
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .day-details.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .day-details:not(.hidden) {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .chevron-icon i {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
+    }
+
+    /* Accordion hover effects */
+    .day-accordion-item:hover {
+        transform: translateX(4px);
+    }
+
+    .dark .day-accordion-item:hover {
+        background-color: rgba(71, 85, 105, 0.7);
+    }
+</style>
