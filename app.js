@@ -4,6 +4,7 @@ const ejs = require("ejs");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const methodOverride = require("method-override");
+const compression = require("compression");
 
 // Import all route modules
 const indexRoutes = require("./routes/index");
@@ -26,7 +27,30 @@ connectDB();
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+
+// ==================== COMPRESSION MIDDLEWARE ====================
+// Enable gzip compression for all responses (except streaming)
+// Reduces response size by ~70% for text-based content
+app.use(compression({
+    level: 6, // Balance between compression ratio and speed
+    threshold: 1024, // Only compress responses > 1KB
+    filter: (req, res) => {
+        if (req.headers['x-no-compression']) {
+            return false;
+        }
+        return compression.filter(req, res);
+    }
+}));
+
+// ==================== STATIC FILES WITH CACHING ====================
+const oneYear = 365 * 24 * 60 * 60 * 1000; // milliseconds
+const oneHour = 60 * 60 * 1000;
+
+// Cache static assets for long periods
+app.use(express.static(path.join(__dirname, "public"), {
+    maxAge: oneYear, // Cache versioned assets for 1 year
+    etag: false // Disable etag for immutable assets
+}));
 
 // Middleware for parsing JSON and form data
 app.use(express.json());
@@ -43,6 +67,26 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // 24 hours
     }
 }));
+
+// ==================== HTTP HEADERS & CACHING ====================
+// Set cache headers for HTML responses (dynamic, cache less aggressively)
+app.use((req, res, next) => {
+    // Cache control for HTML (no cache, must revalidate)
+    res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate'); // 1 hour
+    
+    // Security headers
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    
+    // Enable browser caching for specific asset types
+    if (req.url.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/)) {
+        res.setHeader('Cache-Control', `public, max-age=${oneYear / 1000}, immutable`); // 1 year
+    }
+    
+    next();
+});
 
 // Use all route modules
 app.use("/", indexRoutes);

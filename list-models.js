@@ -1,6 +1,7 @@
+require('dotenv').config();
 const axios = require('axios');
 
-const GEMINI_API_KEY = 'AIzaSyA994U2_mvKihCmlOksXSsooQwfLfug_vs';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models`;
 
 console.log('Listing available models...');
