@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const GEMINI_API_KEY = 'AIzaSyA994U2_mvKihCmlOksXSsooQwfLfug_vs';
-const GEMINI_MODEL = 'gemini-2.5-flash';
+const GEMINI_MODEL = 'gemini-2.5-pro';
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 console.log('Testing Gemini API...');

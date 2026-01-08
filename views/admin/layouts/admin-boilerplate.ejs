@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IndiaTravel Admin Panel - Manage destinations, experiences, packages, blogs, bookings, and AI-generated travel plans">
+    <meta name="theme-color" content="#1e293b">
     <title><%= title %> - Admin Panel</title>
+    
+    <!-- Preconnect for better performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .sidebar { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); }
+        /* Image lazy-loading styles */
+        img[loading="lazy"] { background: #f0f0f0; }
+        img.loaded { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="bg-slate-900 text-gray-100 dark">
@@ -87,5 +100,30 @@
             </div>
         </div>
     </div>
+    
+    <!-- Deferred scripts for admin performance -->
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lazy load images in admin panel
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.add('loaded');
+                            }
+                            observer.unobserve(img);
+                        }
+                    });
+                }, { rootMargin: '50px' });
+                
+                document.querySelectorAll('img[data-src]').forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
